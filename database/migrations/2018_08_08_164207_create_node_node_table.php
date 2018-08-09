@@ -15,6 +15,8 @@ class CreateNodeNodeTable extends Migration
     {
         Schema::create('node_node', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('node_id')->comment('节点id');
+            $table->integer('parent_id')->comment('父节点id');
             $table->timestamps();
         });
     }

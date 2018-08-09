@@ -15,6 +15,8 @@ class CreateUserRoleNodeTable extends Migration
     {
         Schema::create('user_role_node', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('user_id')->comment('用户id');
+            $table->integer('role_id')->comment('角色id');
             $table->timestamps();
         });
     }

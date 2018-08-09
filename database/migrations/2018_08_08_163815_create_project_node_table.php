@@ -15,6 +15,8 @@ class CreateProjectNodeTable extends Migration
     {
         Schema::create('project_node', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('project_id')->comment('项目id');
+            $table->integer('node_id')->comment('节点id');
             $table->timestamps();
         });
     }

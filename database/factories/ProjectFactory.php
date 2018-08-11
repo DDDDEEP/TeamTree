@@ -13,15 +13,12 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(App\Models\User::class, function (Faker $faker) {
-    static $password;
+$factory->define(App\Models\Project::class, function (Faker $faker) {
     $date_time = $faker->date . ' ' . $faker->time;
 
     return [
-        'name'           => $faker->name,
-        'email'          => $faker->unique()->safeEmail,
-        'password'       => $password ?: $password = bcrypt('admin'),
-        'remember_token' => str_random(10),
+        'name'           => $faker->e164PhoneNumber,
+        'description'    => $faker->text(50),
         'created_at'     => $date_time,
         'updated_at'     => $date_time,
     ];

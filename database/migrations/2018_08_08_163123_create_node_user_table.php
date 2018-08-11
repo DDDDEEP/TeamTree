@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateProjectRolePermissionTable extends Migration
+class CreateNodeUserTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateProjectRolePermissionTable extends Migration
      */
     public function up()
     {
-        Schema::create('project_role_permission', function (Blueprint $table) {
+        Schema::create('node_user', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('project_id')->comment('项目id');
+            $table->integer('user_id')->comment('用户id');
+            $table->integer('node_id')->comment('节点id');
             $table->integer('role_id')->comment('角色id');
-            $table->integer('permission_id')->comment('权限id');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateProjectRolePermissionTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('project_role_permission');
+        Schema::dropIfExists('node_user');
     }
 }

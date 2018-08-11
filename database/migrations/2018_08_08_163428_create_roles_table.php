@@ -15,9 +15,10 @@ class CreateRolesTable extends Migration
     {
         Schema::create('roles', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name', 100)->comment('角色名字');
+            $table->integer('project_id')->comment('项目id');
             $table->string('display_name', 100)->default('')->comment('角色显示名字');
             $table->string('description', 100)->default('')->comment('角色描述');
+            $table->integer('level')->comment('角色等级，0禁用，1超级管理员，2其它');
             $table->timestamps();
         });
     }

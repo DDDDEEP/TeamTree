@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Models\Project;
+use App\Models\Node;
+use App\Models\Identity;
 
 class User extends Authenticatable
 {
@@ -26,4 +29,23 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * 获取该用户对应项目。
+     */
+    public function projects()
+    {
+        return $this->belongsToMany(Project::Class)
+            ->withTimestamps();
+    }
+
+    /**
+     * 获取该用户对应的节点。
+     */
+    public function nodes()
+    {
+        return $this->belongsToMany(Node::Class, 'identity', 'user_id', 'node_id')
+            ->withTimestamps()
+            ->using(Identity::Class);
+    }
 }

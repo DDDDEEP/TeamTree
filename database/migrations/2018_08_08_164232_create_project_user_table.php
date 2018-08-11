@@ -17,6 +17,7 @@ class CreateProjectUserTable extends Migration
             $table->increments('id');
             $table->integer('project_id')->comment('项目id');
             $table->integer('user_id')->comment('用户id');
+            $table->integer('role_id')->comment('全局角色id');
             $table->timestamps();
         });
     }

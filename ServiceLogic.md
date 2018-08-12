@@ -1,59 +1,61 @@
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+[TOC]
 
-## About Laravel
+----------
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+# 角色、权限相关逻辑:
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications.
+ - 对于角色而言，角色分为 **全局角色** 与 **项目自定义角色**。
+   **全局角色**：每个项目均存在且无法修改的角色。
+   **项目自定义角色**：项目自定义且可修改的角色。
+   两种角色对应不同的模型，使用多态关联实现其关联逻辑。
 
-## Learning Laravel
+ - 对于项目而言，角色分为 **项目角色** 与 **节点角色**。
+   **项目角色**： *project_user.role_id* 是用户在项目中的真实角色。
+   **节点角色**： *node_user.role_id* 是涉及节点逻辑的对应角色。
+   分成这两类角色的意义在于区分角色间的等级比较。
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of any modern web application framework, making it a breeze to get started learning the framework.
+ - 全局角色列表如下：
+| 角色名 | 权限 | 等级 |
+| --- | --- | --- | --- |
+| 闲置人员 | 无 | 1 |
+| 执行者 | 改变节点状态 | 2 |
+| 节点管理员 | 改变节点状态、编辑节点 | 3 |
+| 树管理员 | 改变节点状态、编辑节点、对节点赋予角色 | 4 |
+| 项目管理员 | 改变节点状态、编辑节点、对节点赋予角色、编辑项目、修改全局角色 | 5 |
+| 超级管理员 | 所有权限 | 6 |
 
-If you're not in the mood to read, [Laracasts](https://laracasts.com) contains over 1100 video tutorials on a range of topics including Laravel, modern PHP, unit testing, JavaScript, and more. Boost the skill level of yourself and your entire team by digging into our comprehensive video library.
 
-## Laravel Sponsors
+ - 项目自定义角色是项目自定义且可修改的角色，其定义时需要接收一个用户等级。
+   该角色便会复制对应等级的全局角色的所有权限并合并新的权限，某种意义上相当于继承。
+ 
+ - 涉及到角色等级比较的只有修改角色的操作，其过程如下：
+    - 若是修改全局角色操作，仅当操作者的项目角色等级大于被操作者的项目角色等级时，操作才能有效。
+    - 若是对节点赋予角色操作，则满足下面条件之一时，操作有效:
+      - 操作者的项目角色等级 > 被操作者的项目角色等级
+      - 操作者的项目角色等级 == 被操作者的项目角色等级 && 操作者的节点角色等级 > 被操作者的项目角色等级
+ 
+----------
 
-We would like to extend our thanks to the following sponsors for helping fund on-going Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell):
+# 节点相关逻辑:
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Pulse Storm](http://www.pulsestorm.net/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
+ - 项目新建后，生成一个 *parent_id = null，height = 1* 的根节点
 
-## Contributing
+ - 在 *node_user* 表中为用户对应的的节点角色，但不是所有用户在所有节点都有对应的记录。
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+ - 任何用户在从根节点开始的由上到下的分支通路中。
+   若有节点角色记录，则其对应等级一定是升序的，且所有节点角色的等级均大于该用户的全局角色等级。
 
-## Security Vulnerabilities
+ - 若子树含有某等级节点角色，当给一个包含该子数根节点的更大的子树赋予同等级节点角色。
+   则需要将小子树的 *node_user* 表中对应的记录修改为大子树的。
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+ - 判断该用户对应某节点的角色方法：
+    - 包括该节点，一直向父节点方向遍历，直至找到第一个在 *node_user* 有对应记录的节点，其角色作为该节点对应的角色。
+    - 若遍历到根节点仍未找到对应记录，则将全局角色作为该节点对应的角色。
 
-## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-# TeamTree
+
+
+
+    

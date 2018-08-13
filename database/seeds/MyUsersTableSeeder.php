@@ -21,13 +21,13 @@ class MyUsersTableSeeder extends Seeder
         $user->password = bcrypt('123');
         $user->save();
 
-        $user = User::find(1);
+        $user = User::find(2);
         $user->name = '树真';
         $user->email = '456@qq.com';
         $user->password = bcrypt('456');
         $user->save();
 
-        $user = User::find(1);
+        $user = User::find(3);
         $user->name = '浩龙';
         $user->email = '789@qq.com';
         $user->password = bcrypt('789');

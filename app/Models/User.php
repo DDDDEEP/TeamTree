@@ -6,7 +6,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Models\Project;
 use App\Models\Node;
-use App\Models\Identity;
+use App\Models\NodeUser;
 
 class User extends Authenticatable
 {
@@ -40,12 +40,12 @@ class User extends Authenticatable
     }
 
     /**
-     * 获取该用户对应的节点。
+     * 获取该用户对应的节点（节点角色）。
      */
     public function nodes()
     {
-        return $this->belongsToMany(Node::Class, 'identity', 'user_id', 'node_id')
+        return $this->belongsToMany(Node::Class)
             ->withTimestamps()
-            ->using(Identity::Class);
+            ->using(NodeUser::Class);
     }
 }

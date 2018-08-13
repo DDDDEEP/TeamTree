@@ -2,6 +2,8 @@
 
 use Illuminate\Database\Seeder;
 use App\Models\PermissionRole;
+use App\Models\Permission;
+use App\Models\Role;
 
 class MyPermissionRoleTableSeeder extends Seeder
 {
@@ -12,22 +14,10 @@ class MyPermissionRoleTableSeeder extends Seeder
      */
     public function run()
     {
-        $permission_roles = factory(PermissionRole::class)->times(3)->make();
-        PermissionRole::insert($permission_roles->toArray());
-
-        $permission_role = PermissionRole::find(1);
-        $permission_role->role_id = 1;
-        $permission_role->permission_id = 1;
-        $permission_role->save();
-
-        $permission_role = PermissionRole::find(2);
-        $permission_role->role_id = 1;
-        $permission_role->permission_id = 2;
-        $permission_role->save();
-
-        $permission_role = PermissionRole::find(3);
-        $permission_role->role_id = 1;
-        $permission_role->permission_id = 3;
-        $permission_role->save();
+        for ($i = 2; $i <= 6; ++$i) {
+            $permission_ids = Permission::where('group_id', $i)->get()->pluck('id')->toArray();
+            $role = Role::where('project_id', null)->where('level', $i)->first();
+            $role->permissions()->attach($permission_ids);
+        }
     }
 }

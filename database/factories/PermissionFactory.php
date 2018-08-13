@@ -20,6 +20,7 @@ $factory->define(App\Models\Permission::class, function (Faker $faker) {
         'name'         => 'route',
         'display_name' => '路由',
         'description'  => $faker->text(50),
+        'group_id'     => 0,
         'created_at'   => $date_time,
         'updated_at'   => $date_time,
     ];

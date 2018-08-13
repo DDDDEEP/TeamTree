@@ -18,6 +18,7 @@ class CreatePermissionsTable extends Migration
             $table->string('name', 100)->comment('权限名字，即路由名');
             $table->string('display_name', 100)->default('')->comment('权限显示名字');
             $table->string('description', 100)->default('')->comment('权限描述');
+            $table->integer('group_id')->comment('权限分组id');
             $table->timestamps();
         });
     }

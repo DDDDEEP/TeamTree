@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Models\Model;
 use App\Models\Project;
 use App\Models\Permission;
-use App\Models\Identity;
 
 class Role extends Model
 {
@@ -24,13 +23,5 @@ class Role extends Model
     {
         return $this->belongsToMany(Permission::Class)
             ->withTimestamps();
-    }
-
-    /**
-     * 获取该角色对应的身份。
-     */
-    public function identitys()
-    {
-        return $this->hasMany(Identity::Class);
     }
 }

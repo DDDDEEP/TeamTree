@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\Models\ProjectUser;
+use App\Models\User;
 
 class MyProjectUserTableSeeder extends Seeder
 {
@@ -12,25 +13,22 @@ class MyProjectUserTableSeeder extends Seeder
      */
     public function run()
     {
-        $project_users = factory(ProjectUser::class)->times(3)->make();
-        ProjectUser::insert($project_users->toArray());
+        User::find(1)->projects()->attach([
+            1 => ['role_id' => 6],
+            2 => ['role_id' => 6],
+            3 => ['role_id' => 6],
+        ]);
 
-        $project_user = ProjectUser::find(1);
-        $project_user->project_id = 1;
-        $project_user->user_id = 1;
-        $project_user->role_id = 1;
-        $project_user->save();
+        User::find(2)->projects()->attach([
+            1 => ['role_id' => 1],
+            2 => ['role_id' => 1],
+            3 => ['role_id' => 1],
+        ]);
 
-        $project_user = ProjectUser::find(2);
-        $project_user->project_id = 2;
-        $project_user->user_id = 1;
-        $project_user->role_id = 1;
-        $project_user->save();
-
-        $project_user = ProjectUser::find(3);
-        $project_user->project_id = 3;
-        $project_user->user_id = 1;
-        $project_user->role_id = 1;
-        $project_user->save();
+        User::find(3)->projects()->attach([
+            1 => ['role_id' => 1],
+            2 => ['role_id' => 1],
+            3 => ['role_id' => 1],
+        ]);
     }
 }

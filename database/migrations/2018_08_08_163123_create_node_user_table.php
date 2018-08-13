@@ -17,7 +17,7 @@ class CreateNodeUserTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->comment('用户id');
             $table->integer('node_id')->comment('节点id');
-            $table->integer('role_id')->comment('角色id');
+            $table->integer('role_id')->comment('节点角色id');
             $table->timestamps();
         });
     }

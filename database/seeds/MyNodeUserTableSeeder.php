@@ -14,7 +14,7 @@ class MyNodeUserTableSeeder extends Seeder
     public function run()
     {
         User::find(2)->nodes()->attach([
-            2 => ['role_id' => 2],
+            2 => ['role_id' => 4],
         ]);
     }
 }

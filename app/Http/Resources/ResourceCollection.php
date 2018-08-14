@@ -79,10 +79,14 @@ class ResourceCollection extends BaseResourceCollection
     public function handleByMethods($request)
     {
         $this->initParams($request);
-        $this->handleByRelate();
-        $this->filterByField();
-        $this->filterByUnique();
-        $this->handleBySort();
+
+        $data = $this->collection;
+        $data = $this->handleByRelate($data);
+        $data = $this->filterByField($data);
+        $data = $this->filterByUnique($data);
+        $data = $this->handleBySort($data);
+
+        return $data;
     }
 
     /**
@@ -229,36 +233,35 @@ class ResourceCollection extends BaseResourceCollection
     /**
      * 通过关系扩增数据
      */
-    protected function handleByRelate()
+    protected function handleByRelate($data)
     {
         if (count($this->special_params['relate']) == 0) {
-            return;
+            return $data;
         }
 
-        $collection = &$this->collection;
-        foreach ($collection as &$collection_item) {
+        foreach ($data as &$collection_item) {
             foreach ($this->special_params['relate'] as $relate) {
                 $collection_item->load($relate);
             }
         }
+
+        return $data;
     }
 
     /**
      * 根据分类后的参数数组过滤集合
      */
-    protected function filterByField()
+    protected function filterByField($data)
     {
-        $collection = &$this->collection;
-
         /* 处理直接字段参数 */
         foreach ($this->field_params as $field => $operators) {
             foreach ($operators as $operator => $values) {
                 switch ($operator) {
                     case 'eq':
-                        $collection = $collection->whereIn($field, $values);
+                        $data = $data->whereIn($field, $values);
                         break;
                     case 'neq':
-                        $collection = $collection->whereNotIn($field, $values);
+                        $data = $data->whereNotIn($field, $values);
                         break;
                     default:
                         break;
@@ -272,10 +275,10 @@ class ResourceCollection extends BaseResourceCollection
                 foreach ($operators as $operator => $values) {
                     switch ($operator) {
                         case 'eq':
-                            $collection = $collection->whereIn("{$relate}.{$field}", $values);
+                            $data = $data->whereIn("{$relate}.{$field}", $values);
                             break;
                         case 'neq':
-                            $collection = $collection->whereNotIn("{$relate}.{$field}", $values);
+                            $data = $data->whereNotIn("{$relate}.{$field}", $values);
                             break;
                         default:
                             break;
@@ -283,42 +286,44 @@ class ResourceCollection extends BaseResourceCollection
                 }
             }
         }
+
+        return $data;
     }
 
     /**
      * 通过给出的字段去重
      */
-    public function filterByUnique()
+    public function filterByUnique($data)
     {
         if (count($this->special_params['unique']) == 0) {
-            return;
+            return $data;
         }
 
-        $collection = &$this->collection;
         foreach ($this->special_params['unique'] as $field) {
             if (array_key_exists($field, $this->field_params)) {
-                $collection = $collection->unique($field);
+                $data = $data->unique($field);
             }
         }
+
+        return $data;
     }
 
     /**
      * 通过排序处理数据
      */
-    public function handleBySort()
+    public function handleBySort($data)
     {
         if (count($this->special_params['sortBy']) == 0) {
-            return;
+            return $data;
         }
 
-        $collection = &$this->collection;
         $useful_sort = [];
         for ($i = 0; $i < count($this->special_params['sortBy']); ++$i) {
             $field = $this->special_params['sortBy'][$i];
             $useful_sort[$field] = ($this->special_params['order'][$i] == 'desc' ? false : true);
         }
 
-        $collection = $collection->sort(function ($a, $b) use ($useful_sort) {
+        $data = $data->sort(function ($a, $b) use ($useful_sort) {
             foreach ($useful_sort as $key => $value) {
                 $lt = $a[$key];
                 $rt = $b[$key];
@@ -329,5 +334,7 @@ class ResourceCollection extends BaseResourceCollection
                 }
             }
         });
+
+        return $data;
     }
 }

@@ -6,8 +6,7 @@ class CommonCollection extends ResourceCollection
 {
     public function toArray($request)
     {
-        $this->handleByMethods($request);
-        $data = $this->collection;
+        $data = $this->handleByMethods($request);
         return [
             'data' => $data->values()
         ];

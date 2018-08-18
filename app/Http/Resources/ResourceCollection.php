@@ -162,8 +162,9 @@ class ResourceCollection extends BaseResourceCollection
                 }
             }
         }
+        
         if (count($this->special_params['sortBy']) != 0) {
-            foreach ($this->special_params['sortBy'] as $field) {
+            foreach ($this->special_params['sortBy'] as &$field) {
                 if (!array_key_exists($field, $this->field_params)) {
                     unset($field);
                 }
@@ -304,7 +305,6 @@ class ResourceCollection extends BaseResourceCollection
                 $data = $data->unique($field);
             }
         }
-
         return $data;
     }
 

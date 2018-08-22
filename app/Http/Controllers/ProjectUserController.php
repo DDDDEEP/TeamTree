@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Schema;
 use App\Models\Project;
 use App\Models\ProjectUser;
 use App\Models\User;
@@ -10,8 +11,15 @@ use App\Http\Requests\ProjectUserRequest;
 
 class ProjectUserController extends Controller
 {
-    public function index()
+    public function index(ProjectUserRequest $request)
     {
+        // dd($request->all());
+        // $project_user = new ProjectUser;
+        // dd(ProjectUser::all()->filterByParams(
+        //     $request->all(),
+        //     $project_user->getTableColumns(),
+        //     $project_user->getRelationships()
+        // ));
         return new CommonCollection(ProjectUser::all());
     }
 
@@ -32,7 +40,7 @@ class ProjectUserController extends Controller
         $model = ProjectUser::findOrFail($project_user->id);
         $model->update(array_except(
             $request->all(),
-            ['project_id', 'user_id']
+            ['id', 'project_id', 'user_id']
         ));
 
         return ResponseJson($model);

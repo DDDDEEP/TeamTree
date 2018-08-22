@@ -44,7 +44,7 @@ class ProjectsController extends Controller
         $model = Project::findOrFail($project->id);
         $model->update(array_except(
             $request->all(),
-            []
+            ['id', ]
         ));
 
         return ResponseJson($model);

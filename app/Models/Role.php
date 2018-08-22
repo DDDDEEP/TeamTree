@@ -5,9 +5,16 @@ namespace App\Models;
 use App\Models\Model;
 use App\Models\Project;
 use App\Models\Permission;
+use App\Models\PermissionRole;
 
 class Role extends Model
 {
+    protected $relationships = [
+        'belongsTo' => ['project'],
+        'hasMany' => [],
+        'belongsToMany' => ['permissions'],
+    ];
+
     /**
      * 获取该角色对应项目。
      */
@@ -22,7 +29,9 @@ class Role extends Model
     public function permissions()
     {
         return $this->belongsToMany(Permission::Class)
-            ->withTimestamps();
+        ->withPivot(['id'])
+            ->withTimestamps()
+            ->using(PermissionRole::Class);
     }
 
     /**

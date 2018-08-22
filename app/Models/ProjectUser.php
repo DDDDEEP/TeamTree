@@ -9,6 +9,12 @@ use App\Models\Role;
 
 class ProjectUser extends Pivot
 {
+    protected $relationships = [
+        'belongsTo' => ['project', 'user', 'role'],
+        'hasMany' => [],
+        'belongsToMany' => [],
+    ];
+
     /**
      * 获取对应项目。
      */

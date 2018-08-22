@@ -8,6 +8,12 @@ use App\Models\Permission;
 
 class PermissionRole extends Pivot
 {
+    protected $relationships = [
+        'belongsTo' => ['role', 'permission'],
+        'hasMany' => [],
+        'belongsToMany' => [],
+    ];
+
     /**
      * 获取对应角色。
      */

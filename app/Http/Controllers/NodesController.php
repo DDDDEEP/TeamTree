@@ -27,7 +27,7 @@ class NodesController extends Controller
         $model = Node::findOrFail($node->id);
         $model->update(array_except(
             $request->all(),
-            ['project_id', 'parent_id', 'height']
+            ['id', 'project_id', 'parent_id', 'height']
         ));
 
         return ResponseJson($model);

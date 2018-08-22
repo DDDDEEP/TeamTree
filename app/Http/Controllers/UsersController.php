@@ -19,7 +19,7 @@ class UsersController extends Controller
         $model = User::findOrFail($user->id);
         $model->update(array_except(
             $request->all(),
-            ['password']
+            ['id', 'password']
         ));
 
         return ResponseJson($model);

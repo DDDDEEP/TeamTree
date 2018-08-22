@@ -31,7 +31,7 @@ class NodeUserController extends Controller
         $model->update($request->all());
         $model->update(array_except(
             $request->all(),
-            ['node_id', 'user_id']
+            ['id', 'node_id', 'user_id']
         ));
 
         return ResponseJson($model);

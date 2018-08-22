@@ -61,7 +61,7 @@ class Node extends Model
     }
 
     /**
-     * 获取该节点对应所有后代，以height作为键分类
+     * 获取该节点对应所有后代
      *
      * @return \Illuminate\Support\Collection
      */

@@ -24,6 +24,16 @@ class Project extends Model
     }
 
     /**
+     * 获取该项目的根节点
+     */
+    public function root()
+    {
+        return $this->nodes()
+            ->where('parent_id', null)
+            ->first();
+    }
+
+    /**
      * 获取该项目的所有用户
      */
     public function users()
@@ -40,6 +50,24 @@ class Project extends Model
     public function roles()
     {
         return $this->hasMany(Role::Class);
+    }
+
+    /**
+     * 获取该项目对应的树结构
+     */
+    public function getTree()
+    {
+        $tree = $this->root();
+        $root = &$tree;
+        $traversal_queue = [$root];
+        while (count($traversal_queue) != 0) {
+            $node = array_shift($traversal_queue);
+            $node->load('children');
+            foreach ($node->children as &$child) {
+                array_push($traversal_queue, $child);
+            }
+        }
+        return $tree;
     }
 
     /**

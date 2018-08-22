@@ -17,6 +17,11 @@ class ProjectsController extends Controller
         return new CommonCollection(Project::all());
     }
 
+    public function getTree(ProjectRequest $request, Project $project)
+    {
+        return ResponseJson($project->getTree());
+    }
+
     public function store(ProjectRequest $request)
     {
         $project = Project::create($request->all());

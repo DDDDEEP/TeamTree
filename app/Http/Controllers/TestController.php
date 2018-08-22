@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Node;
 use App\Models\NodeUser;
+use App\Models\Project;
 use App\Models\ProjectUser;
 use App\Models\Role;
 use App\Models\User;
@@ -19,5 +20,6 @@ class TestController extends Controller
         // dd(Node::find(1)->getDescendants());
         // dd(User::find(4)->isHigherThan(5, 1, 2));
         // dd(NodeUser::find(1)->node()->first());
+        dd(Project::find(1)->root());
     }
 }

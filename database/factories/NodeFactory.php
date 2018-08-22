@@ -19,6 +19,7 @@ $factory->define(App\Models\Node::class, function (Faker $faker) {
     return [
         'project_id'  => 0,
         'parent_id'   => 0,
+        'name'        => '默认',
         'height'      => 1,
         'status'      => 1,
         'description' => $faker->text(50),

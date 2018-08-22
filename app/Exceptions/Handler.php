@@ -39,15 +39,23 @@ class Handler extends ExceptionHandler
         parent::report($exception);
     }
 
-    /**
-     * Render an exception into an HTTP response.
+    /**TTP response.
      *
+     * Render an exception into an H
      * @param  \Illuminate\Http\Request  $request
      * @param  \Exception  $exception
      * @return \Illuminate\Http\Response
      */
     public function render($request, Exception $exception)
     {
+        $reposne_json_classes = [
+            'Illuminate\Auth\Access\AuthorizationException',
+            'Illuminate\Database\Eloquent\ModelNotFoundException',
+        ];
+        if (in_array(get_class($exception), $reposne_json_classes)) {
+            return ResponseJson([], $exception->getMessage());
+        }
+        // dd(get_class($exception));
         return parent::render($request, $exception);
     }
 }

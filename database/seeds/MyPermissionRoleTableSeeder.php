@@ -15,7 +15,7 @@ class MyPermissionRoleTableSeeder extends Seeder
     public function run()
     {
         for ($i = 2; $i <= 6; ++$i) {
-            $permission_ids = Permission::where('group_id', $i)->get()->pluck('id')->toArray();
+            $permission_ids = Permission::where('group_id', '<=', $i)->get()->pluck('id')->toArray();
             $role = Role::where('project_id', null)->where('level', $i)->first();
             $role->permissions()->attach($permission_ids);
         }

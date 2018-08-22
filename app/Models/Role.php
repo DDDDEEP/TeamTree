@@ -24,4 +24,17 @@ class Role extends Model
         return $this->belongsToMany(Permission::Class)
             ->withTimestamps();
     }
+
+    /**
+     * 判断该角色是否有对应路由的权限
+     *
+     * @param  string  $route_name  路由名
+     * @return boolean
+     */
+    public function hasPermission($route_name)
+    {
+        return $this->permissions()
+            ->where('name', $route_name)
+            ->first() != null;
+    }
 }

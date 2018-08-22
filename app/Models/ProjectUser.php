@@ -26,10 +26,22 @@ class ProjectUser extends Pivot
     }
 
     /**
-     * 获取对应全局角色。
+     * 获取对应项目角色。
      */
     public function role()
     {
         return $this->belongsTo(Role::class);
+    }
+
+    /**
+     * 删除该项目角色相关的所有记录
+     */
+    public function deleteAll()
+    {
+        $nodes = $this->project->nodes;
+        foreach ($nodes as $node) {
+            $node->users()->detach($this->user_id);
+        }
+        $this->delete();
     }
 }

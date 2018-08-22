@@ -18,6 +18,14 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/test', 'TestController@index')->name('test');
+
+/*
+|--------------------------------------------------------------------------
+| Permissions Routes
+|--------------------------------------------------------------------------
+*/
+Route::match(['put', 'patch'], 'nodes/{node}/update_status', 'NodesController@updateStatus')->name('nodes.update.update_status');
 
 /*
 |--------------------------------------------------------------------------

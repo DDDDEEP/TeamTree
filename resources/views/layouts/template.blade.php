@@ -18,7 +18,7 @@
     </div>
     <script src="/layui/layui.js"></script>
     <script src="/js/app.js"></script>
-    <script src="d3.v3.min.js" charset="utf-8"></script>
+    <script src="/d3.v3.min.js" charset="utf-8"></script>
     <script>
     layui.use(['element'], function() {
         var element = layui.element

@@ -24,63 +24,14 @@
     width = $(".layui-body").width();
     height = $(".layui-body").height();
 
-    var root = {
-        "name": "项目",
-        "children": [
-            {
-            "name": "任务1",
-            "children": [
-                {
-                    "name": "子任务1"
-                },
-                {
-                    "name": "子任务2"
-                },
-                {
-                    "name": "子任务3"
-                }
-
-            ]
-            }, 
-            {
-            "name": "任务2",
-            "children": [
-                {
-                    "name": "子任务1"
-                },
-                {
-                    "name": "子任务2"
-                },
-                {
-                    "name": "子任务3"
-                }
-
-            ]
-            },
-            {
-            "name": "任务3",
-            "children": [
-                {
-                    "name": "子任务1"
-                },
-                {
-                    "name": "子任务2"
-                },
-                {
-                    "name": "子任务3"
-                }
-
-            ]
-            }
-        ]
-    };
+    var root = @json($tree);
 
     var i = 0,
         duration = 750,
-        rectW = 60,
+        rectW = 100,
         rectH = 30;
 
-    var tree = d3.layout.tree().nodeSize([100, 50]);
+    var tree = d3.layout.tree().nodeSize([200, 50]);
     var diagonal = d3.svg.diagonal()
         .projection(function (d) {
         return [d.x + rectW / 2, d.y + rectH / 2];

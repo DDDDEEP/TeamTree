@@ -8370,7 +8370,32 @@ button.close {
   stroke-width: 1.5px;
 }
 
-body {
+#body {
   overflow: hidden;
+}
+
+#node-menu .layui-form-label {
+  width: 130px;
+}
+
+#node-menu .layui-form-label span {
+  color: #f00;
+}
+
+#node-menu .layui-input-block {
+  margin-left: 130px;
+}
+
+#node-menu .select-time-row {
+  display: inline-block;
+}
+
+#node-menu .select-time-separate {
+  font-size: 28px;
+  text-align: center;
+}
+
+body .menu-skin .layui-layer-content {
+  overflow: visible;
 }
 

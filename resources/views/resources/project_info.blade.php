@@ -1,6 +1,8 @@
 @extends('layouts.template')
 
 @section('content')
+	 @include('layouts.side', ['side_index' => 2, 'id' => $project->id])
+
 	<div class="layui-body">
 
 	  <div class="layui-row">

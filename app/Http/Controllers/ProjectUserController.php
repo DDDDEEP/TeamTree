@@ -20,7 +20,7 @@ class ProjectUserController extends Controller
         //     $project_user->getTableColumns(),
         //     $project_user->getRelationships()
         // ));
-        return new CommonCollection(ProjectUser::withExistRelations(['project', 'no'])->paginate());
+        return new CommonCollection(ProjectUser::filter($request->all()));
     }
 
     public function store(ProjectUserRequest $request)

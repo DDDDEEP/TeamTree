@@ -56,7 +56,6 @@
     }
 
     function update(source) {
-
         // Compute the new tree layout.
         var nodes = tree.nodes(root).reverse(),
             links = tree.links(nodes);
@@ -69,7 +68,7 @@
         // Update the nodes…
         var node = svg.selectAll("g.node")
             .data(nodes, function (d) {
-            return d.id || (d.id = ++i);
+            return d.no || (d.no = ++i);
         });
 
         // Enter any new nodes at the parent's previous position.
@@ -78,13 +77,6 @@
             .attr("transform", function (d) {
             return "translate(" + (source.x0) + "," + (source.y0) + ")";
         });
-
-        // var menu = node.enter().append("g")
-        //     .attr("class", "node")
-        //     .attr("transform", function (d) {
-        //     return "translate(" + source.x0 + "," + source.y0 + ")";
-        // })
-        //     .on("click", testMsg);
 
 
         nodeEnter.append("rect")
@@ -164,7 +156,7 @@
         // Update the links…
         var link = svg.selectAll("path.link")
             .data(links, function (d) {
-            return d.target.id;
+            return d.target.no;
         });
 
         // Enter any new links at the parent's previous position.

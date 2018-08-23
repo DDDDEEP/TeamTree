@@ -25,6 +25,32 @@
     stroke-width: 1.5px;
 }
 
-body {
+#body {
     overflow: hidden;
+}
+
+// 结点菜单
+$form-label-width: 130px;
+#node-menu {
+    .layui-form-label {
+        width: $form-label-width;
+        span {
+            color: #f00;
+        }
+    }
+    .layui-input-block {
+        margin-left: $form-label-width;
+    }
+    .select-time-row {
+        display: inline-block;
+    }
+    .select-time-separate {
+        font-size: 28px;
+        text-align: center;
+    }
+}
+
+// 弹出层皮肤
+body .menu-skin .layui-layer-content {
+    overflow: visible;
 }

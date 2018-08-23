@@ -77,7 +77,7 @@
                 }
             },
             error: function (result) {
-                alert(result.responseJSON.msg);
+                console.log(result)
             }
         })
     })
@@ -95,6 +95,10 @@
                 $("input[name=name]").attr("readonly", true)
                 $("textarea[name=description]").attr("readonly", true)
                 $("select[name=status]").attr("disabled", true)
+            } else {
+                $("input[name=name]").removeAttr("readonly")
+                $("textarea[name=description]").removeAttr("readonly")
+                $("select[name=status]").removeAttr("disabled")
             }
             form.render()
         })
@@ -124,7 +128,7 @@
                         }
                     },
                     error: function (result) {
-                        alert(result.responseJSON.msg);
+                        alert(result.responseJSON.errmsg);
                     }
                 })
                 layer.close(index)

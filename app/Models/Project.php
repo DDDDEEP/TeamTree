@@ -55,14 +55,16 @@ class Project extends Model
     /**
      * 获取该项目对应的树结构
      */
-    public function getTree()
+    public function getTree($user_id = null)
     {
         $tree = $this->root();
         $root = &$tree;
+        $user = $user_id ? User::find($user_id) : null;
         $traversal_queue = [$root];
         while (count($traversal_queue) != 0) {
             $node = array_shift($traversal_queue);
             $node->load(['children', 'users']);
+            $node->role = $user ? $user->getNodeRole($node->id) : null;
             foreach ($node->children as &$child) {
                 array_push($traversal_queue, $child);
             }

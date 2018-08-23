@@ -50,6 +50,32 @@ $form-label-width: 130px;
     }
 }
 
+// 项目详情
+$form-label-width: 130px;
+
+.edit-project-form {
+    .form-header {
+        margin: 15px 100px;
+        font-size: 24px;
+    }
+    .layui-form-label {
+        width: $form-label-width;
+        span {
+            color: #f00;
+        }
+    }
+    .layui-input-block {
+        margin-left: $form-label-width;
+    }
+    .select-time-row {
+        display: inline-block;
+    }
+    .select-time-separate {
+        font-size: 28px;
+        text-align: center;
+    }
+}
+
 // 弹出层皮肤
 body .menu-skin .layui-layer-content {
     overflow: visible;

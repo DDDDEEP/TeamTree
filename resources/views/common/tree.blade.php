@@ -9,6 +9,8 @@
 
     var root = @json($tree);
 
+    var icon = ['', '🙎‍', '👨‍🚀', '👩‍🚒', '👨‍🌾', '👨‍💼', '🧙‍']
+
     var i = 0,
         duration = 750,
         rectW = 100,
@@ -87,7 +89,7 @@
             .style("fill", function (d) {
             return d._children ? "lightsteelblue" : "#fff";
         })
-            .on("click", showMenu);
+            .on("click", checkPermission);
 
         nodeEnter.append("text")
             .attr("x", rectW / 2)
@@ -97,7 +99,7 @@
             .text(function (d) {
             return d.name;
         })
-            .on("click", showMenu);
+            .on("click", checkPermission);
 
         nodeEnter.append("circle")
             .attr("cx", rectW)
@@ -112,7 +114,9 @@
             .attr("y", -8)
             .attr("dy", ".35em")
             .attr("text-anchor", "middle")
-            .text('🧙‍超级管理员')
+            .text(function (d) {
+            return `${icon[d.role.level]}${d.role.display_name}`;
+        })
             .style('font-size', '13px');
 
         nodeEnter.append("text")

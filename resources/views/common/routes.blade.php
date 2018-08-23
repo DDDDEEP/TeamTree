@@ -11,8 +11,19 @@
     			get_tree: '{{ RouteUri('projects.index.get_tree') }}'
     		},
             store: '{{ RouteUri('projects.store') }}',
-    	},
-        show_tree: '{{ RouteUri('show_tree') }}'
-
+            update: '{{ RouteUri('projects.update') }}'
+        },
+        show_tree: '{{ RouteUri('show_tree') }}',
+        permission_role: {
+            index: '{{ RouteUri('permission_role.index') }}'
+        },
+        project_user: {
+            destroy: '{{ RouteUri('project_user.destroy') }}',
+            update: '{{ RouteUri('project_user.update') }}',
+            store: '{{ RouteUri('project_user.store') }}'
+        },
+        users: {
+            index: '{{ RouteUri('users.index') }}'
+        }
     };
 </script>

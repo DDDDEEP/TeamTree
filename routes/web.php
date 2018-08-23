@@ -23,6 +23,7 @@ Route::get('/test', 'TestController@index')->name('test');
 
 Route::get('/{project}/tree', 'HomeController@showTree')->name('show_tree');
 Route::get('/{project}', 'HomeController@showProject')->name('show_project');
+Route::get('/{project}/info', 'HomeController@showInfo')->name('show_info');
 
 /*
 |--------------------------------------------------------------------------

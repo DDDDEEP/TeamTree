@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 use App\Models\Project;
+use App\Models\ProjectUser;
 
 class HomeController extends Controller
 {
@@ -31,8 +32,9 @@ class HomeController extends Controller
 
     public function showTree(Project $project)
     {
-        $tree = $project->getTree();
-        return view('resources/tree', compact('tree'));
+        $tree = $project->getTree(Auth::user()->id);
+        $user = Auth::user();
+        return view('resources/tree', compact('tree', 'project', 'user'));
     }
 
     public function showProject()
@@ -46,5 +48,14 @@ class HomeController extends Controller
             array_push($projects,$item);
         }
         return view('resources/project',compact('projects'));
+    }
+
+    public function showInfo(Project $project)
+    {
+        $project_users = ProjectUser::with(['user', 'role'])
+            ->where('project_id', $project->id)
+            ->get();
+        $roles = $project->getAllRoles();
+        return view('resources/project_info', compact('project', 'project_users', 'roles'));
     }
 }

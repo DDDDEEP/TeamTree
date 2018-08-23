@@ -108,6 +108,14 @@
             .attr("stroke-width", 1);
 
         nodeEnter.append("text")
+            .attr("x", 0)
+            .attr("y", -8)
+            .attr("dy", ".35em")
+            .attr("text-anchor", "middle")
+            .text('🧙‍超级管理员')
+            .style('font-size', '13px');
+
+        nodeEnter.append("text")
             .attr("x", rectW)
             .attr("y", 0)
             .attr("dy", ".35em")
@@ -129,7 +137,13 @@
             .attr("stroke", "black")
             .attr("stroke-width", 1)
             .style("fill", function (d) {
-            return d._children ? "lightsteelblue" : "#fff";
+                if (d.status == 2) {
+                    return 'yellow'
+                } else if (d.status == 3) {
+                    return '#0ad20a'
+                } else {
+                    return '#fff'
+                }
         });
 
         nodeUpdate.select("text")

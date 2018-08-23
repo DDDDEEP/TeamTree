@@ -17,10 +17,9 @@ class EloquentBuildreMacroServiceProvider extends ServiceProvider
          * 加载存在的关联
          *
          * @param  array|string  $relations
-         * @return \Illuminate\Database\Eloquent\Builder|static
+         * @return $this
          */
         Builder::macro('withExist', function ($relations) {
-            dd($this);
             $relationships = (new Relationships($this->newModelInstance()))
                 ->all()
                 ->keys()
@@ -37,11 +36,30 @@ class EloquentBuildreMacroServiceProvider extends ServiceProvider
          * 根据请求参数过滤集合数据
          *
          * @param  array  $data
-         * @return \Illuminate\Database\Eloquent\Collection|
+         * @return $this
          */
         Builder::macro('filter', function ($data) {
-            dd($this->with('project'));
-            $result = Arr::exists($data, 'relation') ? $this->withExist($data['relation']) : $this->all();
+            $result = $this;
+            $result = $result->withExist(Arr::get($data, 'relation', ''));
+            dd($result);
+        });
+
+        /**
+         * 根据请求参数过滤集合数据
+         *
+         * @param  array  $data
+         * @return \Illuminate\Database\Eloquent\Collection
+         */
+        Builder::macro('filter', function ($data) {
+            $result = $this->withExist(Arr::get($data, 'relation', ''))
+                ->get();
+                dd($result);
+
+            if (Arr::has($data, 'unique')) {
+
+            }
+
+
             dd($result);
         });
     }

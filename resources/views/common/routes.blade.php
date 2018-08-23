@@ -1,7 +1,10 @@
 <script>
     var routes = {
     	nodes: {
-    		update: '{{ RouteUri('nodes.update') }}'
+    		update: '{{ RouteUri('nodes.update') }}',
+    		update_status: '{{ RouteUri('nodes.update.update_status') }}',
+            store: '{{ RouteUri('nodes.store') }}',
+            destroy: '{{ RouteUri('nodes.destroy') }}'
     	},
     	projects: {
     		index: {

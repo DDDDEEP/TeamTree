@@ -79,7 +79,8 @@ class NodeRequest extends Request
                 case 'PUT':
                 case 'PATCH':
                     // 检验高度是否正确
-                    if (Node::find($data['parent_id'])->height != $data['height'] - 1) {
+                    if ($data['parent_id'] != null
+                        && Node::find($data['parent_id'])->height != $data['height'] - 1) {
                         $validator->errors()->add('height', '高度数据有误');
                     }
                     break;

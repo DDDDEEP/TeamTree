@@ -19,7 +19,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/test', 'TestController@index')->name('test');
-Route::get('/{project}/tree', 'HomeController@showTree')->name('show_tree');
+Route::get('/tree', 'HomeController@showTree')->name('show_tree');
 
 /*
 |--------------------------------------------------------------------------
@@ -37,7 +37,7 @@ Route::apiResource('nodes', 'NodesController');
 Route::apiResource('node_user', 'NodeUserController');
 Route::apiResource('permissions', 'PermissionsController');
 Route::apiResource('permission_role', 'PermissionRoleController');
-Route::get('/projects/{project}/get_tree', 'ProjectsController@getTree')->name('project.index.get_tree');
+Route::get('/projects/{project}/get_tree', 'ProjectsController@getTree')->name('projects.index.get_tree');
 Route::apiResource('projects', 'ProjectsController');
 Route::apiResource('project_user', 'ProjectUserController');
 Route::apiResource('roles', 'RolesController');

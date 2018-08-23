@@ -26,17 +26,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        // to show projects
-        // $projects = Auth::user()->projects()->first()->pivot;
-        // $projects = $projects->project;
-        // dd(Auth::user()->projects());
-        $projects = Auth::user()->projects->first()->pivot->created_at;
-        return view('resources/home',compact('projects'));
+        return view('resources/home');
     }
 
     public function showTree(Project $project)
     {
         $tree = $project->getTree();
-        return view('resources/tree', compact('tree', 'project'));
+        return view('resources/tree', compact('tree'));
     }
 }

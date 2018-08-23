@@ -38,12 +38,10 @@ class CollectionMacroServiceProvider extends ServiceProvider
         /**
          * 根据请求参数过滤集合数据
          *
-         * @param  array  $data/*
-         * @param  array  $columns
-         * @param  array  $relationships
-         * @return \Illuminate\Support\Collection
+         * @param  array  $data
+         * @return $this
          */
-        Collection::macro('filterByParams', function ($data, $columns, $relationships) {
+        Collection::macro('filterByParams', function ($data) {
             $suffixs = ['eq', 'neq'];
             $special_keys = ['unique', 'sortBy', 'order'];
 

@@ -91,6 +91,11 @@
                 "status": d.status,
                 "name": d.name
             })
+            if (d.parent_id == null) {
+                $("input[name=name]").attr("readonly", true)
+                $("textarea[name=description]").attr("readonly", true)
+                $("select[name=status]").attr("disabled", true)
+            }
             form.render()
         })
         $("textarea[name=description]").text(d.description)
@@ -109,7 +114,13 @@
                     dataType: "json",
                     success: function (result) {
                         if (result.errcode == 0) {
-                            alert(1)
+                            root = result.data
+
+                            root.x0 = 0;
+                            root.y0 = height / 2;
+
+                            update(root);
+
                         }
                     },
                     error: function (result) {

@@ -179,6 +179,7 @@ return [
         App\Providers\CollectionMacroServiceProvider::class,
         App\Providers\CollectionMacroServiceProvider::class,
         App\Providers\EloquentBuildreMacroServiceProvider::class,
+        App\Providers\QueryBuildreMacroServiceProvider::class,
 
     ],
 

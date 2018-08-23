@@ -8,6 +8,7 @@ use App\Models\Project;
 use App\Models\ProjectUser;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Relationships;
 use App\Http\Resources\CommonCollection;
 
 class TestController extends Controller
@@ -20,6 +21,7 @@ class TestController extends Controller
         // dd(Node::find(1)->getDescendants());
         // dd(User::find(4)->isHigherThan(5, 1, 2));
         // dd(NodeUser::find(1)->node()->first());
-        dd(Project::find(1)->root());
+        // dd(Node::find(1)->relationships());
+        dd((new Relationships(Node::with('project')->first()))->all());
     }
 }

@@ -37,6 +37,6 @@ class HomeController extends Controller
     public function showTree(Project $project)
     {
         $tree = $project->getTree();
-        return view('resources/tree', compact('tree'));
+        return view('resources/tree', compact('tree', 'project'));
     }
 }

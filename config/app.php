@@ -178,6 +178,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\CollectionMacroServiceProvider::class,
         App\Providers\CollectionMacroServiceProvider::class,
+        App\Providers\EloquentBuildreMacroServiceProvider::class,
 
     ],
 

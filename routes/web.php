@@ -37,6 +37,7 @@ Route::apiResource('nodes', 'NodesController');
 Route::apiResource('node_user', 'NodeUserController');
 Route::apiResource('permissions', 'PermissionsController');
 Route::apiResource('permission_role', 'PermissionRoleController');
+Route::get('/projects/{project}/get_tree', 'ProjectsController@getTree')->name('project.index.get_tree');
 Route::apiResource('projects', 'ProjectsController');
 Route::apiResource('project_user', 'ProjectUserController');
 Route::apiResource('roles', 'RolesController');

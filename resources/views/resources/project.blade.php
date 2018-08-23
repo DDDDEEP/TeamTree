@@ -3,18 +3,23 @@
 @section('content')
   
   <div class="layui-body">
-    <button class="layui-btn add-button" data-method="setTop">
+    <button class="layui-btn add-button" >
       <i class="layui-icon">&#xe608;</i> 添加
     </button>
-    <div id="body" style="margin-top:200px">
+    <div id="project_body" style="margin-top:200px">
     @foreach ($projects as $project)
-        <div class="layui-card" style="width: 200px;height: 100px;display: inline-block;"
+        <div class="layui-card " style="width: 200px;height: 100px;display: inline-block;"
         onclick="jumpToTree(<?php echo $project->id ?>)">
             <div class="layui-card-body">
                 {{ $project->name }}
             </div>
+            <span class="delete-icon"><i class="layui-icon">&#xe640;</i></span>
         </div>
     @endforeach
+        <div class="layui-card add-button" data-method="setTop" style="width: 200px;height: 100px;display: inline-block;">
+            <div class="layui-card-body">
+            </div>
+        </div>
     </div>
   </div>
   
@@ -73,6 +78,10 @@ $(".add-button").click(function(){
     })
 })
 
+$(".delete-icon").click(function(){
+  console.log()
+})
+
 function addProject() {
   $.ajax({
       type: 'POST',
@@ -114,6 +123,20 @@ function jumpToTree(arg) {
  })
  alert(arg);
 }
+
+<!-- style -->
+<!--     var divs = $('.layui-card');
+    $('.layui-card').hover(function () {
+        $('.layui-card').addClass('active');
+
+        $('.layui-card').css({"transform":"translateY(-20px)",
+                         "box-shadow": "1px 20px 20px #d0d0d0"});
+    }, function () {
+        $('.active').toggleClass('active');
+         $('.layui-card').css({"transform":"translateY(0px)",
+                          "box-shadow":"1px 1px 5px 5px #f2f2f2"});
+    }); -->
+
 
 @stop
 

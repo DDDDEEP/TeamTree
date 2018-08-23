@@ -16,11 +16,11 @@
     <form class="layui-form node-form" lay-filter="menu">
       <div class="layui-row">
         <div class="layui-col-md4 layui-col-md-offset4">
-          <input type="text" name="name" id="node-name" class="layui-input">
+          <input type="text" name="name" id="node-name" class="layui-input" disabled>
         </div>
         <div class="layui-col-md2 layui-col-md-offset2">
             <div class="layui-form-item">
-                <select name="status" id="node-status" lay-filter="status-select">
+                <select name="status" id="node-status" lay-filter="status-select" disabled>
                     <option value="1" checked>未完成</option>
                     <option value="2">待验收</option>
                     <option value="3">已完成</option>
@@ -35,17 +35,17 @@
             </div>
             <div class="layui-col-md8">
                 <div class="layui-input-block">
-                  <textarea name="description" id="node-description" placeholder="任务描述" class="layui-textarea"></textarea>
+                  <textarea name="description" disabled id="node-description" placeholder="任务描述" class="layui-textarea"></textarea>
                 </div>
             </div>
         </div>
       </div>
       <div class="layui-row">
         <div class="layui-col-md2 layui-col-md-offset4">
-            <a class="layui-btn" id="add-node-btn">新增任务</a>
+            <button class="layui-btn layui-btn-disabled add-node-btn" disabled>新增任务</button>
         </div>
         <div class="layui-col-md2">
-            <a class="layui-btn layui-bg-red" id="delete-node-btn">删除任务</a>
+            <button class="layui-btn layui-btn-disabled delete-node-btn" disabled>删除任务</button>
         </div>
       </div>
     </form>
@@ -86,6 +86,7 @@
 
     var node = null
     var project = @json($project);
+    var user = @json($user);
 
     layui.use('form', function(){
         var form = layui.form;
@@ -160,7 +161,7 @@
     })
 
     // 新增任务按钮
-    $("#add-node-btn").click(function(){
+    $("body").on("click", ".add-node-btn", function(){
         $("input[name=height]").val(node.height + 1)
         $("input[name=parent_id]").val(node.id)
         $("input[name=project_id]").val(project.id)
@@ -171,35 +172,13 @@
               type: 1,
               title: '新增任务',
               content: $("#add-node"),
-              area: '700px',
-              cancel : function(index, layero){
-                  // $.ajax({
-                  //     type: 'GET',
-                  //     url: route(routes.projects.index.get_tree, {project: project.id}),
-                  //     dataType: "json",
-                  //     success: function (result) {
-                  //         if (result.errcode == 0) {
-                  //             root = result.data
-
-                  //             root.x0 = 0;
-                  //             root.y0 = height / 2;
-
-                  //             update(root);
-
-                  //         }
-                  //     },
-                  //     error: function (result) {
-                  //         alert(result.responseJSON.errmsg);
-                  //     }
-                  // })
-                  layer.close(index)
-              }
+              area: '700px'
             })
         })
     })
 
     // 删除任务按钮
-    $("#delete-node-btn").click(function(){
+    $("body").on("click", ".delete-node-btn", function(){
         layui.use('layer', function(){
             layer.confirm('是否确认删除？', {icon: 3, title:'提示'}, function(index){
               $.ajax({
@@ -213,7 +192,7 @@
                     layer.closeAll();
                     $.ajax({
                         type: 'GET',
-                        url: route(routes.projects.index.get_tree, {project: project.id}),
+                        url: route(routes.projects.index.get_tree, {project: project.id, user_id: user.id}),
                         dataType: "json",
                         success: function (result) {
                             if (result.errcode == 0) {
@@ -238,32 +217,84 @@
             });
         })
     })
+
+    function checkPermission(d) {
+        node = d
+        if (d.parent_id != null) {
+            $.ajax({
+                type: 'GET',
+                url: route(routes.permission_role.index),
+                data: {
+                    "relate": "role,permission",
+                    "role_id": d.role.id
+                },
+                dataType: "json",
+                success: function (result) {
+                    if (result.errcode == 1) {
+                        layui.use('layer', function(){
+                            var layer = layui.layer
+                            layer.msg(result.errmsg)
+                        })
+                    } else {
+                        var data = result.data
+                        data.forEach(function(value, index){
+                          switch(value.permission.name) {
+                          case 'nodes.update.update_status':
+                              $("#node-status").removeAttr("disabled")
+                              break
+                          case 'nodes.store':
+                              var temp = $(".add-node-btn")
+                              temp.after("<a class='layui-btn add-node-btn'>新增任务</a>")
+                              temp.remove()
+                              break
+                          case 'nodes.update':
+                              $("#node-name").removeAttr("disabled")
+                              $("#node-description").removeAttr("disabled")
+                              break
+                          case 'nodes.destroy':
+                              var temp = $(".delete-node-btn")
+                              temp.after("<a class='layui-btn layui-bg-red delete-node-btn'>删除任务</a>")
+                              temp.remove()
+                              break
+                          default: break
+                          }
+                        })
+                        showMenu()
+                    }
+                },
+                error: function (result) {
+                    console.log(result)
+                }
+            })
+        } else {
+            showMenu()
+        }
+    }
     
     // 弹出结点菜单
-    function showMenu(d) {
-        node = d
+    function showMenu() {
         layui.use('form', function(){
             var form = layui.form;
 
             form.val('menu', {
-                "status": d.status,
-                "name": d.name
+                "status": node.status,
+                "name": node.name
             })
-            if (d.parent_id == null) {
-                $("#node-name").attr("readonly", true)
-                $("#node-description").attr("readonly", true)
-                $("#node-status").attr("disabled", true)
-            } else {
-                $("#node-name").removeAttr("readonly")
-                $("#node-description").removeAttr("readonly")
-                $("#node-status").removeAttr("disabled")
-            }
+            // if (node.parent_id == null) {
+            //     $("#node-name").attr("disabled", true)
+            //     $("#node-description").attr("disabled", true)
+            //     $("#node-status").attr("disabled", true)
+            // } else {
+            //     $("#node-name").removeAttr("disabled")
+            //     $("#node-description").removeAttr("disabled")
+            //     $("#node-status").removeAttr("disabled")
+            // }
             form.render()
         })
-        $("#node-description").text(d.description)
+        $("#node-description").text(node.description)
         layui.use('layer', function(){
           var layer = layui.layer;
-          
+
           layer.open({
             type: 1,
             content: $("#node-menu"),
@@ -273,7 +304,7 @@
             cancel : function(index, layero){
                 $.ajax({
                     type: 'GET',
-                    url: route(routes.projects.index.get_tree, {project: project.id}),
+                    url: route(routes.projects.index.get_tree, {project: project.id, user_id: user.id}),
                     dataType: "json",
                     success: function (result) {
                         if (result.errcode == 0) {
@@ -324,7 +355,7 @@
                     layer.closeAll()
                     $.ajax({
                         type: 'GET',
-                        url: route(routes.projects.index.get_tree, {project: project.id}),
+                        url: route(routes.projects.index.get_tree, {project: project.id, user_id: user.id}),
                         dataType: "json",
                         success: function (result) {
                             if (result.errcode == 0) {

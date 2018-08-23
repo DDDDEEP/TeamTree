@@ -53,6 +53,15 @@ class Project extends Model
     }
 
     /**
+     * 获取该项目的所有角色
+     */
+    public function getAllRoles()
+    {
+        $global_roles = Role::where('project_id', null)->get();
+        return $global_roles->merge($this->roles);
+    }
+
+    /**
      * 获取该项目对应的树结构
      */
     public function getTree($user_id = null)
@@ -85,4 +94,6 @@ class Project extends Model
         $this->users()->detach();
         $this->delete();
     }
+
+
 }

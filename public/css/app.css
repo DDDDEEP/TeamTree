@@ -8395,6 +8395,32 @@ button.close {
   text-align: center;
 }
 
+.edit-project-form .form-header {
+  margin: 15px 100px;
+  font-size: 24px;
+}
+
+.edit-project-form .layui-form-label {
+  width: 130px;
+}
+
+.edit-project-form .layui-form-label span {
+  color: #f00;
+}
+
+.edit-project-form .layui-input-block {
+  margin-left: 130px;
+}
+
+.edit-project-form .select-time-row {
+  display: inline-block;
+}
+
+.edit-project-form .select-time-separate {
+  font-size: 28px;
+  text-align: center;
+}
+
 body .menu-skin .layui-layer-content {
   overflow: visible;
 }

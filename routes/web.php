@@ -20,6 +20,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/test', 'TestController@index')->name('test');
 Route::get('/{project}/tree', 'HomeController@showTree')->name('show_tree');
+Route::get('/{project}/info', 'HomeController@showInfo')->name('show_info');
 
 /*
 |--------------------------------------------------------------------------

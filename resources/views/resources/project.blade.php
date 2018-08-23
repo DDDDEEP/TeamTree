@@ -8,7 +8,8 @@
     </button>
     <div id="body" style="margin-top:200px">
     @foreach ($projects as $project)
-        <div class="layui-card" style="width: 200px;height: 100px;display: inline-block;">
+        <div class="layui-card" style="width: 200px;height: 100px;display: inline-block;"
+        onclick="jumpToTree(<?php echo $project->id ?>)">
             <div class="layui-card-body">
                 {{ $project->name }}
             </div>
@@ -17,6 +18,34 @@
     </div>
   </div>
   
+
+  <div id="add-project" style="display: none;">
+    <form class="layui-form project-form">
+        <div class="layui-form-item">
+            <div class="layui-row">
+                <label class="layui-form-label">项目名称</label>
+                <div class="layui-col-md4">
+                    <input type="text" name="new_name" class="layui-input" placeholder="项目名称">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-row">
+              <label class="layui-form-label">项目描述</label>
+              <div class="layui-col-md9">
+                <textarea name="new_description" placeholder="项目描述" class="layui-textarea"></textarea>
+              </div>
+          </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-row">
+                <div class="layui-col-md-offset10">
+                    <a class="layui-btn" onclick="addProject()">确认</a>
+                </div>
+            </div>
+        </div>
+    </form>
+  </div>
   <div class="layui-footer">
     <!-- 底部固定区域 -->
     © layui.com - 底部固定区域
@@ -27,49 +56,65 @@
 
 @section('javascript')
 
-layui.use('layer', function(){ 
-    var layer = layui.layer;
-    //触发事件
-    var projectActive = {
-      setTop: function(){
-        layer.open({
-          type: 2 //此处以iframe举例
-          ,title: '创建项目'
-          ,area: ['390px', '260px']
-          ,shade: 0
-          ,maxmin: true
-          ,offset: [ //为了演示，随机坐标
-            Math.random()*($(window).height()-300)
-            ,Math.random()*($(window).width()-390)
-          ] 
-          ,content: $('.create_project')
-          ,btn1: ['创建']
-          ,btn2: ['关闭']
-          ,yes: function(){
-            // 创建
-            alert('chuangjian');
-          }
-          ,btn2: function(){
-            layer.closeAll();
-          }
-          
-          ,zIndex: layer.zIndex //重点1
-          ,success: function(layero){
-            layer.setTop(layero); //重点2
-          }
-        });
-      }
-    };
-    
-    $('.add-button').on('click', function(){
-    console.log('e');
-      var othis = $(this), method = othis.data('method');
-      projectActive[method] ? projectActive[method].call(this, othis) : '';
-    });
-  
-});
 
-    
+
+$(".add-button").click(function(){
+    layui.use('layer', function(){
+        var layer = layui.layer
+        layer.open({
+          type: 1,
+          title: '新增项目',
+          content: $("#add-project"),
+          area: '600px',
+          cancel : function(index, layero){
+              layer.close(index)
+          }
+        })
+    })
+})
+
+function addProject() {
+  $.ajax({
+      type: 'POST',
+      url: route(routes.projects.store),
+      data: {
+          "name": $("input[name=new_name]").val(),
+          "description": $("textarea[name=new_description]").val(),
+      },
+      dataType: "json",
+      success: function (result) {
+          if (result.errcode == 1) {
+              layui.use('layer', function(){
+                  var layer = layui.layer
+                  layer.msg(result.errmsg)
+              })
+          } else if (result.errcode == 0) {
+              layer.closeAll();
+          }
+      },
+      error: function (result) {
+          console.log(result);
+      }
+  })
+}
+
+function jumpToTree(arg) {
+ $.ajax({
+     type: 'GET',
+     url: route(routes.projects.index.get_tree, {project: arg}),
+     dataType: "json",
+     success: function (result) {
+         if (result.errcode == 0) {
+
+         }
+     },
+     error: function (result) {
+         console.log(result);
+     }
+ })
+ alert(arg);
+}
+
 @stop
 
 

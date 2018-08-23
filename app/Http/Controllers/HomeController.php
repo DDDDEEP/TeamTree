@@ -34,4 +34,17 @@ class HomeController extends Controller
         $tree = $project->getTree();
         return view('resources/tree', compact('tree'));
     }
+
+    public function showProject()
+    {
+        $pro = Auth::user()->projects;
+        // 下面這個獲得的是關係表
+        // dd($projects);
+        $projects = array();
+        foreach($pro as $project) {
+            $item = Project::find($project->pivot->project_id);
+            array_push($projects,$item);
+        }
+        return view('resources/project',compact('projects'));
+    }
 }

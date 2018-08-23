@@ -20,6 +20,8 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/test', 'TestController@index')->name('test');
 Route::get('/tree', 'HomeController@showTree')->name('show_tree');
+Route::get('/project', 'HomeController@showProject')->name('show_project');
+
 
 /*
 |--------------------------------------------------------------------------
@@ -42,3 +44,4 @@ Route::apiResource('projects', 'ProjectsController');
 Route::apiResource('project_user', 'ProjectUserController');
 Route::apiResource('roles', 'RolesController');
 Route::apiResource('users', 'UsersController');
+// Route::get('/users/{user}/get_project', 'UsersController@getProject')->name('users.index.get_project');

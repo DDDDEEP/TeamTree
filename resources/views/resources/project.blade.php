@@ -16,10 +16,7 @@
             <span class="delete-icon"><i class="layui-icon">&#xe640;</i></span>
         </div>
     @endforeach
-        <div class="layui-card add-button" data-method="setTop" style="width: 200px;height: 100px;display: inline-block;">
-            <div class="layui-card-body">
-            </div>
-        </div>
+
     </div>
   </div>
   
@@ -110,7 +107,7 @@ function addProject() {
 function jumpToTree(arg) {
  $.ajax({
      type: 'GET',
-     url: route(routes.projects.index.get_tree, {project: arg}),
+     url: route(routes.show_tree, {project: arg}),
      dataType: "json",
      success: function (result) {
          if (result.errcode == 0) {
@@ -124,18 +121,7 @@ function jumpToTree(arg) {
  alert(arg);
 }
 
-<!-- style -->
-<!--     var divs = $('.layui-card');
-    $('.layui-card').hover(function () {
-        $('.layui-card').addClass('active');
 
-        $('.layui-card').css({"transform":"translateY(-20px)",
-                         "box-shadow": "1px 20px 20px #d0d0d0"});
-    }, function () {
-        $('.active').toggleClass('active');
-         $('.layui-card').css({"transform":"translateY(0px)",
-                          "box-shadow":"1px 1px 5px 5px #f2f2f2"});
-    }); -->
 
 
 @stop

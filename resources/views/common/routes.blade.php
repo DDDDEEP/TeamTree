@@ -8,9 +8,11 @@
     	},
     	projects: {
     		index: {
-    			get_tree: '{{ RouteUri('show_tree') }}'
+    			get_tree: '{{ RouteUri('projects.index.get_tree') }}'
     		},
-            store: '{{ RouteUri('projects.store') }}'
-    	}
+            store: '{{ RouteUri('projects.store') }}',
+    	},
+        show_tree: '{{ RouteUri('show_tree') }}'
+
     };
 </script>

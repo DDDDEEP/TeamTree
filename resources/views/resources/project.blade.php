@@ -1,7 +1,8 @@
 @extends('layouts.template')
 
 @section('content')
-  
+  @include('layouts.side', ['side_index' => 0])
+
   <div class="layui-body">
     <button class="layui-btn add-button" >
       <i class="layui-icon">&#xe608;</i> 添加

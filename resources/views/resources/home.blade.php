@@ -3,7 +3,12 @@
 @section('content')
   <div class="layui-body">
     <!-- 内容主体区域 -->
-    <div style="padding: 15px;">内容主体区域</div>
+	    @foreach ($projects as $project)
+	  {{ $project->id}}
+	    @endforeach
+	
+	   <div class="empty-block">暂无数据 ~_~ </div>
+
   </div>
   
   <div class="layui-footer">

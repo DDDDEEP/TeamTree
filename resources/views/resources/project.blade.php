@@ -105,20 +105,7 @@ function addProject() {
 }
 
 function jumpToTree(arg) {
- $.ajax({
-     type: 'GET',
-     url: route(routes.show_tree, {project: arg}),
-     dataType: "json",
-     success: function (result) {
-         if (result.errcode == 0) {
-
-         }
-     },
-     error: function (result) {
-         console.log(result);
-     }
- })
- alert(arg);
+    window.location.href = route(routes.show_tree, {project: arg})
 }
 
 

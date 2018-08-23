@@ -40,7 +40,7 @@ class EloquentBuildreMacroServiceProvider extends ServiceProvider
          * @return \Illuminate\Database\Eloquent\Collection|
          */
         Builder::macro('filter', function ($data) {
-            dd($this->all());
+            dd($this->with('project'));
             $result = Arr::exists($data, 'relation') ? $this->withExist($data['relation']) : $this->all();
             dd($result);
         });

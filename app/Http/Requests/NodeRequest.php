@@ -21,6 +21,7 @@ class NodeRequest extends Request
                 $rules = [
                     'project_id' => 'bail|required|integer|exists:nodes,project_id,id,'.$this->project_id,
                     'parent_id'  => 'bail|required|integer|exists:nodes,id',
+                    'name'       => 'bail|required',
                     'height'     => 'bail|required|integer',
                     'status'     => 'bail|required|integer',
                 ];
@@ -38,6 +39,7 @@ class NodeRequest extends Request
                         $rules = [
                             'project_id' => 'bail|integer|exists:nodes,project_id,id,'.$this->project_id,
                             'parent_id'  => 'bail|integer|exists:nodes,id',
+                            'name'       => 'bail|filled',
                             'height'     => 'bail|integer',
                             'status'     => 'bail|integer',
                         ];

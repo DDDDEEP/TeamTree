@@ -8374,23 +8374,23 @@ button.close {
   overflow: hidden;
 }
 
-#node-menu .layui-form-label {
+.node-form .layui-form-label {
   width: 130px;
 }
 
-#node-menu .layui-form-label span {
+.node-form .layui-form-label span {
   color: #f00;
 }
 
-#node-menu .layui-input-block {
+.node-form .layui-input-block {
   margin-left: 130px;
 }
 
-#node-menu .select-time-row {
+.node-form .select-time-row {
   display: inline-block;
 }
 
-#node-menu .select-time-separate {
+.node-form .select-time-separate {
   font-size: 28px;
   text-align: center;
 }

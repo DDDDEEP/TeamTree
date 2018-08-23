@@ -62,7 +62,7 @@ class Project extends Model
         $traversal_queue = [$root];
         while (count($traversal_queue) != 0) {
             $node = array_shift($traversal_queue);
-            $node->load('children');
+            $node->load(['children', 'users']);
             foreach ($node->children as &$child) {
                 array_push($traversal_queue, $child);
             }

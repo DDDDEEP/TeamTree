@@ -28,6 +28,7 @@ class ProjectsController extends Controller
         Node::create([
             'project_id' => $project->id,
             'parent_id' => null,
+            'name' => '根节点',
             'height' => 1,
             'status' => 1,
             'description' => '项目新建完成，尝试添加节点任务吧！',

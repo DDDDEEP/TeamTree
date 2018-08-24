@@ -44,6 +44,8 @@
                         <th>用户</th>
                         <th>项目角色</th>
                         <th>结点角色</th>
+                        <th>角色所属结点</th>
+                        <th>操作</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -139,14 +141,15 @@
             })
         });
 
+        // 改变用户列表角色
         form.on("select(node-user-role)", function(data){
             var index = $(data.elem).parents("tr").find(".node-user-index").val()
-            console.log(node_users)
             layui.use('layer', function(){
                 var layer = layui.layer
 
                 layer.load(1)
-                if (node_users[index].node_role.id == node_users[index].role.id) {
+                if (node_users[index].node_role.node == null || 
+                    node_users[index].node_role.node.id != node.id ) {
                         $.ajax({
                             type: 'POST',
                             url: route(routes.node_user.store,
@@ -160,7 +163,8 @@
                                         layer.closeAll('loading')
                                     })
                                 } else if (result.errcode == 0) {
-                                    layer.closeAll('loading')
+                                    layer.closeAll("loading")
+                                    showUserList(1)
                                 }
                             },
                             error: function (result) {
@@ -174,7 +178,7 @@
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                             },
                             url: route(routes.node_user.update,
-                             {node_user: node_users[index].id, role_id: data.value}),
+                             {node_user: node_users[index].node_role.node.pivot.id, role_id: data.value}),
                             dataType: "json",
                             success: function (result) {
                                 if (result.errcode == 1) {
@@ -184,7 +188,8 @@
                                         layer.closeAll('loading')
                                     })
                                 } else if (result.errcode == 0) {
-                                    layer.closeAll('loading')
+                                    layer.closeAll("loading")
+                                    showUserList(1)
                                 }
                             },
                             error: function (result) {
@@ -291,59 +296,68 @@
     })
 
     // 检查权限
-    function checkPermission() {
+    function checkPermission(layer_open) {
         if (node.parent_id != null) {
-            $.ajax({
-                type: 'GET',
-                url: route(routes.permission_role.index),
-                data: {
-                    "relate": "role,permission",
-                    "role_id": node.role.id
-                },
-                dataType: "json",
-                success: function (result) {
-                    if (result.errcode == 1) {
-                        layui.use('layer', function(){
-                            var layer = layui.layer
-                            layer.msg(result.errmsg)
-                        })
-                    } else {
-                        var data = result.data
-                        data.forEach(function(value, index){
-                          switch(value.permission.name) {
-                          case 'nodes.update.update_status':
-                              $("#node-status").removeAttr("disabled")
-                              break
-                          case 'nodes.store':
-                              var temp = $(".add-node-btn")
-                              temp.after("<a class='layui-btn add-node-btn'>新增任务</a>")
-                              temp.remove()
-                              break
-                          case 'nodes.update':
-                              $("#node-name").removeAttr("disabled")
-                              $("#node-description").removeAttr("disabled")
-                              break
-                          case 'nodes.destroy':
-                              var temp = $(".delete-node-btn")
-                              temp.after("<a class='layui-btn layui-bg-red delete-node-btn'>删除任务</a>")
-                              temp.remove()
-                              break
-                          case 'node_user.store':
-                          case 'node_user.update':
-                              $("select[lay-filter=node-user-role]").removeAttr("disabled")
-                              break
-                          default: break
-                          }
-                        })
-                        showMenu()
+            layui.use("form", function(){
+                var form = layui.form
+
+                $.ajax({
+                    type: 'GET',
+                    url: route(routes.permission_role.index),
+                    data: {
+                        "relate": "role,permission",
+                        "role_id": node.role.id
+                    },
+                    dataType: "json",
+                    success: function (result) {
+                        if (result.errcode == 1) {
+                            layui.use('layer', function(){
+                                var layer = layui.layer
+                                layer.msg(result.errmsg)
+                            })
+                        } else {
+                            var data = result.data
+                            data.forEach(function(value, index){
+                              switch(value.permission.name) {
+                              case 'nodes.update.update_status':
+                                  $("#node-status").removeAttr("disabled")
+                                  break
+                              case 'nodes.store':
+                                  var temp = $(".add-node-btn")
+                                  temp.after("<a class='layui-btn add-node-btn'>新增任务</a>")
+                                  temp.remove()
+                                  break
+                              case 'nodes.update':
+                                  $("#node-name").removeAttr("disabled")
+                                  $("#node-description").removeAttr("disabled")
+                                  break
+                              case 'nodes.destroy':
+                                  var temp = $(".delete-node-btn")
+                                  temp.after("<a class='layui-btn layui-bg-red delete-node-btn'>删除任务</a>")
+                                  temp.remove()
+                                  break
+                              case 'node_user.store':
+                              case 'node_user.update':
+                                  $("select[lay-filter=node-user-role]").removeAttr("disabled")
+                                  break
+                              default: break
+                              }
+                            })
+                            form.render()
+                            if (layer_open == 0) {
+                                showMenu()
+                            }
+                        }
+                    },
+                    error: function (result) {
+                        console.log(result)
                     }
-                },
-                error: function (result) {
-                    console.log(result)
-                }
+                })
             })
         } else {
-            showMenu()
+            if (layer_open == 0) {
+                showMenu()
+            }
         }
     }
     
@@ -375,7 +389,7 @@
             type: 1,
             content: $("#node-menu"),
             title: '任务菜单',
-            area: '700px',
+            area: '1000px',
             skin: 'menu-skin',
             maxHeight: $(".layui-body").height(),
             fixed: false,
@@ -406,8 +420,7 @@
     }
 
     // 获取用户列表
-    function showUserList(d) {
-        node = d
+    function showUserList(layer_open) {
         $("#node-user-list").find("tbody").empty()
         layui.use("form", function(){
             var form = layui.form
@@ -418,21 +431,40 @@
                 data: {
                     'project_id': project.id,
                     'relate': 'role,user',
-                    '*node_id': d.id
+                    '*node_id': node.id
                 },
                 dataType: "json",
                 success: function (result) {
                     node_users = result.data
+                    console.log(node_users)
                     node_users.forEach(function(node_user, index){
                         $("#node-user-list").find('tbody').append(`
                             <tr><td>${node_user.user.name}</td><td>${node_user.role.display_name}</td>
                             <td><select lay-filter="node-user-role" disabled></select></td>
+                            <td></td>
+                            <td><button class="layui-btn layui-btn-disabled" disabled>移除结点角色</button></td>
                             <td style="display: none;"><input type="text" class="node-user-index" value=${index}>
                             </tr>
                         `)
                         var select = $("#node-user-list").find('tbody').children(":last-child").find("select")
+                        if (node_user.node_role.node != null) {
+                            select.parent().next().remove()
+                            select.parent().after(`<td>${node_user.node_role.node.name}</td>`)
+                            if (node_user.node_role.node.id == node.id) {
+                                var temp = select.parent().next().next()
+                                temp.after(`<td><a class="layui-btn layui-bg-red delete-node-role-btn">移除结点角色</a></td>`)
+                                temp.remove()
+                            }
+                        }
+                        if (node_user.node_role.level == 5 || node_user.node_role.level == 6) {
+                            select.append(`<option value=${node_user.node_role.id} selected disabled>${node_user.node_role.display_name}</option>`)
+                            return
+                        }
                         roles.forEach(function(value, index){
                             if (node_user.node_role.level > value.level) {
+                                return
+                            }
+                            if (value.level >= 5) {
                                 return
                             }
                             if (value.id == node_user.node_role.id) {
@@ -443,7 +475,7 @@
                         })
                         form.render()
                     })
-                    checkPermission()
+                        checkPermission(layer_open)
                 },
                 error: function (result) {
                     alert(result.responseJSON.errmsg);
@@ -503,5 +535,44 @@
                 console.log(result)
             }
         })
+    }
+
+    // 移除结点角色函数
+    $("body").on("click", ".delete-node-role-btn", function(){
+        var index = $(this).parents("tr").find(".node-user-index").val()
+
+        layui.use('layer', function(){
+            var layer = layui.layer
+            layer.load(1)
+        })
+        $.ajax({
+            type: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            url: route(routes.node_user.destroy, {node_user: node_users[index].node_role.node.pivot.id}),
+            dataType: "json",
+            success: function (result) {
+                if (result.errcode == 1) {
+                    layui.use('layer', function(){
+                        var layer = layui.layer
+                        layer.msg(result.errmsg)
+                    })
+                } else if (result.errcode == 0) {
+                    layer.closeAll("loading")
+                    showUserList(1)
+                }
+            },
+            error: function (result) {
+                console.log(result)
+            }
+        })
+    })
+
+    // 点击矩形触发函数
+    function clickRect(d) {
+        node = d
+        // 0为调用showMenu 1为不调用
+        showUserList(0)
     }
 @stop

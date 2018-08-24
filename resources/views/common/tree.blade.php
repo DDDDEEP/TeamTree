@@ -89,7 +89,7 @@
             .style("fill", function (d) {
             return d._children ? "lightsteelblue" : "#fff";
         })
-            .on("click", showUserList);
+            .on("click", clickRect);
 
         nodeEnter.append("text")
             .attr("x", rectW / 2)
@@ -99,7 +99,7 @@
             .text(function (d) {
             return d.name;
         })
-            .on("click", showUserList);
+            .on("click", clickRect);
 
         nodeEnter.append("circle")
             .attr("cx", rectW)

@@ -34,11 +34,8 @@ class HomeController extends Controller
     {
         $tree = $project->getTree(Auth::user()->id);
         $user = Auth::user();
-        $project_users = ProjectUser::with(['user', 'role'])
-            ->where('project_id', $project->id)
-            ->get();
         $roles = $project->getAllRoles();
-        return view('resources/tree', compact('tree', 'project', 'user', 'project_users', 'roles'));
+        return view('resources/tree', compact('tree', 'project', 'user', 'roles'));
     }
 
     public function showProject()

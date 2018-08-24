@@ -8,6 +8,7 @@
 // Bootstrap
 @import "~bootstrap-sass/assets/stylesheets/bootstrap";
 
+.layui-form-select dl { max-height:150px !important; }
 .node {
     cursor: pointer;
 }

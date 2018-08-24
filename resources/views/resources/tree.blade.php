@@ -13,7 +13,7 @@
     © layui.com - 底部固定区域
   </div>
 
-  <div id="node-menu" style="display: none;">
+  <div id="node-menu" style="display: none; overflow-x: auto; overflow-y: auto;">
     <form class="layui-form node-form" lay-filter="menu">
       <div class="layui-row">
         <div class="layui-col-md4 layui-col-md-offset4">
@@ -42,7 +42,8 @@
             <label class="layui-form-label">用户列表</label>
         </div>
         <div class="layui-row">
-            <table class="menu-user-list layui-table">
+        <div style="height: 305px; overflow-x: auto; overflow-y: auto;">
+            <table class="menu-user-list layui-table" id="node-user-list">
                 <thead>
                     <tr>
                         <th>用户</th>
@@ -51,23 +52,20 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($project_users as $project_user)
-                    <tr>
-                        <td>{{$project_user->user->name}}</td>
-                        <td>{{$project_user->role->display_name}}</td>
-                    </tr>
-                    @endforeach
                 </tbody>
             </table>
+            </div>
         </div>
       </div>
-      <div class="layui-row">
-        <div class="layui-col-md2 layui-col-md-offset4">
-            <button class="layui-btn layui-btn-disabled add-node-btn" disabled>新增任务</button>
-        </div>
-        <div class="layui-col-md2">
-            <button class="layui-btn layui-btn-disabled delete-node-btn" disabled>删除任务</button>
-        </div>
+      <div class=layui-form-item>
+          <div class="layui-row">
+            <div class="layui-col-md2 layui-col-md-offset4">
+                <button class="layui-btn layui-btn-disabled add-node-btn" disabled>新增任务</button>
+            </div>
+            <div class="layui-col-md2">
+                <button class="layui-btn layui-btn-disabled delete-node-btn" disabled>删除任务</button>
+            </div>
+          </div>
       </div>
     </form>
   </div>
@@ -108,6 +106,8 @@
     var node = null
     var project = @json($project);
     var user = @json($user);
+    var roles = @json($roles);
+    var node_users = []
 
     layui.use('form', function(){
         var form = layui.form;
@@ -142,7 +142,40 @@
                     }
                 })
             })
-        });  
+        });
+
+        form.on("select(node-user-role)", function(data){
+            var index = $(data.elem).parents("tr").find(".node-user-index").val()
+            layui.use('layer', function(){
+                var layer = layui.layer
+
+                layer.load(1)
+                if (node_users[index].node_role.id == node_users[index].role.id) {
+                        $.ajax({
+                            type: 'POST',
+                            url: route(routes.node_user.store,
+                             {user_id: node_users[index].user.id, node_id: node.id, role_id: data.value}),
+                            dataType: "json",
+                            success: function (result) {
+                                if (result.errcode == 1) {
+                                    layui.use('layer', function(){
+                                        var layer = layui.layer
+                                        layer.msg(result.errmsg)
+                                        layer.closeAll('loading')
+                                    })
+                                } else if (result.errcode == 0) {
+                                    layer.closeAll('loading')
+                                }
+                            },
+                            error: function (result) {
+                                console.log(result)
+                            }
+                        })
+                } else {
+                    alert(2)
+                }
+            })
+        })
 
         form.render()
     })
@@ -310,6 +343,7 @@
             //     $("#node-description").removeAttr("disabled")
             //     $("#node-status").removeAttr("disabled")
             // }
+            showUserList()
             form.render()
         })
         $("#node-description").text(node.description)
@@ -322,6 +356,8 @@
             title: '任务菜单',
             area: '700px',
             skin: 'menu-skin',
+            maxHeight: $(".layui-body").height(),
+            fixed: false,
             cancel : function(index, layero){
                 $.ajax({
                     type: 'GET',
@@ -346,6 +382,51 @@
             }
           })
         });  
+    }
+
+    // 获取用户列表
+    function showUserList() {
+        $("#node-user-list").find("tbody").empty()
+        layui.use("form", function(){
+            var form = layui.form
+
+            $.ajax({
+                type: 'GET',
+                url: route(routes.project_user.index),
+                data: {
+                    'project_id': project.id,
+                    'relate': 'role,user',
+                    '*node_id': node.id
+                },
+                dataType: "json",
+                success: function (result) {
+                    node_users = result.data
+                    node_users.forEach(function(node_user, index){
+                        $("#node-user-list").find('tbody').append(`
+                            <tr><td>${node_user.user.name}</td><td>${node_user.role.display_name}</td>
+                            <td><select lay-filter="node-user-role"></select></td>
+                            <td style="display: none;"><input type="text" class="node-user-index" value=${index}>
+                            </tr>
+                        `)
+                        var select = $("#node-user-list").find('tbody').children(":last-child").find("select")
+                        roles.forEach(function(value, index){
+                            if (node_user.node_role.level > value.level) {
+                                return
+                            }
+                            if (value.id == node_user.node_role.id) {
+                                select.append(`<option value=${value.id} selected disabled>${value.display_name}</option>`)
+                            } else {
+                                select.append(`<option value=${value.id}>${value.display_name}</option>`)
+                            }
+                        })
+                        form.render()
+                    })
+                },
+                error: function (result) {
+                    alert(result.responseJSON.errmsg);
+                }
+            })
+        })
     }
 
     // 新增任务函数

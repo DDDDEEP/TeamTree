@@ -21,15 +21,15 @@ class MyPermissionsTableSeeder extends Seeder
         $permission->group_id = 2;
         $permission->save();
 
-        $permission = Permission::find(2);
-        $permission->name = 'nodes.store';
-        $permission->display_name = '新增节点';
-        $permission->group_id = 3;
-        $permission->save();
-
         $permission = Permission::find(3);
         $permission->name = 'nodes.update';
         $permission->display_name = '编辑节点';
+        $permission->group_id = 3;
+        $permission->save();
+        
+        $permission = Permission::find(2);
+        $permission->name = 'nodes.store';
+        $permission->display_name = '新增节点';
         $permission->group_id = 3;
         $permission->save();
 

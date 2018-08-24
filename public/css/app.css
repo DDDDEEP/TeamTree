@@ -8350,8 +8350,13 @@ button.close {
   }
 }
 
+<<<<<<< HEAD
 .layui-form-select dl {
   max-height: 150px !important;
+=======
+.home {
+  background-color: #f6f7d1;
+>>>>>>> 1152e234af98f03d9b62d0f09300876620de5d5e
 }
 
 .node {
@@ -8434,22 +8439,32 @@ body .menu-skin .layui-layer-content {
   overflow: visible;
 }
 
+#project_body {
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 50px;
+  z-index: 1;
+}
+
 #project_body .layui-card {
+  width: 200px;
+  height: 100px;
+  display: inline-block;
   position: relative;
   padding: 48px 52px 56px;
   background-color: #fff;
   border-radius: 10px;
-  margin-bottom: 50px;
+  margin: 20px 20px;
   display: inline-block;
-  -webkit-box-shadow: 1px 1px 5px 5px #f2f2f2;
-          box-shadow: 1px 1px 5px 5px #f2f2f2;
+  -webkit-box-shadow: 1px 1px 3px 3px #f2f2f2;
+          box-shadow: 1px 1px 3px 3px #f2f2f2;
   vertical-align: top;
-  transition: all 0.6s;
-  -moz-transition: all 0.6s;
+  transition: all 0.4s;
+  -moz-transition: all 0.4s;
   /* Firefox 4 */
-  -webkit-transition: all 0.6s;
+  -webkit-transition: all 0.4s;
   /* Safari and Chrome */
-  -o-transition: all 0.6s;
+  -o-transition: all 0.4s;
   /* Opera */
 }
 
@@ -8457,6 +8472,15 @@ body .menu-skin .layui-layer-content {
   width: 50px;
   height: 50px;
   display: none;
+}
+
+#project_body .layui-card .layui-card-body {
+  width: 200px;
+  height: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  text-align: center;
 }
 
 #project_body .layui-card:hover {
@@ -8471,5 +8495,12 @@ body .menu-skin .layui-layer-content {
   left: 0;
   top: 0;
   display: block;
+}
+
+#project_body .layui-card .add-button {
+  font-size: 50px;
+  position: absolute;
+  top: 40%;
+  left: 80px;
 }
 

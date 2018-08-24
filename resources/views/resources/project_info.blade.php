@@ -11,20 +11,20 @@
 	        <div class="layui-form-item">
 	          <label class="layui-form-label">项目名称</label>
 	          <div class="layui-input-block">
-	            <input type="text" name="project_name" placeholder="请输入项目名称" class="layui-input" value="{{$project->name}}">
+	            <input type="text" name="project_name" placeholder="请输入项目名称" class="layui-input" value="{{$project->name}}" disabled>
 	          </div>
 	        </div>
 	        <div class="layui-form-item">
 	          <label class="layui-form-label">项目描述</label>
 	          <div class="layui-input-block">
-	            <textarea type="text" name="project_description" placeholder="请输入项目描述" class="layui-textarea">{{$project->description}}</textarea>
+	            <textarea type="text" name="project_description" placeholder="请输入项目描述" class="layui-textarea" disabled>{{$project->description}}</textarea>
 	          </div>
 	        </div>
 	        <div class="layui-form-item">
 	          <div class="layui-row">
 	            <div class="layui-input-block">
 	              <div class="layui-col-md1 layui-col-md-offset2">
-	                <a class="layui-btn" onclick="saveChange()">保存修改</a>
+	                <button class="layui-btn layui-btn-disabled" disabled id="save-btn">保存修改</button>
 	              </div>
 	              <div class="layui-col-md1 layui-col-md-offset1">
 	                <button type="reset" class="layui-btn layui-btn-primary layui-bg-gray">重置</button>
@@ -35,7 +35,7 @@
 	        <div class="layui-form-item">
 	        	<div class="layui-row">
 	        		<label class="layui-form-label">用户列表</label>
-	        		<a class="layui-btn layui-btn-warm layui-col-md-offset8" onclick="addUser()">新增用户</a>
+	        		<button class="layui-btn layui-btn-disabled layui-col-md-offset8" disabled id="add-user-btn">新增用户</button>
 	        	</div>
 	        	<div class="layui-row">
 					<table class="layui-table">
@@ -51,10 +51,14 @@
 							<tr>
 								<td>{{$user->user->name}}</td>
 								<td>
-									<select name="project-role" lay-filter="project-role">
+									<select name="project-role" lay-filter="project-role" disabled>
 										@foreach($roles as $role)
 											@if($role->level == 6)
-												@continue
+												@if($user->role->level == 6)
+												<option value="{{$role->id}}" selected>{{$role->display_name}}</option>
+												@else
+													@continue
+												@endif
 											@endif
 											@if($user->role->id == $role->id)
 											<option value="{{$role->id}}" selected>{{$role->display_name}}</option>
@@ -64,7 +68,7 @@
 										@endforeach
 									</select>
 								</td>
-								<td><a class="layui-btn layui-bg-red delete-user-btn">删除</a></td>
+								<td><button class="layui-btn layui-btn-disabled delete-user-btn" disabled>删除</button></td>
 								<td style="display: none;">
 								<input type="text" class="user-id" value="{{$user->id}}">
 								</td>
@@ -77,7 +81,7 @@
 	        <div class="layui-form-item">
 	        	<div class="layui-row">
 					<div class="layui-col-md-offset5">
-						<a class="layui-btn layui-bg-red" onclick="deleteProject()">删除项目</a>
+						<button class="layui-btn layui-btn-disabled" disabled id="delete-project-btn">删除项目</button>
 					</div>
 	        	</div>
 	        </div>
@@ -118,8 +122,11 @@
 	var project = @json($project);
 	var project_users = @json($project_users);
 	var roles = @json($roles);
+	var user_role = @json($user_role);
 	// 添加用户数组
 	var user_list = []
+
+	checkPermission()
 	layui.use('form', function(){
 		var form = layui.form
 
@@ -365,6 +372,67 @@
 				        alert(result.responseJSON.msg)
 				    }
 				})
+			})
+		})
+	}
+
+    // 检查权限
+	function checkPermission() {
+		layui.use("form", function(){
+			var form = layui.form
+
+			$.ajax({
+			    type: 'GET',
+			    url: route(routes.permission_role.index),
+			    data: {
+			        "relate": "role,permission",
+			        "role_id": user_role.id
+			    },
+			    dataType: "json",
+			    success: function (result) {
+			        if (result.errcode == 1) {
+			            layui.use('layer', function(){
+			                var layer = layui.layer
+			                layer.msg(result.errmsg)
+			            })
+			        } else {
+			            var data = result.data
+			            data.forEach(function(value, index){
+			              switch(value.permission.name) {
+			              case 'projects.update':
+			                  $("input[name=project_name]").removeAttr("disabled")
+			                  $("textarea[name=project_description]").removeAttr("disabled")
+			                  var temp = $("#save-btn")
+			                  temp.after(`<a class="layui-btn" id="save-btn" onclick="saveChange()">保存修改</a>`)
+			                  temp.remove()
+			                  break
+			              case 'project_user.store':
+			                  var temp = $("#add-user-btn")
+			                  temp.after(`<a class="layui-btn layui-btn-warm layui-col-md-offset8" id="add-user-btn" onclick="addUser()">新增用户</a>`)
+			                  temp.remove()
+			                  break
+			              case 'project_user.update':
+			                  $("select[lay-filter=project-role]").removeAttr("disabled")
+			                  form.render()
+			                  break
+			              case 'project_user.destroy':
+			                  var temp = $(".delete-user-btn")
+			                  temp.after("<a class='layui-btn layui-bg-red delete-user-btn'>删除</a>")
+			                  temp.remove()
+			                  break
+			              case 'projects.destroy':
+			              	  var temp = $("#delete-project-btn")
+			              	  temp.after("<a class='layui-btn layui-bg-red' id='elete-project-btn' onclick='deleteProject()'>删除项目</a>")
+			              	  temp.remove()
+			              	  break
+			              default: break
+			              }
+			            })
+			        }
+			    },
+			    error: function (result) {
+			        console.log(result)
+			    }
 			})
 		})
 	}

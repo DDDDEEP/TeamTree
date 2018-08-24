@@ -141,6 +141,7 @@
 
         form.on("select(node-user-role)", function(data){
             var index = $(data.elem).parents("tr").find(".node-user-index").val()
+            console.log(node_users)
             layui.use('layer', function(){
                 var layer = layui.layer
 
@@ -167,7 +168,29 @@
                             }
                         })
                 } else {
-                    alert(2)
+                    $.ajax({
+                            type: 'PUT',
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            url: route(routes.node_user.update,
+                             {node_user: node_users[index].id, role_id: data.value}),
+                            dataType: "json",
+                            success: function (result) {
+                                if (result.errcode == 1) {
+                                    layui.use('layer', function(){
+                                        var layer = layui.layer
+                                        layer.msg(result.errmsg)
+                                        layer.closeAll('loading')
+                                    })
+                                } else if (result.errcode == 0) {
+                                    layer.closeAll('loading')
+                                }
+                            },
+                            error: function (result) {
+                                console.log(result)
+                            }
+                        })
                 }
             })
         })

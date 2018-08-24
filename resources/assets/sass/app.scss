@@ -76,6 +76,12 @@ $form-label-width: 130px;
     }
 }
 
+// 菜单用户列表
+.menu-user-list {
+    width: 600px !important;
+    margin-left: 7% !important;
+}
+
 // 弹出层皮肤
 body .menu-skin .layui-layer-content {
     overflow: visible;

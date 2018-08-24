@@ -35,6 +35,7 @@ class ProjectUserController extends Controller
             $request->all(),
             ['id', 'project_id', 'user_id']
         ));
+        $model->deleteNodeUser();
 
         return ResponseJson($model);
     }

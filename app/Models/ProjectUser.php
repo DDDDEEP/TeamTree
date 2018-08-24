@@ -44,4 +44,14 @@ class ProjectUser extends Pivot
         }
         $this->delete();
     }
+
+    /**
+     * 删除该项目角色相关的节点角色记录
+     */
+    public function deleteNodeUser()
+    {
+        $user = User::findOrFail($this->user_id)
+            ->nodes()
+            ->detach();
+    }
 }

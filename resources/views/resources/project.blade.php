@@ -4,20 +4,22 @@
   @include('layouts.side', ['side_index' => 0])
 
   <div class="layui-body">
-    <button class="layui-btn add-button" >
-      <i class="layui-icon">&#xe608;</i> 添加
-    </button>
-    <div id="project_body" style="margin-top:200px">
+    <div id="project_body">
     @foreach ($projects as $project)
-        <div class="layui-card " style="width: 200px;height: 100px;display: inline-block;"
+        <div class="layui-card " 
         onclick="jumpToTree(<?php echo $project->id ?>)">
             <div class="layui-card-body">
                 {{ $project->name }}
             </div>
-            <span class="delete-icon"><i class="layui-icon">&#xe640;</i></span>
         </div>
     @endforeach
-
+    <div class="layui-card "  onclick="addProject()">
+        <div class="layui-card-body">
+            <span>
+              <i class="layui-icon layui-icon-add-1 add-button"></i>
+             </span>
+        </div>
+    </div>
     </div>
   </div>
   
@@ -43,16 +45,13 @@
         <div class="layui-form-item">
             <div class="layui-row">
                 <div class="layui-col-md-offset10">
-                    <a class="layui-btn" onclick="addProject()">确认</a>
+                    <a class="layui-btn" onclick="confirmAddProject()">确认</a>
                 </div>
             </div>
         </div>
     </form>
   </div>
-  <div class="layui-footer">
-    <!-- 底部固定区域 -->
-    © layui.com - 底部固定区域
-  </div>
+
 
 
 @stop
@@ -61,26 +60,27 @@
 
 
 
-$(".add-button").click(function(){
-    layui.use('layer', function(){
-        var layer = layui.layer
-        layer.open({
-          type: 1,
-          title: '新增项目',
-          content: $("#add-project"),
-          area: '600px',
-          cancel : function(index, layero){
-              layer.close(index)
-          }
-        })
-    })
+
+
+$(".delete-icon").click(function(event){
+  event.stopPropagation();
 })
 
-$(".delete-icon").click(function(){
-  console.log()
-})
-
-function addProject() {
+function addProject(){
+  layui.use('layer', function(){
+      var layer = layui.layer
+      layer.open({
+        type: 1,
+        title: '新增项目',
+        content: $("#add-project"),
+        area: '600px',
+        cancel : function(index, layero){
+            layer.close(index)
+        }
+      })
+  })
+}
+function confirmAddProject() {
   $.ajax({
       type: 'POST',
       url: route(routes.projects.store),
@@ -90,6 +90,7 @@ function addProject() {
       },
       dataType: "json",
       success: function (result) {
+          window.location.reload(true);
           if (result.errcode == 1) {
               layui.use('layer', function(){
                   var layer = layui.layer
@@ -109,7 +110,14 @@ function jumpToTree(arg) {
     window.location.href = route(routes.show_tree, {project: arg})
 }
 
-
+$('.layui-card').hover(function(){
+    $(this).css({"transform":"translateY(-20px)",
+                     "box-shadow": "1px 12px 20px #ccc"});
+}, function () {
+     $(this).css({"transform":"translateY(0px)",
+                      "box-shadow":"1px 1px 2px 2px #f2f2f2"});
+ 
+});
 
 
 @stop

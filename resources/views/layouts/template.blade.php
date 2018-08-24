@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="/layui/css/layui.css">
 </head>
 
-<body class="layui-layout-body">
+<body class="layui-layout-body home">
     <div class="layui-layout layui-layout-admin">
     @include('layouts.header')
     @yield('content')
@@ -19,6 +19,7 @@
     <script src="/layui/layui.js"></script>
     <script src="/js/app.js"></script>
     <script src="/d3.v3.min.js" charset="utf-8"></script>
+
     <script>
     layui.use(['element'], function() {
         var element = layui.element

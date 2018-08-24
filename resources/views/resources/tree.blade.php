@@ -129,6 +129,7 @@
                             layui.use('layer', function(){
                                 var layer = layui.layer
                                 layer.msg(result.errmsg)
+                                layer.closeAll("loading")
                             })
                         } else if (result.errcode == 0) {
                             layer.closeAll('loading')
@@ -225,6 +226,7 @@
                         layui.use('layer', function(){
                             var layer = layui.layer
                             layer.msg(result.errmsg)
+                            layer.closeAll("loading")
                         })
                     } else if (result.errcode == 0) {
                         layer.closeAll('loading')
@@ -340,6 +342,12 @@
                               case 'node_user.update':
                                   $("select[lay-filter=node-user-role]").removeAttr("disabled")
                                   break
+                              case 'node_user.destroy':
+                                  $('.delete-node-role-btn').each(function(i){
+                                    $(this).after(`<td><a class="layui-btn layui-bg-red delete-node-role-btn">移除结点角色</a></td>`)
+                                    $(this).remove()
+                                  })
+                                  break
                               default: break
                               }
                             })
@@ -394,6 +402,15 @@
             maxHeight: $(".layui-body").height(),
             fixed: false,
             cancel : function(index, layero){
+                $("#node-status").attr("disabled", true)
+                $("#node-name").attr("disabled", true)
+                $("#node-description").attr("disabled", true)
+                var temp = $(".delete-node-btn")
+                temp.after(`<button class="layui-btn layui-btn-disabled delete-node-btn" disabled>删除任务</button>`)
+                temp.remove()
+                temp = $(".add-node-btn")
+                temp.after(`<button class="layui-btn layui-btn-disabled add-node-btn" disabled>新增任务</button>`)
+                temp.remove()
                 $.ajax({
                     type: 'GET',
                     url: route(routes.projects.index.get_tree, {project: project.id, user_id: user.id}),
@@ -451,9 +468,7 @@
                             select.parent().next().remove()
                             select.parent().after(`<td>${node_user.node_role.node.name}</td>`)
                             if (node_user.node_role.node.id == node.id) {
-                                var temp = select.parent().next().next()
-                                temp.after(`<td><a class="layui-btn layui-bg-red delete-node-role-btn">移除结点角色</a></td>`)
-                                temp.remove()
+                                select.parent().next().next().attr("class", "delete-node-role-btn")
                             }
                         }
                         if (node_user.node_role.level == 5 || node_user.node_role.level == 6) {
@@ -507,6 +522,7 @@
                     layui.use('layer', function(){
                         var layer = layui.layer
                         layer.msg(result.errmsg)
+                        layer.closeAll("loading")
                     })
                 } else if (result.errcode == 0) {
                     layer.closeAll()
@@ -557,6 +573,7 @@
                     layui.use('layer', function(){
                         var layer = layui.layer
                         layer.msg(result.errmsg)
+                        layer.closeAll("loading")
                     })
                 } else if (result.errcode == 0) {
                     layer.closeAll("loading")

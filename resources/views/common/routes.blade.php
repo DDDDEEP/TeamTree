@@ -11,7 +11,8 @@
     			get_tree: '{{ RouteUri('projects.index.get_tree') }}'
     		},
             store: '{{ RouteUri('projects.store') }}',
-            update: '{{ RouteUri('projects.update') }}'
+            update: '{{ RouteUri('projects.update') }}',
+            destroy: '{{ RouteUri('projects.destroy') }}'
         },
         show_tree: '{{ RouteUri('show_tree') }}',
         permission_role: {

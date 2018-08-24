@@ -2,13 +2,13 @@
 
 namespace App\Http\Resources;
 
-class CommonCollection extends ResourceCollection
+class ProjectUserCollection extends ResourceCollection
 {
     public function toArray($request)
     {
         $data = $this->handleByRequest($request);
         return [
-            'data' => $data->values()
+            'data' => $data->values(),
         ];
     }
 }

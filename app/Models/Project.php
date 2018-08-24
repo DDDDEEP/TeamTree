@@ -9,12 +9,6 @@ use App\Models\User;
 
 class Project extends Model
 {
-    protected $relationships = [
-        'belongsTo' => [],
-        'hasMany' => ['nodes', 'roles'],
-        'belongsToMany' => ['users'],
-    ];
-
     /**
      * 获取该项目的所有节点
      */

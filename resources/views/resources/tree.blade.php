@@ -31,14 +31,34 @@
       </div>
       <div class="layui-row">
         <div class="layui-form-item">
-            <div class="layui-col-md2">
                 <label class="layui-form-label">任务描述</label>
-            </div>
-            <div class="layui-col-md8">
                 <div class="layui-input-block">
                   <textarea name="description" disabled id="node-description" placeholder="任务描述" class="layui-textarea"></textarea>
                 </div>
-            </div>
+        </div>
+      </div>
+      <div class=layui-form-item>
+        <div class="layui-row">
+            <label class="layui-form-label">用户列表</label>
+        </div>
+        <div class="layui-row">
+            <table class="menu-user-list layui-table">
+                <thead>
+                    <tr>
+                        <th>用户</th>
+                        <th>项目角色</th>
+                        <th>结点角色</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($project_users as $project_user)
+                    <tr>
+                        <td>{{$project_user->user->name}}</td>
+                        <td>{{$project_user->role->display_name}}</td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
       </div>
       <div class="layui-row">

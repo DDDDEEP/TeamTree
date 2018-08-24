@@ -3,14 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\NodeUser;
-use App\Http\Resources\CommonCollection;
+use App\Http\Resources\NodeUserCollection;
 use App\Http\Requests\NodeUserRequest;
 
 class NodeUserController extends Controller
 {
     public function index()
     {
-        return new CommonCollection(NodeUser::all());
+        return new NodeUserCollection(NodeUser::all());
     }
 
     public function store(NodeUserRequest $request)

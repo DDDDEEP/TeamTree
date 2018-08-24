@@ -31,37 +31,6 @@ class EloquentBuildreMacroServiceProvider extends ServiceProvider
 
             return $this->with($relations);
         });
-
-        /**
-         * 根据请求参数过滤集合数据
-         *
-         * @param  array  $data
-         * @return $this
-         */
-        Builder::macro('filter', function ($data) {
-            $result = $this;
-            $result = $result->withExist(Arr::get($data, 'relation', ''));
-            dd($result);
-        });
-
-        /**
-         * 根据请求参数过滤集合数据
-         *
-         * @param  array  $data
-         * @return \Illuminate\Database\Eloquent\Collection
-         */
-        Builder::macro('filter', function ($data) {
-            $result = $this->withExist(Arr::get($data, 'relation', ''))
-                ->get();
-                dd($result);
-
-            if (Arr::has($data, 'unique')) {
-
-            }
-
-
-            dd($result);
-        });
     }
 
 }

@@ -9,12 +9,6 @@ use App\Models\Role;
 
 class NodeUser extends Pivot
 {
-    protected $relationships = [
-        'belongsTo' => ['user', 'node', 'role'],
-        'hasMany' => [],
-        'belongsToMany' => [],
-    ];
-
     /**
      * 获取该身份对应用户。
      */

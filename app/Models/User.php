@@ -33,17 +33,6 @@ class User extends Authenticatable
     ];
 
     /**
-     * 关联对象名集合
-     *
-     * @var array
-     */
-    protected $relationships = [
-        'belongsTo' => [],
-        'hasMany' => [],
-        'belongsToMany' => ['projects', 'nodes'],
-    ];
-
-    /**
      * 获取该模型的单关联对象名集合
      *
      * @return array
@@ -123,17 +112,22 @@ class User extends Authenticatable
 
     /**
      * 获取该用户对应节点的节点角色
-     * 具体步骤为：
-     * 1、包括该节点，一直向父节点方向遍历
-     *   直至找到第一个在 node_user 有对应记录的节点，该记录的角色作为该节点对应的角色
-     * 2、若遍历到根节点仍未找到对应记录，则将项目角色作为该节点对应的角色
      *
      * @param  integer  $node_id  节点id
      * @return \App\Models\Role|null
      */
     public function getNodeRole($node_id)
     {
-        $node = Node::findOrFail($node_id);
+        /**
+         * 具体步骤为：
+         * 1、包括该节点，一直向父节点方向遍历
+         *   直至找到第一个在 node_user 有对应记录的节点，该记录的角色作为该节点对应的角色
+         * 2、若遍历到根节点仍未找到对应记录，则将项目角色作为该节点对应的角色
+         */
+        $node = Node::find($node_id);
+        if (!$node) {
+            return null;
+        }
 
         // 判断边界条件：该用户没有对应的node->project_id
         $project_id = $node->project_id;
@@ -142,19 +136,13 @@ class User extends Authenticatable
             ->doesntExist()) {
             return null;
         }
-
         $node = $this->getClosestNodeWithPivot($node_id);
         return $node ?
-            Role::find($node->pivot->role_id) :
-            $this->getProjectRole($project_id);
+            Role::find($node->pivot->role_id) : $this->getProjectRole($project_id);
     }
 
     /**
      * 判断该用户是否比另一个用户更高级
-     * 判断依据：
-     * 1、若不带node_id参数，则为项目角色的比较
-     * 2、若带node_id参数，则先比较项目角色，若相等则再比较对应节点的节点角色
-     * 3、若节点角色也相同，则比较对应节点角色的高度
      *
      * @param  integer  $user_id  被比较的用户
      * @param  integer  $project_id
@@ -163,32 +151,17 @@ class User extends Authenticatable
      */
     public function isHigherThan($user_id, $project_id, $node_id = null)
     {
-        $this_role = $this->getProjectRole($project_id);
-        $another_user = User::findOrFail($user_id);
-        $another_role = $another_user->getProjectRole($project_id);
-        if (!$this_role || !$another_role) {
-            return null;
-        }
-
-        if ($this_role->level != $another_role->level || $node_id == null) {
-            return $this_role->level > $another_role->level;
-        } else {
-            $this_node = $this->getClosestNodeWithPivot($node_id);
-            $another_node = $another_user->getClosestNodeWithPivot($node_id);
-            if ($this_node == null) {
-                return false;
-            } else if ($another_node == null) {
-                return true;
-            } else {
-                $this_level = Role::find($this_node->pivot->role_id)->level;
-                $this_height = $this_node->height;
-                $another_level = Role::find($another_node->pivot->role_id)->level;
-                $another_height = $another_node->height;
-                return $this_level != $another_level ?
-                    $this_level > $another_level :
-                    $this_height < $another_height;
-            }
-
-        }
+        /**
+         * 判断依据：
+         * 1、若不带node_id参数，则为项目角色的比较
+         * 2、若带node_id参数，则为节点角色的比较
+         */
+        $this_role = $node_id != null ?
+            $this->getProjectRole($project_id) :
+            User::findOrFail($user_id)->getProjectRole($project_id);
+        $another_role = $node_id != null ?
+            $this->getNodeRole($node_id) :
+            User::findOrFail($user_id)->getNodeRole($node_id);
+        return $this_role->level > $another_role->level;
     }
 }

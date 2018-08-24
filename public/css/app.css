@@ -8425,6 +8425,11 @@ button.close {
   text-align: center;
 }
 
+.menu-user-list {
+  width: 600px !important;
+  margin-left: 7% !important;
+}
+
 body .menu-skin .layui-layer-content {
   overflow: visible;
 }

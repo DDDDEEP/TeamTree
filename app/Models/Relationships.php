@@ -45,7 +45,6 @@ class Relationships
                 && $method->getName() !== __FUNCTION__) {
                 try {
                     $return = $method->invoke($this->model);
-
                     if ($return instanceof Relation) {
                         $ownerKey = null;
                         if ((new ReflectionClass($return))->hasMethod('getOwnerKey')) {

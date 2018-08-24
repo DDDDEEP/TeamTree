@@ -50,8 +50,9 @@ class ProjectUser extends Pivot
      */
     public function deleteNodeUser()
     {
-        $user = User::findOrFail($this->user_id)
-            ->nodes()
-            ->detach();
+        $user = User::find($this->user_id);
+        if ($user) {
+            $user->nodes()->detach();
+        }
     }
 }

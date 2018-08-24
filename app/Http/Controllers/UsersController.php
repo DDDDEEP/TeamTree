@@ -24,4 +24,6 @@ class UsersController extends Controller
 
         return ResponseJson($model);
     }
+
+
 }

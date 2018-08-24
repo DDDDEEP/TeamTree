@@ -88,4 +88,6 @@ class Project extends Model
         $this->users()->detach();
         $this->delete();
     }
+
+
 }

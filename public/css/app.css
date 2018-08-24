@@ -8395,7 +8395,72 @@ button.close {
   text-align: center;
 }
 
+.edit-project-form .form-header {
+  margin: 15px 100px;
+  font-size: 24px;
+}
+
+.edit-project-form .layui-form-label {
+  width: 130px;
+}
+
+.edit-project-form .layui-form-label span {
+  color: #f00;
+}
+
+.edit-project-form .layui-input-block {
+  margin-left: 130px;
+}
+
+.edit-project-form .select-time-row {
+  display: inline-block;
+}
+
+.edit-project-form .select-time-separate {
+  font-size: 28px;
+  text-align: center;
+}
+
 body .menu-skin .layui-layer-content {
   overflow: visible;
+}
+
+#project_body .layui-card {
+  position: relative;
+  padding: 48px 52px 56px;
+  background-color: #fff;
+  border-radius: 10px;
+  margin-bottom: 50px;
+  display: inline-block;
+  -webkit-box-shadow: 1px 1px 5px 5px #f2f2f2;
+          box-shadow: 1px 1px 5px 5px #f2f2f2;
+  vertical-align: top;
+  transition: all 0.6s;
+  -moz-transition: all 0.6s;
+  /* Firefox 4 */
+  -webkit-transition: all 0.6s;
+  /* Safari and Chrome */
+  -o-transition: all 0.6s;
+  /* Opera */
+}
+
+#project_body .layui-card .delete-icon {
+  width: 50px;
+  height: 50px;
+  display: none;
+}
+
+#project_body .layui-card:hover {
+  cursor: pointer;
+  outline-color: #ccc;
+  outline-style: sollid;
+  outline-width: 1px;
+}
+
+#project_body .layui-card:hover .delete-icon {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: block;
 }
 

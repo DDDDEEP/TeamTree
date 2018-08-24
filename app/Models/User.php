@@ -136,9 +136,12 @@ class User extends Authenticatable
             ->doesntExist()) {
             return null;
         }
+
         $node = $this->getClosestNodeWithPivot($node_id);
-        return $node ?
+        $role = $node ?
             Role::find($node->pivot->role_id) : $this->getProjectRole($project_id);
+        $role->node = $node ? $node : null;
+        return $role;
     }
 
     /**

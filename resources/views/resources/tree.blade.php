@@ -419,6 +419,9 @@
                                 select.append(`<option value=${value.id}>${value.display_name}</option>`)
                             }
                         })
+                        if (node.parent_id == null) {
+                            select.attr("disabled", true)
+                        }
                         form.render()
                     })
                 },

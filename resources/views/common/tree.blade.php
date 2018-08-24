@@ -26,7 +26,7 @@
         .call(zm = d3.behavior.zoom().scaleExtent([1,3]).on("zoom", redraw)).append("g");
 
     //necessary so that zoom knows where to zoom and unzoom from
-    zm.translate([width / 2, height / 4]);
+    zm.translate([width * 2 / 5, height / 4]);
 
     root.x0 = 0;
     root.y0 = height / 2;
@@ -49,7 +49,7 @@
         x = -source.y0;
         y = -source.x0;
         x = x * scale + height / 4;
-        y = y * scale + width / 2;
+        y = y * scale + width * 2 / 5;
         d3.select('g').transition()
             .duration(duration)
             .attr("transform", "translate(" + y + "," + x + ")scale(" + scale + ")");

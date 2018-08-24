@@ -287,7 +287,7 @@
 
 		$.ajax({
 		    type: 'GET',
-		    url: route(routes.users.index, {name: key}),
+		    url: route(routes.users.index, {'name@like': key}),
 		    dataType: "json",
 		    success: function (result) {
 	            layui.use(['layer', 'form'], function(){

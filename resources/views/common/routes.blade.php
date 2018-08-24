@@ -21,10 +21,16 @@
         project_user: {
             destroy: '{{ RouteUri('project_user.destroy') }}',
             update: '{{ RouteUri('project_user.update') }}',
-            store: '{{ RouteUri('project_user.store') }}'
+            store: '{{ RouteUri('project_user.store') }}',
+            index: '{{ RouteUri('project_user.index') }}'
         },
         users: {
             index: '{{ RouteUri('users.index') }}'
+        },
+        node_user: {
+            store: '{{ RouteUri('node_user.store') }}',
+            update: '{{ RouteUri('node_user.update') }}',
+            destroy: '{{ RouteUri('node_user.destroy')}}'
         }
     };
 </script>

@@ -309,6 +309,7 @@
                     dataType: "json",
                     success: function (result) {
                         if (result.errcode == 0) {
+                            console.log(result)
                             root = result.data
 
                             root.x0 = 0;

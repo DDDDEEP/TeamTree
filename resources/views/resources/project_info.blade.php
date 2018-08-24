@@ -245,7 +245,7 @@
 			    area: "600px",
 			    title: "添加用户",
 			    skin: 'menu-skin',
-			    btn: ['确定', '取消'],
+			    btn: ["确定","取消"],
 			    yes: function(index, layero) {
 			    	user_list.forEach(function(value, index){
 	                    $.ajax({
@@ -296,38 +296,40 @@
 			        if (result.data.length == 0) {
 		                layer.msg("没有找到该用户")
 			        } else {
-			        	var user = result.data[0]
+			    		var users = result.data
+			            users.forEach(function(user, index){
 			            for (var i = 0; i < project_users.length; i++) {
 			            	if (project_users[i].user.id == user.id) {
-			            		layer.msg("已添加该用户")
+			            		layer.msg(`${user.name}已经在项目中`)
 			            		return
 			            	}
 			            }
 			            if (user_list.length > 0) {
 			            	for (var i = 0; i < user_list.length; i++) {
 			            		if (user_list[i].id == user.id) {
-			            			layer.msg("已添加该用户")
+			            			layer.msg(`已添加${user.name}`)
 			            			return
 			            		}
 			            	}
 			            }
-			            $("#user-list").append(`
-							<tr><td>${user.name}</td>
-							<td><select lay-filter="add-project-role"></select></td>
-							<td><a class="layui-btn layui-bg-red delete-user-list-btn">删除</a></td>
-							<td style="display: none;"><input type="text" class="user-list-index" value=${user_list.length}>
-							</td></tr>
-		            	`)
-		            	var select = $("#user-list").children(":last-child").find("select")
-		            	roles.forEach(function(value, index){
-		            		if (value.level == 6) {
-		            			return
-		            		}
-		            		select.append(`<option value=${value.id}>${value.display_name}</option>`)
-		            	})
-		            	form.render()
-		            	user.role = select.val()
-			            user_list.push(user)
+				            $("#user-list").append(`
+								<tr><td>${user.name}</td>
+								<td><select lay-filter="add-project-role"></select></td>
+								<td><a class="layui-btn layui-bg-red delete-user-list-btn">删除</a></td>
+								<td style="display: none;"><input type="text" class="user-list-index" value=${user_list.length}>
+								</td></tr>
+			            	`)
+			            	var select = $("#user-list").children(":last-child").find("select")
+			            	roles.forEach(function(value, index){
+			            		if (value.level == 6) {
+			            			return
+			            		}
+			            		select.append(`<option value=${value.id}>${value.display_name}</option>`)
+			            	})
+			            	form.render()
+			            	user.role = select.val()
+				            user_list.push(user)
+			            })
 			        }
 	            })
 		    },

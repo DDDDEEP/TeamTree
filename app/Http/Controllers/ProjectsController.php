@@ -19,7 +19,7 @@ class ProjectsController extends Controller
 
     public function getTree(ProjectRequest $request, Project $project)
     {
-        return ResponseJson($project->getTree());
+        return ResponseJson($project->getTree($request->input('user_id'), null));
     }
 
     public function store(ProjectRequest $request)

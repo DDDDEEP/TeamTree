@@ -29,7 +29,7 @@ class ResourceCollection extends BaseResourceCollection
      *
      * @var array
      */
-    public $suffixs = ['@eq', '@neq',];
+    public $suffixs = ['@eq', '@neq', '@like'];
 
     /**
      * 根据集合中模型对象初始化属性字段名数组
@@ -67,6 +67,8 @@ class ResourceCollection extends BaseResourceCollection
             $key = str_replace('-', '.', $key);
             $values = explode(',', $value);
             switch ($key) {
+                case 'relate':
+                    break;
                 case 'sortBy':
                     $sort_list = [];
                     $orders = ['asc', 'desc'];
@@ -109,26 +111,40 @@ class ResourceCollection extends BaseResourceCollection
                     });
                     break;
                 default:
-                    if (!Str::contains($key, '@')) {
-                        $key .= '@eq';
+                    if (Str::startsWith($key, '*')) {
+                        break;
                     }
 
+                    $key .= !Str::contains($key, '@') ? '@eq' : '';
+
                     foreach ($this->suffixs as $suffix) {
-                        if (Str::endsWith($key, $suffix)) {
-                            $field = Str::replaceLast($suffix, '', $key);
-                            switch ($suffix) {
-                                case 'eq':
-                                    $data = $data->whereIn($field, $values);
-                                    break;
-                                case 'neq':
-                                    $data = $data->whereNotIn($field, $values);
-                                    break;
-                                default:
-                                    # code...
-                                    break;
-                            }
-                            break;
+                        if (!Str::endsWith($key, $suffix)) {
+                            continue;
                         }
+
+                        $field = Str::replaceLast($suffix, '', $key);
+                        switch ($suffix) {
+                            case '@eq':
+                                $data = $data->whereIn($field, $values);
+                                break;
+                            case '@neq':
+                                $data = $data->whereNotIn($field, $values);
+                                break;
+                            case '@like':
+                                $data = $data->filter(function ($item) use ($field, $values) {
+                                    foreach ($values as $value) {
+                                        if (Str::contains(Arr::get($item->toArray(), $field, ''), $value)) {
+                                            return true;
+                                        }
+                                    }
+                                    return false;
+                                });
+                                break;
+                            default:
+                                # code...
+                                break;
+                        }
+                        break;
                     }
                     break;
             }

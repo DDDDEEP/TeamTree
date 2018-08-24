@@ -6,14 +6,14 @@ use Illuminate\Support\Facades\Schema;
 use App\Models\Project;
 use App\Models\ProjectUser;
 use App\Models\User;
-use App\Http\Resources\CommonCollection;
+use App\Http\Resources\ProjectUserCollection;
 use App\Http\Requests\ProjectUserRequest;
 
 class ProjectUserController extends Controller
 {
     public function index(ProjectUserRequest $request)
     {
-        return new CommonCollection(ProjectUser::all());
+        return new ProjectUserCollection(ProjectUser::all());
     }
 
     public function store(ProjectUserRequest $request)

@@ -3,14 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Http\Resources\CommonCollection;
+use App\Http\Resources\UserCollection;
 use App\Http\Requests\UserRequest;
 
 class UsersController extends Controller
 {
     public function index()
     {
-        return new CommonCollection(User::all());
+        return new UserCollection(User::all());
     }
 
     public function update(UserRequest $request, User $user)

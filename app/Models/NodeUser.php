@@ -33,4 +33,17 @@ class NodeUser extends Pivot
         return $this->belongsTo(Role::class);
     }
 
+    /**
+     * 删除该结点所有后代存在的某用户的节点角色
+     */
+    public function deleteChildren($user_id)
+    {
+        $user = User::findOrFail($user_id);
+        $ids = $user->nodes
+            ->where('height', '>', $this->node->height)
+            ->pluck('id')
+            ->toArray();
+        $user->nodes()->detach($ids);
+    }
+
 }

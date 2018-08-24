@@ -20,6 +20,7 @@ class NodeUserController extends Controller
         $node_user->user_id = $request->input('user_id');
         $node_user->role_id = $request->input('role_id');
         $this->authorize('store', $node_user);
+        $node_user->deleteChildren($node_user->user_id);
 
         return ResponseJson(NodeUser::create($request->all()));
     }
@@ -33,6 +34,7 @@ class NodeUserController extends Controller
             $request->all(),
             ['id', 'node_id', 'user_id']
         ));
+        $node_user->deleteChildren($node_user->user_id);
 
         return ResponseJson($model);
     }

@@ -22,6 +22,7 @@ class TestController extends Controller
         // dd(User::find(4)->isHigherThan(5, 1, 2));
         // dd(NodeUser::find(1)->node()->first());
         // dd(Node::find(1)->relationships());
-        dd((new Relationships(Node::with('project')->first()))->all());
+        // dd((new Relationships(Node::with('project')->first()))->all());
+        dd(NodeUser::find(1)->deleteChildren(4));
     }
 }

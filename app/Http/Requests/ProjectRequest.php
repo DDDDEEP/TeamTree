@@ -61,6 +61,7 @@ class ProjectRequest extends Request
                     break;
                 // CREATE
                 case 'POST':
+                    break;
                 // UPDATE
                 case 'PUT':
                 case 'PATCH':

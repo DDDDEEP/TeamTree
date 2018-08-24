@@ -69,7 +69,7 @@ class ProjectUserRequest extends Request
     {
         return [
             'project_id.unique' => '对应记录已经存在',
-            'role_id.exists' => '角色不存在或不能为超管',
+            'role_id.exists' => '角色不存在或不能为项目创始人',
         ];
     }
 
@@ -92,9 +92,14 @@ class ProjectUserRequest extends Request
                     break;
                 // CREATE
                 case 'POST':
+                    break;
                 // UPDATE
                 case 'PUT':
                 case 'PATCH':
+                    // 检验编辑的用户是否为项目创始人
+                    if ($this->project_user->role->level == 6) {
+                        $validator->errors()->add('role_id', '不能修改项目创始人的项目角色');
+                    }
                     break;
                 case 'DELETE':
                 default:

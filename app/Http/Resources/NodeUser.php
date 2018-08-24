@@ -12,7 +12,7 @@ class NodeUser extends Resource
      * @param  \Illuminate\Http\Request
      * @return array
      */
-    public function toArray($request)
+    public function toArray($request = null)
     {
         return parent::toArray($request);
     }

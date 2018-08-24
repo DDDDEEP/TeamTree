@@ -9,12 +9,6 @@ use App\Models\User;
 
 class Project extends Model
 {
-    protected $relationships = [
-        'belongsTo' => [],
-        'hasMany' => ['nodes', 'roles'],
-        'belongsToMany' => ['users'],
-    ];
-
     /**
      * 获取该项目的所有节点
      */
@@ -50,6 +44,15 @@ class Project extends Model
     public function roles()
     {
         return $this->hasMany(Role::Class);
+    }
+
+    /**
+     * 获取该项目的所有角色
+     */
+    public function getAllRoles()
+    {
+        $global_roles = Role::where('project_id', null)->get();
+        return $global_roles->merge($this->roles);
     }
 
     /**

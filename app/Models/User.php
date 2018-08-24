@@ -33,17 +33,6 @@ class User extends Authenticatable
     ];
 
     /**
-     * 关联对象名集合
-     *
-     * @var array
-     */
-    protected $relationships = [
-        'belongsTo' => [],
-        'hasMany' => [],
-        'belongsToMany' => ['projects', 'nodes'],
-    ];
-
-    /**
      * 获取该模型的单关联对象名集合
      *
      * @return array
@@ -142,11 +131,9 @@ class User extends Authenticatable
             ->doesntExist()) {
             return null;
         }
-
         $node = $this->getClosestNodeWithPivot($node_id);
         return $node ?
-            Role::find($node->pivot->role_id) :
-            $this->getProjectRole($project_id);
+            Role::find($node->pivot->role_id) : $this->getProjectRole($project_id);
     }
 
     /**

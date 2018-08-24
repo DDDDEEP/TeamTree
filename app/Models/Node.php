@@ -9,12 +9,6 @@ use App\Models\NodeUser;
 
 class Node extends Model
 {
-    protected $relationships = [
-        'belongsTo' => ['parent', 'project'],
-        'hasMany' => ['children'],
-        'belongsToMany' => ['users'],
-    ];
-
     /**
      * 获取该节点的父节点，若是根节点则返回null
      */

@@ -15,7 +15,7 @@ class MyRolesTableSeeder extends Seeder
         $roles = factory(Role::class)->times(8)->make();
         Role::insert($roles->toArray());
 
-        $common_roles = ['闲置人员', '执行者', '节点管理员', '树管理员', '项目管理员', '超级管理员'];
+        $common_roles = ['闲置人员', '执行者', '节点管理员', '树管理员', '项目管理员', '项目创始人'];
         for ($i = 0; $i < count($common_roles); ++$i) {
             $role = Role::find($i + 1);
             $role->project_id = null;

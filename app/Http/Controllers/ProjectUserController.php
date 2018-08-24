@@ -13,19 +13,7 @@ class ProjectUserController extends Controller
 {
     public function index(ProjectUserRequest $request)
     {
-        // dd($request->all());
-        // $project_user = new ProjectUser;
-        // dd(ProjectUser::all()->filterByParams(
-        //     $request->all(),
-        //     $project_user->getTableColumns(),
-        //     $project_user->getRelationships()
-        // ));
-        $data = $request->all();
-        dd($data);
-        foreach ($data as $key => $value) {
-            $key = str_replace('-', '.', $key);
-        }
-        return new CommonCollection(ProjectUser::filter($data));
+        return new CommonCollection(ProjectUser::all());
     }
 
     public function store(ProjectUserRequest $request)

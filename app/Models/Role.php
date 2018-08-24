@@ -9,12 +9,6 @@ use App\Models\PermissionRole;
 
 class Role extends Model
 {
-    protected $relationships = [
-        'belongsTo' => ['project'],
-        'hasMany' => [],
-        'belongsToMany' => ['permissions'],
-    ];
-
     /**
      * 获取该角色对应项目。
      */

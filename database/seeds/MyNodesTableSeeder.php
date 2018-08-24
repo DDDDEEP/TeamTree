@@ -12,7 +12,7 @@ class MyNodesTableSeeder extends Seeder
      */
     public function run()
     {
-        $nodes = factory(Node::class)->times(6)->make();
+        $nodes = factory(Node::class)->times(7)->make();
         Node::insert($nodes->toArray());
 
         $node = Node::find(1);
@@ -52,6 +52,13 @@ class MyNodesTableSeeder extends Seeder
 
         $node = Node::find(6);
         $node->project_id = 2;
+        $node->parent_id = null;
+        $node->name = '根节点';
+        $node->height = 1;
+        $node->save();
+
+        $node = Node::find(7);
+        $node->project_id = 3;
         $node->parent_id = null;
         $node->name = '根节点';
         $node->height = 1;

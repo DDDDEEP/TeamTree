@@ -9,14 +9,11 @@ class NodeUserPolicy extends Policy
 {
     public function hasEditNodeUserPermission(User $user, NodeUser $node_user, $name)
     {
-        $mix_role = $user->getNodeRole($node_user->node_id);
-        $is_higher = $user->isHigherThan(
-            $node_user->user_id,
-            $node_user->node()->first()->project_id,
-            $node_user->node_id
-        );
-        return $mix_role != null && $is_higher != null ?
-            $mix_role->hasPermission($name) && $is_higher: false;
+        $this_role = $user->getNodeRole($node_user->node_id);
+        $antother_role = $node_user->user->getNodeRole($node_user->node_id);
+        return $this_role && $antother_role
+            && $this_role->hasPermission($name)
+            && $this_role->level > $antother_role->level;
     }
 
     public function store(User $user, NodeUser $node_user)

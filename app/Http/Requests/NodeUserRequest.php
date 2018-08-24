@@ -89,22 +89,30 @@ class NodeUserRequest extends Request
             );
             $role = Role::find($data['role_id']);
             $user = User::find($data['user_id']);
+            $user_role = $user->getNodeRole($data['node_id']);
+
+            // 检验对应用户节点角色是否存在，若不存在，说明对应用户不属于该项目
+            if (!$user_role) {
+                $validator->errors()->add('role_id', '用户不属于该项目');
+                return;
+            }
+
             switch ($this->method()) {
                 // INDEX
                 case 'GET':
                     break;
                 // CREATE
                 case 'POST':
-                    // 检验添加的角色是否比用户的节点角色等级更高
-                    if ($role->level <= $user->getNodeRole($data['node_id'])->level) {
+                    // 检验添加的角色是否大于用户的节点角色等级
+                    if ($role->level <= $user_role->level) {
                         $validator->errors()->add('role_id', '添加的角色的等级应大于该用户对于节点角色等级');
                     }
                     break;
                 // UPDATE
                 case 'PUT':
                 case 'PATCH':
-                    // 检验添加的角色是否比用户的节点角色等级更高
-                    if ($role->level < $user->getNodeRole($data['node_id'])->level) {
+                    // 检验添加的角色是否大于等于用户的节点角色等级
+                    if ($role->level < $user_role->level) {
                         $validator->errors()->add('role_id', '编辑的角色的等级应大于等于该用户对于节点角色等级');
                     }
                     break;

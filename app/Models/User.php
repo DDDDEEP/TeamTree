@@ -157,11 +157,11 @@ class User extends Authenticatable
          * 2、若带node_id参数，则为节点角色的比较
          */
         $this_role = $node_id != null ?
-            $this->getProjectRole($project_id) :
-            User::findOrFail($user_id)->getProjectRole($project_id);
+            $this->getNodeRole($project_id) :
+            $this->getProjectRole($project_id);
         $another_role = $node_id != null ?
-            $this->getNodeRole($node_id) :
-            User::findOrFail($user_id)->getNodeRole($node_id);
+            User::findOrFail($user_id)->getNodeRole($node_id) :
+            User::findOrFail($user_id)->getProjectRole($node_id);
         return $this_role->level > $another_role->level;
     }
 }

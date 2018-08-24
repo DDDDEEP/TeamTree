@@ -12,10 +12,12 @@ class ProjectUser extends Resource
      * @param  \Illuminate\Http\Request
      * @return array
      */
-    public function toArray($request)
+    public function toArray($request = null)
     {
-        if ($request->has('*node_id')) {
-            $this->resource->node_role = $this->user->getNodeRole($request->input('*node_id'));
+        if ($request != null) {
+            if ($request != null && $request->has('*node_id')) {
+                $this->resource->node_role = $this->user->getNodeRole($request->input('*node_id'));
+            }
         }
         return parent::toArray($request);
     }

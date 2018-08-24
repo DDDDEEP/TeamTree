@@ -51,7 +51,7 @@
 							<tr>
 								<td>{{$user->user->name}}</td>
 								<td>
-									<select name="project_role" lay-filter="project_role">
+									<select name="project-role" lay-filter="project-role">
 										@foreach($roles as $role)
 											@if($role->level == 6)
 												@continue
@@ -73,6 +73,13 @@
 						</tbody>
 					</table>
 	        	</div>
+	        </div><br>
+	        <div class="layui-form-item">
+	        	<div class="layui-row">
+					<div class="layui-col-md-offset5">
+						<a class="layui-btn layui-bg-red" onclick="deleteProject()">删除项目</a>
+					</div>
+	        	</div>
 	        </div>
 	      </form>
 	    </div>
@@ -82,6 +89,7 @@
 
 	<div id="add-user" style="display: none;">
 
+	<form class="layui-form">
 	  <div class="layui-row">
 	      <div class="layui-col-md6">
 	          <input type="text" name="user_key" placeholder="请输入用户名" class="layui-input">
@@ -95,11 +103,13 @@
 	          <thead>
 	            <tr>
 	              <th>用户</th>
+	              <th>角色</th>
 	              <th>操作</th>
 	            </tr>
 	          </thead>
 	      </table>
 	  </div>
+	  </form>
 	</div>
 @stop
 
@@ -107,12 +117,13 @@
 ///
 	var project = @json($project);
 	var project_users = @json($project_users);
+	var roles = @json($roles);
 	// 添加用户数组
 	var user_list = []
 	layui.use('form', function(){
 		var form = layui.form
 
-		form.on("select(project_role)", function(data){
+		form.on("select(project-role)", function(data){
 			var id = $(data.elem).parents("tr").find(".user-id").val()
 			$.ajax({
 			    type: 'PUT',
@@ -139,6 +150,12 @@
 			    }
 			})
 		})
+
+		form.on("select(add-project-role)", function(data){
+			var index = $(data.elem).parents("tr").find(".user-list-index").val()
+			user_list[index].role = data.value
+		})
+
 		form.render()
 	})
 
@@ -146,31 +163,38 @@
 	$("body").on("click", ".delete-user-btn", function(){
 		var id = $(this).parents("tr").find(".user-id").val()
 		var _this = this
-		$.ajax({
-		    type: 'DELETE',
-		    headers: {
-		        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-		    },
-		    url: route(routes.project_user.destroy, {project_user: id}),
-		    dataType: "json",
-		    success: function (result) {
-		        if (result.errcode == 1) {
-		            layui.use('layer', function(){
-		                var layer = layui.layer
-		                layer.msg(result.errmsg)
-		            })
-		        } else if (result.errcode == 0) {
-		            $(_this).parents("tr").remove()
-		            project_users.forEach(function(value, index){
-		            	if (value.id == id) {
-		            		project_users.splice(index, 1)
-		            	}
-		            })
-		        }
-		    },
-		    error: function (result) {
-		        console.log(result)
-		    }
+		layui.use('layer', function(){
+			var layer = layui.layer
+			layer.load(1)
+
+
+			$.ajax({
+			    type: 'DELETE',
+			    headers: {
+			        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			    },
+			    url: route(routes.project_user.destroy, {project_user: id}),
+			    dataType: "json",
+			    success: function (result) {
+			        if (result.errcode == 1) {
+			            layui.use('layer', function(){
+			                var layer = layui.layer
+			                layer.msg(result.errmsg)
+			            })
+			        } else if (result.errcode == 0) {
+			            $(_this).parents("tr").remove()
+			            project_users.forEach(function(value, index){
+			            	if (value.id == id) {
+			            		project_users.splice(index, 1)
+			            	}
+			            })
+			            layer.closeAll()
+			        }
+			    },
+			    error: function (result) {
+			        console.log(result)
+			    }
+			})
 		})
 	})
 
@@ -218,8 +242,9 @@
 			layer.open({
 			    type: 1,
 			    content: $("#add-user"),
-			    area: "400px",
+			    area: "600px",
 			    title: "添加用户",
+			    skin: 'menu-skin',
 			    btn: ['确定', '取消'],
 			    yes: function(index, layero) {
 			    	user_list.forEach(function(value, index){
@@ -229,7 +254,7 @@
 	                        data: {
 	                        	'project_id': project.id,
 	                        	'user_id': value.id,
-	                        	'role_id': 1,
+	                        	'role_id': value.role,
 	                        	'status': 1
 	                        },
 	                        dataType: "json",
@@ -265,8 +290,9 @@
 		    url: route(routes.users.index, {name: key}),
 		    dataType: "json",
 		    success: function (result) {
-	            layui.use('layer', function(){
+	            layui.use(['layer', 'form'], function(){
 	                var layer = layui.layer
+	                var form = layui.form
 			        if (result.data.length == 0) {
 		                layer.msg("没有找到该用户")
 			        } else {
@@ -285,19 +311,59 @@
 			            		}
 			            	}
 			            }
-			            user_list.push(user)
 			            $("#user-list").append(`
-							<tr><td>${user.name}</td>>
+							<tr><td>${user.name}</td>
+							<td><select lay-filter="add-project-role"></select></td>
 							<td><a class="layui-btn layui-bg-red delete-user-list-btn">删除</a></td>
-							<td style="display: none;"><input type="text" class="user-list-index" value="${user_list.length - 1}">
+							<td style="display: none;"><input type="text" class="user-list-index" value=${user_list.length}>
 							</td></tr>
 		            	`)
+		            	var select = $("#user-list").children(":last-child").find("select")
+		            	roles.forEach(function(value, index){
+		            		if (value.level == 6) {
+		            			return
+		            		}
+		            		select.append(`<option value=${value.id}>${value.display_name}</option>`)
+		            	})
+		            	form.render()
+		            	user.role = select.val()
+			            user_list.push(user)
 			        }
 	            })
 		    },
 		    error: function (result) {
 		        console.log(result)
 		    }
+		})
+	}
+
+	// 删除项目
+	function deleteProject() {
+		layui.use('layer', function(){
+			var layer = layui.layer
+			layer.confirm('是否确认删除？', {icon: 3, title:'提示'}, function(index){
+				$.ajax({
+				    type: "DELETE",
+				    headers: {
+				        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+				    },
+				    url: route(routes.projects.destroy, {'project': project.id}),
+				    dataType: "json",
+				    success: function(result) {
+				    	if (result.errcode == 0) {
+				    		window.location.href = @json(route('show_project'))
+				    	} else {
+				    		layui.use('layer', function(){
+						    var layer = layui.layer
+						    layer.msg(result.errmsg)
+				    		})
+				    	}
+				    },
+				    error: function (result) {
+				        alert(result.responseJSON.msg)
+				    }
+				})
+			})
 		})
 	}
 

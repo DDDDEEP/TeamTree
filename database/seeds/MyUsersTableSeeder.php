@@ -16,13 +16,13 @@ class MyUsersTableSeeder extends Seeder
         User::insert($users->makeVisible(['password', 'remember_token'])->toArray());
 
         $user = User::find(1);
-        $user->name = '超管';
+        $user->name = '项目创始人';
         $user->email = 'super@qq.com';
         $user->password = bcrypt('123');
         $user->save();
 
         $user = User::find(2);
-        $user->name = '闲置';
+        $user->name = '闲置人员';
         $user->email = 'free@qq.com';
         $user->password = bcrypt('123');
         $user->save();

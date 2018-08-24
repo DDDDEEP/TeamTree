@@ -8350,13 +8350,12 @@ button.close {
   }
 }
 
-<<<<<<< HEAD
 .layui-form-select dl {
   max-height: 150px !important;
-=======
+}
+
 .home {
   background-color: #f6f7d1;
->>>>>>> 1152e234af98f03d9b62d0f09300876620de5d5e
 }
 
 .node {

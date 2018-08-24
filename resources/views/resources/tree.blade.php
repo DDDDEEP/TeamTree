@@ -7,11 +7,6 @@
     <div id="body">
     </div>
   </div>
-  
-  <div class="layui-footer">
-    <!-- 底部固定区域 -->
-    © layui.com - 底部固定区域
-  </div>
 
   <div id="node-menu" style="display: none; overflow-x: auto; overflow-y: auto;">
     <form class="layui-form node-form" lay-filter="menu">
@@ -272,15 +267,15 @@
         })
     })
 
-    function checkPermission(d) {
-        node = d
-        if (d.parent_id != null) {
+    // 检查权限
+    function checkPermission() {
+        if (node.parent_id != null) {
             $.ajax({
                 type: 'GET',
                 url: route(routes.permission_role.index),
                 data: {
                     "relate": "role,permission",
-                    "role_id": d.role.id
+                    "role_id": node.role.id
                 },
                 dataType: "json",
                 success: function (result) {
@@ -309,6 +304,10 @@
                               var temp = $(".delete-node-btn")
                               temp.after("<a class='layui-btn layui-bg-red delete-node-btn'>删除任务</a>")
                               temp.remove()
+                              break
+                          case 'node_user.store':
+                          case 'node_user.update':
+                              $("select[lay-filter=node-user-role]").removeAttr("disabled")
                               break
                           default: break
                           }
@@ -343,7 +342,6 @@
             //     $("#node-description").removeAttr("disabled")
             //     $("#node-status").removeAttr("disabled")
             // }
-            showUserList()
             form.render()
         })
         $("#node-description").text(node.description)
@@ -385,7 +383,8 @@
     }
 
     // 获取用户列表
-    function showUserList() {
+    function showUserList(d) {
+        node = d
         $("#node-user-list").find("tbody").empty()
         layui.use("form", function(){
             var form = layui.form
@@ -396,7 +395,7 @@
                 data: {
                     'project_id': project.id,
                     'relate': 'role,user',
-                    '*node_id': node.id
+                    '*node_id': d.id
                 },
                 dataType: "json",
                 success: function (result) {
@@ -404,7 +403,7 @@
                     node_users.forEach(function(node_user, index){
                         $("#node-user-list").find('tbody').append(`
                             <tr><td>${node_user.user.name}</td><td>${node_user.role.display_name}</td>
-                            <td><select lay-filter="node-user-role"></select></td>
+                            <td><select lay-filter="node-user-role" disabled></select></td>
                             <td style="display: none;"><input type="text" class="node-user-index" value=${index}>
                             </tr>
                         `)
@@ -419,11 +418,9 @@
                                 select.append(`<option value=${value.id}>${value.display_name}</option>`)
                             }
                         })
-                        if (node.parent_id == null) {
-                            select.attr("disabled", true)
-                        }
                         form.render()
                     })
+                    checkPermission()
                 },
                 error: function (result) {
                     alert(result.responseJSON.errmsg);

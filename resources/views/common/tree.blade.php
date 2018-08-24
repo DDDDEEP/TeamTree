@@ -89,7 +89,7 @@
             .style("fill", function (d) {
             return d._children ? "lightsteelblue" : "#fff";
         })
-            .on("click", checkPermission);
+            .on("click", showUserList);
 
         nodeEnter.append("text")
             .attr("x", rectW / 2)
@@ -99,7 +99,7 @@
             .text(function (d) {
             return d.name;
         })
-            .on("click", checkPermission);
+            .on("click", showUserList);
 
         nodeEnter.append("circle")
             .attr("cx", rectW)
@@ -124,7 +124,9 @@
             .attr("y", 0)
             .attr("dy", ".35em")
             .attr("text-anchor", "middle")
-            .text('-')
+            .text(function(d) {
+                return d.children? '-' : '+'
+            })
             .style('font-size', '22px')
             .on("click", click);
 

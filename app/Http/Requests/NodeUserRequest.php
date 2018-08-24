@@ -69,7 +69,7 @@ class NodeUserRequest extends Request
     {
         return [
             'node_id.unique' => '对应记录已经存在',
-            'role_id.exists' => '角色不存在或不能作为node_user.role_id',
+            'role_id.exists' => '角色不存在或不能作为节点角色',
         ];
     }
 

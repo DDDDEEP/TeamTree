@@ -27,6 +27,9 @@
     - 若是修改通用角色操作，仅当操作者的项目角色等级 > 被操作者的项目角色等级时，操作才能有效。
     - 若是对节点赋予角色操作，仅当操作者对应节点的节点角色等级 > 被操作者对应节点的节点角色等级时，操作才能有效。
 
+ -  当修改用户对应的项目角色时，会删除对应用户的所有节点角色记录。  
+    当修改用户某节点对应的节点角色时，会删除该结点所有后代存在的对应用户的节点角色记录。
+
 <br>
 
 ##  节点相关逻辑:
@@ -69,16 +72,16 @@
     | 路由 | 权限 | 所属分组id | 备注 |
     | --- | --- | --- | --- |
     | node.store.change_status | 改变节点状态 | 2 |  |
-    | node.create | 编辑节点 | 3 |  |
-    | node.create | 新增节点 | 4 |  |
-    | node.delete | 删除节点 | 4 |  |
-    | node_user.create | 赋予节点角色 | 4 |  |
+    | node.create | 新增节点 | 3 |  |
+    | node.update | 编辑节点 | 3 |  |
+    | node.delete | 删除节点 | 3 |  |
+    | node_user.create | 新增节点角色 | 4 |  |
     | node_user.store | 编辑节点角色 | 4 |  |
     | node_user.delete | 移除节点角色 | 4 |  |
     | project.store | 编辑项目 | 5 |  |
     | project_user.create | 邀请新成员 | 5 |  |
-    | project_user.store | 修改成员的项目角色 | 5 |  |
-    | project_user.delete | 踢出成员 | 5 |  |
+    | project_user.store | 修改项目角色 | 5 |  |
+    | project_user.delete | 移除成员 | 5 |  |
     | project.delete | 删除项目 | 6 |  |
 
 

@@ -5,7 +5,7 @@
     | --- | --- | --- | --- |
     | GET | /resources | index | resources.index |
     | POST | /resources | store | resources.store |
-    | PUT|PATCH | /resources/{resource} | update | resources.update |
+    | PUT\|PATCH | /resources/{resource} | update | resources.update |
     | DELETE | /resources/{resource} | destroy | resources.destroy |
 
 

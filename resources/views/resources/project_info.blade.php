@@ -56,6 +56,7 @@
 											@if($role->level == 6)
 												@if($user->role->level == 6)
 												<option value="{{$role->id}}" selected>{{$role->display_name}}</option>
+												@continue
 												@else
 													@continue
 												@endif

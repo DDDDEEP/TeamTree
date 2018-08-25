@@ -53,14 +53,73 @@
     | sortBy | 接收字段值与顺序值排序，以'.'分割 | 顺序值有'asc'与'desc'，若省略顺序值则默认为'asc'，示例：id.desc,name.asc |
 
 ## *GET* 接口文档:
- -  获取对应项目的树结构。
-    >**请求URL：**_/projects/1/get_tree_
-    >**请求参数：**
-    >| 参数名 | 类型 | 含义 | 备注 |
-    >| --- | --- | --- | --- |
-    >| id | int | 老人id |  |
-    >| from | string | 开始时间 | 格式为YYYY-MM-DD |
-    >| to | string | 截止时间  | 格式为YYYY-MM-DD |
-    >| type_id | int | 消费类型 | 【可选】，不选为全部类型<br/>*1* 物资消耗；<br>*2* 药物消耗；<br>*3* 零散可选月交费；<br>*4* 临时加插的费用；<br>*5* 临时加插的退费；<br> |
-    >| page | int | 页码 | 【可选】，不选则为查询全部 |
-    >| limit | int | 每页数量 | 【可选】，不选则为查询全部 |
+>###**project_user资源特殊参数。**
+>**请求URL：** */project_user*
+>**特殊请求参数：**
+>| 参数名 | 类型 | 含义 | 备注 |
+>| --- | --- | --- | --- |
+>| *node_id【可选】 | int | 节点id，可获取该节点下的用户对于的节点角色 |  |
+
+* * *
+
+>###**获取某用户对于一项目的树的结构。**
+>**请求URL：** */projects/1/get_tree*
+>**请求参数：**
+>| 参数名 | 类型 | 含义 | 备注 |
+>| --- | --- | --- | --- |
+>| user_id | int | 用户id |  |
+>**返回数据格式如下：**
+>```
+{
+    "data": {
+        "id": 1,
+        "project_id": 1,
+        "parent_id": null,
+        "name": "根节点",
+        "height": 1,
+        "status": 1,
+        "description": "Fugit maxime veniam quaerat aut quae.",
+        "created_at": "1988-03-15 15:53:01",
+        "updated_at": "2018-08-24 11:37:26",
+        "role": {
+            "id": 6,
+            "project_id": null,
+            "display_name": "项目创始人",
+            "description": "Non molestias voluptatibus fuga.",
+            "level": 6,
+            "created_at": "2009-12-18 02:57:09",
+            "updated_at": "2018-08-24 11:37:26",
+            "node": null
+        },
+        "children": [
+            {
+                "id": 2,
+                "project_id": 1,
+                "parent_id": 1,
+                "name": "有节点角色的子节点",
+                "height": 2,
+                "status": 1,
+                "description": "A vitae autem qui perspiciatis recusandae.",
+                "created_at": "2000-08-29 04:25:37",
+                "updated_at": "2018-08-24 11:37:26",
+                "role": {
+                    "id": 6,
+                    "project_id": null,
+                    "display_name": "项目创始人",
+                    "description": "Non molestias voluptatibus fuga.",
+                    "level": 6,
+                    "created_at": "2009-12-18 02:57:09",
+                    "updated_at": "2018-08-24 11:37:26",
+                    "node": null
+                },
+                "children": [],
+                "users": []
+            }
+        ],
+        "users": []
+    },
+    "errcode": 0,
+    "errmsg": "",
+    "hintmsg": ""
+}
+>```

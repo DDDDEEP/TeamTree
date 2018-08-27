@@ -3,14 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Http\Resources\UserCollection;
 use App\Http\Requests\UserRequest;
+use App\Libraries\CollectionFilter;
+use App\Http\Resources\UserCollection;
 
 class UsersController extends Controller
 {
-    public function index()
+    public function index(UserRequest $request)
     {
-        return new UserCollection(User::all());
+        return new UserCollection(
+            (new CollectionFilter(User::all()))->filterByRequest($request)
+        );
     }
 
     public function update(UserRequest $request, User $user)

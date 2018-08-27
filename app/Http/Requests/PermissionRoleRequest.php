@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests;
 
-use App\Models\User;
+use App\Models\PermissionRole;
 use Illuminate\Validation\Rule;
 
-class UserRequest extends Request
+class PermissionRoleRequest extends Request
 {
     public function rules()
     {
@@ -25,8 +25,6 @@ class UserRequest extends Request
             case 'PUT':
             case 'PATCH':
                 $rules = [
-                    'name'  => 'bail|filled',
-                    'email'  => 'bail|email|unique:users,email,'.$this->user->id.',id',
                 ];
                 break;
             case 'DELETE':
@@ -53,7 +51,7 @@ class UserRequest extends Request
             }
 
             $data = $this->makeMixData(
-                'user',
+                '',
                 []
             );
             switch ($this->method()) {

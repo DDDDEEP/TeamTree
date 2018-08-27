@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use App\Models\Pivot;
-use App\Models\Project;
 use App\Models\User;
 use App\Models\Role;
+use App\Models\Project;
+use App\Models\Common\Pivot;
 
 class ProjectUser extends Pivot
 {

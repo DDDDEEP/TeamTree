@@ -3,14 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\NodeUser;
-use App\Http\Resources\NodeUserCollection;
+use App\Libraries\CollectionFilter;
 use App\Http\Requests\NodeUserRequest;
+use App\Http\Resources\NodeUserCollection;
 
 class NodeUserController extends Controller
 {
-    public function index()
+    public function index(NodeUserRequest $request)
     {
-        return new NodeUserCollection(NodeUser::all());
+        return new NodeUserCollection(
+            (new CollectionFilter(NodeUser::all()))->filterByRequest($request)
+        );
     }
 
     public function store(NodeUserRequest $request)

@@ -1,61 +1,49 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Libraries;
 
+use App\Libraries\Relationships;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Resources\Json\ResourceCollection as BaseResourceCollection;
-use App\Models\Relationships;
 
-class ResourceCollection extends BaseResourceCollection
+class CollectionFilter
 {
     /**
-     * 模型字段
+     * 数据集合
      *
-     * @var array
+     * @var \Illuminate\Support\Collection
      */
-    public $columns = [];
+    public $collection;
 
-    /**
-     * 关联属性
-     *
-     * @var array
-     */
-    public $relationships = [];
-
-    /**
-     * 字段后缀值
-     *
-     * @var array
-     */
-    public $suffixs = ['@eq', '@neq', '@like'];
-
-    /**
-     * 根据集合中模型对象初始化属性字段名数组
-     */
-    public function __construct($resource)
+    public function __construct($collection)
     {
-        parent::__construct($resource);
-        if ($this->collection->count() != 0) {
-            $model = $this->collection->first()->newInstance();
-            $this->columns = $model->getTableColumns();
-            $this->relationships = (new Relationships($model))->all();
-        }
+        $this->collection = $collection;
     }
 
     /**
-     * 统一处理方法
+     * 通过请求对象过滤
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Support\Collection
+     * @return \Illuminate\Support\Collection|\Illuminate\Pagination\LengthAwarePaginator
      */
-    public function handleByRequest($request)
+    public function filterByRequest($request)
     {
         $data = $this->collection;
+        if ($data->count() == 0) {
+            return $data;
+        }
+
+        $columns = [];    // 模型字段
+        $relationships = [];    // 关联属性
+        $suffixs = ['@eq', '@neq', '@like'];    // 字段后缀值
+
+        // 初始化数组
+        $model = $data->first()->newInstance();
+        $columns = $model->getTableColumns();
+        $relationships = (new Relationships($model))->all();
 
         // 加载关联数据
-        $relationships_keys = $this->relationships->keys()->all();
+        $relationships_keys = $relationships->keys()->all();
         $relate_keys = explode(',', $request->input('relate', ''));
         $relations = array_intersect($relate_keys, $relationships_keys);
 
@@ -63,11 +51,14 @@ class ResourceCollection extends BaseResourceCollection
             $value->load($relations);
         }
 
+        // 遍历处理
         foreach ($request->all() as $key => $value) {
             $key = str_replace('-', '.', $key);
             $values = explode(',', $value);
             switch ($key) {
                 case 'relate':
+                case 'page':
+                case 'perPage':
                     break;
                 case 'sortBy':
                     $sort_list = [];
@@ -76,7 +67,7 @@ class ResourceCollection extends BaseResourceCollection
                     foreach ($values as $item) {
                         $item = array_pad(explode('.', $item), 2, 'asc');
                         if (count($item) == 2 && in_array($item[1], $orders)
-                            && in_array($item[0], $this->columns)) {
+                            && in_array($item[0], $columns)) {
                             $sort_list[$item[0]] = $item[1];
                         }
                     }
@@ -97,7 +88,7 @@ class ResourceCollection extends BaseResourceCollection
                     $unique_list = [];
 
                     foreach ($values as $item) {
-                        if (in_array($item, $this->columns)) {
+                        if (in_array($item, $columns)) {
                             array_push($unique_list, $item);
                         }
                     }
@@ -117,7 +108,7 @@ class ResourceCollection extends BaseResourceCollection
 
                     $key .= !Str::contains($key, '@') ? '@eq' : '';
 
-                    foreach ($this->suffixs as $suffix) {
+                    foreach ($suffixs as $suffix) {
                         if (!Str::endsWith($key, $suffix)) {
                             continue;
                         }
@@ -148,6 +139,13 @@ class ResourceCollection extends BaseResourceCollection
                     }
                     break;
             }
+        }
+
+        if ($request->has('page') || $request->has('perPage')) {
+            $data = $data->paginate(
+                $request->input('page', 1),
+                $request->input('perPage', 15)
+            );
         }
 
         return $data;

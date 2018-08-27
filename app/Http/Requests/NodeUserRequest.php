@@ -2,11 +2,9 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Validation\Rule;
-use App\Rules\NodeUserNotExist;
-use App\Rules\HigherMixNodeRole;
 use App\Models\Role;
 use App\Models\User;
+use Illuminate\Validation\Rule;
 
 class NodeUserRequest extends Request
 {
@@ -14,6 +12,7 @@ class NodeUserRequest extends Request
     {
         $rules = [];
         $route_name = $this->route()->getName();
+
         switch ($this->method()) {
             // INDEX
             case 'GET':
@@ -76,8 +75,8 @@ class NodeUserRequest extends Request
     public function getValidatorInstance()
     {
         $validator = parent::getValidatorInstance();
-
         $is_failed = $validator->fails();
+
         $validator->after(function () use ($validator, $is_failed) {
             if ($is_failed) {
                 return;

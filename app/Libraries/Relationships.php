@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Models;
+namespace App\Libraries;
 
 use ErrorException;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use ReflectionClass;
 use ReflectionMethod;
 use Illuminate\Support\Collection;
-use App\Models\Relationship;
+use App\Libraries\Relationship;
 
 class Relationships
 {
@@ -39,7 +39,6 @@ class Relationships
         $this->relationships = new Collection;
 
         foreach ((new ReflectionClass($this->model))->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
-            // dd($method->isFinal());
             if ($method->class == get_class($this->model)
                 && empty($method->getParameters())
                 && $method->getName() !== __FUNCTION__) {

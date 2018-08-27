@@ -2,9 +2,8 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Validation\Rule;
-use App\Rules\HeightIsRight;
 use App\Models\Node;
+use Illuminate\Validation\Rule;
 
 class NodeRequest extends Request
 {
@@ -12,6 +11,7 @@ class NodeRequest extends Request
     {
         $rules = [];
         $route_name = $this->route()->getName();
+
         switch ($this->method()) {
             // INDEX
             case 'GET':
@@ -62,6 +62,7 @@ class NodeRequest extends Request
     {
         $validator = parent::getValidatorInstance();
         $is_failed = $validator->fails();
+
         $validator->after(function () use ($validator, $is_failed) {
             if ($is_failed) {
                 return;

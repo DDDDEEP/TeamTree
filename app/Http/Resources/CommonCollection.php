@@ -2,13 +2,14 @@
 
 namespace App\Http\Resources;
 
+use Illuminate\Http\Resources\Json\ResourceCollection;
+
 class CommonCollection extends ResourceCollection
 {
     public function toArray($request)
     {
-        $data = $this->handleByRequest($request);
         return [
-            'data' => $data->values()
+            'data' => $this->collection->values()
         ];
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Libraries;
 
 use ErrorException;
 use Illuminate\Database\Eloquent\Relations\Relation;

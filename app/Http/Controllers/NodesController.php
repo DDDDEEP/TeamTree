@@ -3,14 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Node;
-use App\Http\Resources\CommonCollection;
 use App\Http\Requests\NodeRequest;
+use App\Libraries\CollectionFilter;
+use App\Http\Resources\CommonCollection;
 
 class NodesController extends Controller
 {
     public function index()
     {
-        return new CommonCollection(Node::all());
+        return new CommonCollection(
+            (new CollectionFilter(Node::all()))->filterByRequest($request)
+        );
     }
 
     public function store(NodeRequest $request)

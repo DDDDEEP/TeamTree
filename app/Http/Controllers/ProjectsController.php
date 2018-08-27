@@ -2,19 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;
 use App\Models\Node;
+use App\Models\Role;
 use App\Models\Project;
 use App\Models\ProjectUser;
-use App\Models\Role;
-use App\Http\Resources\CommonCollection;
+use App\Libraries\CollectionFilter;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\ProjectRequest;
+use App\Http\Resources\CommonCollection;
 
 class ProjectsController extends Controller
 {
-    public function index()
+    public function index(ProjectRequest $request)
     {
-        return new CommonCollection(Project::all());
+        return new CommonCollection(
+            (new CollectionFilter(Project::all()))->filterByRequest($request)
+        );
     }
 
     public function getTree(ProjectRequest $request, Project $project)

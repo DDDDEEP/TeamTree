@@ -2,18 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Schema;
+use App\Models\User;
 use App\Models\Project;
 use App\Models\ProjectUser;
-use App\Models\User;
-use App\Http\Resources\ProjectUserCollection;
+use App\Libraries\CollectionFilter;
+use Illuminate\Support\Facades\Schema;
 use App\Http\Requests\ProjectUserRequest;
+use App\Http\Resources\ProjectUserCollection;
 
 class ProjectUserController extends Controller
 {
     public function index(ProjectUserRequest $request)
     {
-        return new ProjectUserCollection(ProjectUser::all());
+        return new ProjectUserCollection(
+            (new CollectionFilter(ProjectUser::all()))->filterByRequest($request)
+        );
     }
 
     public function store(ProjectUserRequest $request)

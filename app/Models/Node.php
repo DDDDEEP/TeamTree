@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use App\Models\Model;
-use App\Models\Project;
 use App\Models\User;
+use App\Models\Project;
 use App\Models\NodeUser;
+use App\Models\Common\Model;
 
 class Node extends Model
 {

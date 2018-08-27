@@ -19,7 +19,7 @@ class CollectionMacroServiceProvider extends ServiceProvider
          * @param  int  $perPage
          * @param  int  $total
          * @param  string  $pageName
-         * @return array
+         * @return \Illuminate\Pagination\LengthAwarePaginator
          */
         Collection::macro('paginate', function ($page = null, $perPage = 15, $total = null, $pageName = 'page') {
             $page = $page ?: LengthAwarePaginator::resolveCurrentPage($pageName);
@@ -34,48 +34,6 @@ class CollectionMacroServiceProvider extends ServiceProvider
                 ]
             );
         });
-
-        /**
-         * 根据请求参数过滤集合数据
-         *
-         * @param  array  $data
-         * @return $this
-         */
-        Collection::macro('filterByParams', function ($data) {
-            $suffixs = ['eq', 'neq'];
-            $special_keys = ['unique', 'sortBy', 'order'];
-
-            // 先加载关联数据
-            if (Arr::exists($data, 'relate')) {
-                // 得到有效的
-                $data_relates = explode(',', $data['relate']);
-                $relationships_relates = Arr::collapse(array_values($relationships));
-                $data_relates = array_intersect($data_relates, $relationships_relates);
-                $this->map(function ($item) use ($data_relates) {
-                    foreach ($relates as $relate) {
-                        $a;
-                    }
-                });
-            }
-            foreach ($data as $key => $value) {
-                if (Arr::exists($special_keys, $key)) {
-                    switch ($key) {
-                        case 'relate':
-                            break;
-                        case 'unique':
-                            break;
-                        case 'sortBy':
-                            break;
-                        default:
-                            break;
-                    }
-                } else {
-                    dd(1);
-                }
-            }
-        });
-
-
     }
 
 }

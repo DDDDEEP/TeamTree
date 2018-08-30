@@ -299,80 +299,72 @@
 
     // 检查权限
     function checkPermission(layer_open) {
-        if (node.parent_id != null) {
-            layui.use("form", function(){
-                var form = layui.form
+        layui.use("form", function(){
+            var form = layui.form
 
-                $.ajax({
-                    type: 'GET',
-                    url: route(routes.permission_role.index),
-                    data: {
-                        "relate": "role,permission",
-                        "role_id": node.role.id
-                    },
-                    dataType: "json",
-                    success: function (result) {
-                        if (result.errcode == 1) {
-                            layui.use('layer', function(){
-                                var layer = layui.layer
-                                layer.msg(result.errmsg)
-                            })
-                        } else {
-                            var data = result.data
-                            data.forEach(function(value, index){
-                              switch(value.permission.name) {
-                              case 'nodes.update.update_status':
-                                  $("#node-status").removeAttr("disabled")
-                                  break
-                              case 'nodes.store':
-                                  var temp = $(".add-node-btn")
-                                  temp.after("<a class='layui-btn add-node-btn'>新增任务</a>")
-                                  temp.remove()
-                                  break
-                              case 'nodes.update':
-                                  $("#node-name").removeAttr("disabled")
-                                  $("#node-description").removeAttr("disabled")
-                                  break
-                              case 'nodes.destroy':
-                                  var temp = $(".delete-node-btn")
-                                  temp.after("<a class='layui-btn layui-bg-red delete-node-btn'>删除任务</a>")
-                                  temp.remove()
-                                  break
-                              case 'node_user.store':
-                              case 'node_user.update':
-                                  $("select[lay-filter=node-user-role]").removeAttr("disabled")
-                                  break
-                              case 'node_user.destroy':
-                                  $('.delete-node-role-btn').each(function(i){
-                                    $(this).after(`<td><a class="layui-btn layui-bg-red delete-node-role-btn">移除结点角色</a></td>`)
-                                    $(this).remove()
-                                  })
-                                  break
-                              default: break
-                              }
-                            })
-                            form.render()
-                            if (layer_open == 0) {
-                                showMenu()
-                            }
+            $.ajax({
+                type: 'GET',
+                url: route(routes.permission_role.index),
+                data: {
+                    "relate": "role,permission",
+                    "role_id": node.role.id
+                },
+                dataType: "json",
+                success: function (result) {
+                    if (result.errcode == 1) {
+                        layui.use('layer', function(){
+                            var layer = layui.layer
+                            layer.msg(result.errmsg)
+                        })
+                    } else {
+                        var data = result.data
+                        data.forEach(function(value, index){
+                          switch(value.permission.name) {
+                          case 'nodes.update.update_status':
+                              if (node.parent_id == null) {break}
+                              $("#node-status").removeAttr("disabled")
+                              break
+                          case 'nodes.store':
+                              var temp = $(".add-node-btn")
+                              temp.after("<a class='layui-btn add-node-btn'>新增任务</a>")
+                              temp.remove()
+                              break
+                          case 'nodes.update':
+                              if (node.parent_id == null) {break}
+                              $("#node-name").removeAttr("disabled")
+                              $("#node-description").removeAttr("disabled")
+                              break
+                          case 'nodes.destroy':
+                              var temp = $(".delete-node-btn")
+                              temp.after("<a class='layui-btn layui-bg-red delete-node-btn'>删除任务</a>")
+                              temp.remove()
+                              break
+                          case 'node_user.store':
+                          case 'node_user.update':
+                              if (node.parent_id == null) {break}
+                              $("select[lay-filter=node-user-role]").removeAttr("disabled")
+                              break
+                          case 'node_user.destroy':
+                              if (node.parent_id == null) {break}
+                              $('.delete-node-role-btn').each(function(i){
+                                $(this).after(`<td><a class="layui-btn layui-bg-red delete-node-role-btn">移除结点角色</a></td>`)
+                                $(this).remove()
+                              })
+                              break
+                          default: break
+                          }
+                        })
+                        form.render()
+                        if (layer_open == 0) {
+                            showMenu()
                         }
-                    },
-                    error: function (result) {
-                        console.log(result)
                     }
-                })
+                },
+                error: function (result) {
+                    console.log(result)
+                }
             })
-        } else {
-            if (layer_open == 0) {
-                var temp = $(".add-node-btn")
-                temp.after("<a class='layui-btn add-node-btn'>新增任务</a>")
-                temp.remove()
-                temp = $(".delete-node-btn")
-                temp.after("<a class='layui-btn layui-bg-red delete-node-btn'>删除任务</a>")
-                temp.remove()
-                showMenu()
-            }
-        }
+        })
     }
     
     // 弹出结点菜单

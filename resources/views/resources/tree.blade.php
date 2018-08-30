@@ -364,6 +364,12 @@
             })
         } else {
             if (layer_open == 0) {
+                var temp = $(".add-node-btn")
+                temp.after("<a class='layui-btn add-node-btn'>新增任务</a>")
+                temp.remove()
+                temp = $(".delete-node-btn")
+                temp.after("<a class='layui-btn layui-bg-red delete-node-btn'>删除任务</a>")
+                temp.remove()
                 showMenu()
             }
         }

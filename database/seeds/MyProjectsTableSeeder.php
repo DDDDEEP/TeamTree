@@ -13,6 +13,14 @@ class MyProjectsTableSeeder extends Seeder
     public function run()
     {
         $users = factory(Project::class)->times(3)->make();
+
+        $names = ['项目一', '项目二', '项目三'];
+
         Project::insert($users->toArray());
+        for ($i = 1; $i <= count($names); $i++) {
+            $project = Project::find($i);
+            $project->name = $names[$i - 1];
+            $project->save();
+        };
     }
 }

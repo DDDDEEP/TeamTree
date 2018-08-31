@@ -244,6 +244,8 @@
         $("input[name=height]").val(node.height + 1)
         $("input[name=parent_id]").val(node.id)
         $("input[name=project_id]").val(project.id)
+        $("input[name=new_name]").val('')
+        $("textarea[name=new_description]").val('')
         layui.use('layer', function(){
             var layer = layui.layer
 

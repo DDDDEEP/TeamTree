@@ -2,9 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Node;
-use App\Models\Role;
-use App\Models\User;
 use App\Models\Common\Model;
 
 class Project extends Model

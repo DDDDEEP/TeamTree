@@ -2,9 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\User;
-use App\Models\Node;
-use App\Models\Role;
 use App\Models\Common\Pivot;
 
 class NodeUser extends Pivot

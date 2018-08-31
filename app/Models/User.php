@@ -2,11 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Node;
-use App\Models\Role;
-use App\Models\Project;
-use App\Models\NodeUser;
-use App\Models\ProjectUser;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 

@@ -2,9 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Role;
 use App\Models\Common\Model;
-use App\Models\PermissionRole;
 
 class Permission extends Model
 {

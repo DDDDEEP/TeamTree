@@ -19,7 +19,7 @@ class NodeRequest extends Request
             // CREATE
             case 'POST':
                 $rules = [
-                    'project_id' => 'bail|required|integer|exists:nodes,project_id,id,'.$this->project_id,
+                    'project_id' => 'bail|required|integer|exists:projects,id',
                     'parent_id'  => 'bail|required|integer|exists:nodes,id',
                     'name'       => 'bail|required',
                     'height'     => 'bail|required|integer',
@@ -37,7 +37,7 @@ class NodeRequest extends Request
                         break;
                     default:
                         $rules = [
-                            'project_id' => 'bail|integer|exists:nodes,project_id,id,'.$this->project_id,
+                            'project_id' => 'bail|integer|exists:projects,id',
                             'parent_id'  => 'bail|integer|exists:nodes,id',
                             'name'       => 'bail|filled',
                             'height'     => 'bail|integer',

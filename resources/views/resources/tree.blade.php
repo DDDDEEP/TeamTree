@@ -8,13 +8,13 @@
     </div>
   </div>
 
-  <div id="node-menu" style="display: none; overflow-x: auto; overflow-y: auto;">
-    <form class="layui-form node-form" lay-filter="menu">
-      <div class="layui-row">
-        <div class="layui-col-md4 layui-col-md-offset4">
+  <div id="node-menu" style="display: none; overflow-x: auto; overflow-y: auto;height: auto;  padding-top:50px">
+    <form class="layui-form node-form" lay-filter="menu" style="height:auto" >
+      <div class="layui-row" style="padding-left: 50px">
+        <div class="layui-col-md4">
           <input type="text" name="name" id="node-name" class="layui-input" disabled>
         </div>
-        <div class="layui-col-md2 layui-col-md-offset2">
+        <div class="layui-col-md2">
             <div class="layui-form-item">
                 <select name="status" id="node-status" lay-filter="status-select" disabled>
                     <option value="1" checked>未完成</option>
@@ -54,7 +54,7 @@
             </div>
         </div>
       </div>
-      <div class=layui-form-item>
+      <div class="layui-form-item">
           <div class="layui-row">
             <div class="layui-col-md2 layui-col-md-offset4">
                 <button class="layui-btn layui-btn-disabled add-node-btn" disabled>新增任务</button>
@@ -67,7 +67,7 @@
     </form>
   </div>
 
-  <div id="add-node" style="display: none;">
+  <div id="add-node" style="display: none;padding-top:50px" >
     <form class="layui-form node-form">
         <div class="layui-form-item">
             <div class="layui-row">
@@ -405,7 +405,6 @@
             title: '任务菜单',
             area: '1000px',
             skin: 'menu-skin',
-            maxHeight: $(".layui-body").height(),
             fixed: false,
             cancel : function(index, layero){
                 $("#node-status").attr("disabled", true)

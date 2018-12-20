@@ -7,14 +7,14 @@
 
 	  <div class="layui-row">
 	    <div class="layui-col-md7 layui-col-md-offset1">
-	      <form class="layui-form edit-project-form">
-	        <div class="layui-form-item">
+	      <form class="layui-form edit-project-form" style="margin-top:50px">
+	        <div class="layui-form-item" style="margin-left:-50px">
 	          <label class="layui-form-label">项目名称</label>
 	          <div class="layui-input-block">
 	            <input type="text" name="project_name" placeholder="请输入项目名称" class="layui-input" value="{{$project->name}}" disabled>
 	          </div>
 	        </div>
-	        <div class="layui-form-item">
+	        <div class="layui-form-item" style="margin-left:-50px">
 	          <label class="layui-form-label">项目描述</label>
 	          <div class="layui-input-block">
 	            <textarea type="text" name="project_description" placeholder="请输入项目描述" class="layui-textarea" disabled>{{$project->description}}</textarea>
@@ -22,20 +22,21 @@
 	        </div>
 	        <div class="layui-form-item">
 	          <div class="layui-row">
-	            <div class="layui-input-block">
-	              <div class="layui-col-md1 layui-col-md-offset2">
+	            <div class="layui-input-block" style="left: 65%">
+	              <div class="layui-col-md1">
 	                <button class="layui-btn layui-btn-disabled" disabled id="save-btn">保存修改</button>
 	              </div>
-	              <div class="layui-col-md1 layui-col-md-offset1">
+	              <div class="layui-col-md1" style="margin-left: 40px;">
 	                <button type="reset" class="layui-btn layui-btn-primary layui-bg-gray">重置</button>
 	              </div>
 	            </div>
 	          </div>
 	        </div>
-	        <div class="layui-form-item">
+	        <div class="layui-form-item" style="margin-top:20px">
 	        	<div class="layui-row">
-	        		<label class="layui-form-label">用户列表</label>
-	        		<button class="layui-btn layui-btn-disabled layui-col-md-offset8" disabled id="add-user-btn">新增用户</button>
+	        		<label class="layui-form-label" style="padding-left:0;text-align: left;">用户列表</label>
+	        		<button class="layui-btn layui-btn-disabled" disabled id="add-user-btn"
+	        		style="margin-left:74%">新增用户</button>
 	        	</div>
 	        	<div class="layui-row">
 					<table class="layui-table">
@@ -79,7 +80,7 @@
 					</table>
 	        	</div>
 	        </div><br>
-	        <div class="layui-form-item">
+	        <div class="layui-form-item" style="text-align: right;margin-right:50px">
 	        	<div class="layui-row">
 					<div class="layui-col-md-offset5">
 						<button class="layui-btn layui-btn-disabled" disabled id="delete-project-btn">删除项目</button>
@@ -94,16 +95,16 @@
 
 	<div id="add-user" style="display: none;">
 
-	<form class="layui-form">
+	<form class="layui-form" style="margin: 20px;">
 	  <div class="layui-row">
 	      <div class="layui-col-md6">
 	          <input type="text" name="user_key" placeholder="请输入用户名" class="layui-input">
 	      </div>
-	      <div class="layui-col-md2 layui-col-md-offset2">
+	      <div>
 	          <a class="layui-btn" onclick="searchUser()">添加</a>
 	      </div>
 	  </div>
-	  <div>
+	  <div  style="margin: 20px auto;">
 	      <table class="layui-table" id="user-list">
 	          <thead>
 	            <tr>
@@ -409,7 +410,7 @@
 			                  break
 			              case 'project_user.store':
 			                  var temp = $("#add-user-btn")
-			                  temp.after(`<a class="layui-btn layui-btn-warm layui-col-md-offset8" id="add-user-btn" onclick="addUser()">新增用户</a>`)
+			                  temp.after(`<a class="layui-btn layui-btn-warm"  style="margin-left:74%" id="add-user-btn" onclick="addUser()">新增用户</a>`)
 			                  temp.remove()
 			                  break
 			              case 'project_user.update':

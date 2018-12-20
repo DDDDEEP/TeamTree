@@ -17,7 +17,7 @@ class AuthServiceProvider extends ServiceProvider
         \App\Models\NodeUser::class    => \App\Policies\NodeUserPolicy::class,
         \App\Models\Project::class     => \App\Policies\ProjectPolicy::class,
         \App\Models\ProjectUser::class => \App\Policies\ProjectUserPolicy::class,
-        \App\Models\User::class => \App\Policies\UserPolicy::class,
+        \App\Models\User::class        => \App\Policies\UserPolicy::class,
     ];
 
     /**

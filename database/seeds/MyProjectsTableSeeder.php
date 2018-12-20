@@ -12,9 +12,9 @@ class MyProjectsTableSeeder extends Seeder
      */
     public function run()
     {
-        $users = factory(Project::class)->times(3)->make();
+        $users = factory(Project::class)->times(1)->make();
 
-        $names = ['项目一', '项目二', '项目三'];
+        $names = ['数据库课程设计'];
 
         Project::insert($users->toArray());
         for ($i = 1; $i <= count($names); $i++) {

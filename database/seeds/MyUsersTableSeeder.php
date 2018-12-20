@@ -16,45 +16,39 @@ class MyUsersTableSeeder extends Seeder
         User::insert($users->makeVisible(['password', 'remember_token'])->toArray());
 
         $user = User::find(1);
-        $user->name = '项目创始人';
-        $user->email = 'super@qq.com';
-        $user->password = bcrypt('123');
+        $user->name = '钟耀铭';
+        $user->email = 'zym@qq.com';
+        $user->password = bcrypt('123456');
         $user->save();
 
         $user = User::find(2);
-        $user->name = '闲置人员';
+        $user->name = '黄振邦';
         $user->email = 'free@qq.com';
-        $user->password = bcrypt('123');
+        $user->password = bcrypt('123456');
         $user->save();
 
         $user = User::find(3);
-        $user->name = '项目管理员';
-        $user->email = 'project@qq.com';
-        $user->password = bcrypt('123');
+        $user->name = '姚旭真';
+        $user->email = 'yxz@qq.com';
+        $user->password = bcrypt('123456');
         $user->save();
 
         $user = User::find(4);
-        $user->name = '在2节点角色为执行者的闲置';
-        $user->email = 'node_role_2@qq.com';
-        $user->password = bcrypt('123');
+        $user->name = '张文瀚';
+        $user->email = 'zwh@qq.com';
+        $user->password = bcrypt('123456');
         $user->save();
 
         $user = User::find(5);
-        $user->name = '在2节点角色为节点管理员的闲置';
-        $user->email = 'node_role_3@qq.com';
-        $user->password = bcrypt('123');
+        $user->name = '张志洋';
+        $user->email = 'zzy@qq.com';
+        $user->password = bcrypt('123456');
         $user->save();
 
         $user = User::find(6);
-        $user->name = '在2节点角色为树管理员的闲置';
-        $user->email = 'node_role_4@qq.com';
-        $user->password = bcrypt('123');
-        $user->save();
-
-        $user = User::find(7);
-        $user->name = '无业人士';
-        $user->email = 'empty@qq.com';
-        $user->password = bcrypt('123');
+        $user->name = '梁高飞';
+        $user->email = 'lgf@qq.com';
+        $user->password = bcrypt('123456');
         $user->save();
     }
 }

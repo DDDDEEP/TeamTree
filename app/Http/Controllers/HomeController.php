@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
+use App\Models\User;
 use App\Models\Project;
 use App\Models\ProjectUser;
 
@@ -59,5 +60,10 @@ class HomeController extends Controller
         $roles = $project->getAllRoles();
         $user_role = Auth::user()->getProjectRole($project->id);
         return view('resources/project_info', compact('project', 'project_users', 'roles', 'user_role'));
+    }
+
+    public function showUser(User $user)
+    {
+        return view('resources/user_info');
     }
 }

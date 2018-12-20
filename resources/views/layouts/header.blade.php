@@ -7,8 +7,7 @@
           {{ Auth::user()->name }}</span>
       </a>
       <dl class="layui-nav-child">
-        <dd><a href="">基本资料</a></dd>
-        <dd><a href="">安全设置</a></dd>
+        <dd><a href="{{ route('show_user', 1) }}">基本资料</a></dd>
       </dl>
     </li>
     <li class="layui-nav-item">

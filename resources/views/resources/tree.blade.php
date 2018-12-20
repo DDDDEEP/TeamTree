@@ -113,7 +113,7 @@
         form.on('select(status-select)', function(data){
             layui.use('layer', function(){
                 var layer = layui.layer
-                layer.load(1)
+                var loadLayer = layer.load(1)
                 $.ajax({
                     type: 'PUT',
                     headers: {
@@ -128,12 +128,11 @@
                         if (result.errcode == 1) {
                             layui.use('layer', function(){
                                 var layer = layui.layer
-                                layer.msg(result.errmsg)
-                                layer.closeAll("loading")
+                                var msgLayer = layer.msg(result.errmsg, { time:1000 })
                             })
                         } else if (result.errcode == 0) {
-                            layer.closeAll('loading')
                         }
+                        layer.close(loadLayer);
                     },
                     error: function (result) {
                         console.log(result)
@@ -147,8 +146,7 @@
             var index = $(data.elem).parents("tr").find(".node-user-index").val()
             layui.use('layer', function(){
                 var layer = layui.layer
-
-                layer.load(1)
+                var loadLayer = layer.load(1)
                 if (node_users[index].node_role.node == null || 
                     node_users[index].node_role.node.id != node.id ) {
                         $.ajax({
@@ -160,13 +158,12 @@
                                 if (result.errcode == 1) {
                                     layui.use('layer', function(){
                                         var layer = layui.layer
-                                        layer.msg(result.errmsg)
-                                        layer.closeAll('loading')
+                                        var msgLayer = layer.msg(result.errmsg, { time:1000 })
                                     })
                                 } else if (result.errcode == 0) {
-                                    layer.closeAll("loading")
                                     showUserList(1)
                                 }
+                                layer.close(loadLayer);
                             },
                             error: function (result) {
                                 console.log(result)
@@ -185,11 +182,9 @@
                                 if (result.errcode == 1) {
                                     layui.use('layer', function(){
                                         var layer = layui.layer
-                                        layer.msg(result.errmsg)
-                                        layer.closeAll('loading')
+                                        var msgLayer = layer.msg(result.errmsg, { time:1000 })
                                     })
                                 } else if (result.errcode == 0) {
-                                    layer.closeAll("loading")
                                     showUserList(1)
                                 }
                             },
@@ -209,7 +204,7 @@
         layui.use('layer', function(){
             var layer = layui.layer
 
-            layer.load(1)
+            var loadLayer = layer.load(1)
             $.ajax({
                 type: 'PUT',
                 headers: {
@@ -225,12 +220,11 @@
                     if (result.errcode == 1) {
                         layui.use('layer', function(){
                             var layer = layui.layer
-                            layer.msg(result.errmsg)
-                            layer.closeAll("loading")
+                            var msgLayer = layer.msg(result.errmsg, { time:1000 })
                         })
                     } else if (result.errcode == 0) {
-                        layer.closeAll('loading')
                     }
+                    layer.close(loadLayer);
                 },
                 error: function (result) {
                     console.log(result)
@@ -316,7 +310,7 @@
                     if (result.errcode == 1) {
                         layui.use('layer', function(){
                             var layer = layui.layer
-                            layer.msg(result.errmsg)
+                            var msgLayer = layer.msg(result.errmsg, { time:1000 })
                         })
                     } else {
                         var data = result.data
@@ -500,10 +494,8 @@
 
     // 新增任务函数
     function addNode() {
-        layui.use('layer', function(){
-            var layer = layui.layer
-            layer.load(1)
-        })
+        var layer = layui.layer
+        var loadLayer = layer.load(1)
         $.ajax({
             type: 'POST',
             url: route(routes.nodes.store),
@@ -520,8 +512,7 @@
                 if (result.errcode == 1) {
                     layui.use('layer', function(){
                         var layer = layui.layer
-                        layer.msg(result.errmsg)
-                        layer.closeAll("loading")
+                        var msgLayer = layer.msg(result.errmsg, { time:1000 })
                     })
                 } else if (result.errcode == 0) {
                     layer.closeAll()
@@ -545,6 +536,7 @@
                         }
                     })
                 }
+                layer.close(loadLayer)
             },
             error: function (result) {
                 console.log(result)
@@ -556,10 +548,8 @@
     $("body").on("click", ".delete-node-role-btn", function(){
         var index = $(this).parents("tr").find(".node-user-index").val()
 
-        layui.use('layer', function(){
-            var layer = layui.layer
-            layer.load(1)
-        })
+        var layer = layui.layer
+        var loadLayer = layer.load(1)
         $.ajax({
             type: 'DELETE',
             headers: {
@@ -571,13 +561,12 @@
                 if (result.errcode == 1) {
                     layui.use('layer', function(){
                         var layer = layui.layer
-                        layer.msg(result.errmsg)
-                        layer.closeAll("loading")
+                        var msgLayer = layer.msg(result.errmsg, { time:1000 })
                     })
                 } else if (result.errcode == 0) {
-                    layer.closeAll("loading")
                     showUserList(1)
                 }
+                layer.close(loadLayer)
             },
             error: function (result) {
                 console.log(result)

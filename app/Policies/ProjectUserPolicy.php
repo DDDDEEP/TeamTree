@@ -26,6 +26,6 @@ class ProjectUserPolicy extends Policy
     public function destroy(User $user, ProjectUser $project_user)
     {
         return $this->hasProjectUserPermission($user, $project_user, 'project_user.destroy')
-            || $user->id == $project_user->user_id;
+            && $user->getProjectRole($project_user->project_id)->level > $project_user->role->level;
     }
 }

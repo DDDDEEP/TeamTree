@@ -18,11 +18,11 @@ class MyProjectUserTableSeeder extends Seeder
         ]);
 
         User::find(2)->projects()->attach([
-            1 => ['role_id' => 4, 'status' => 1],
+            1 => ['role_id' => 5, 'status' => 1],
         ]);
 
         User::find(3)->projects()->attach([
-            1 => ['role_id' => 4, 'status' => 1],
+            1 => ['role_id' => 5, 'status' => 1],
         ]);
 
         User::find(4)->projects()->attach([

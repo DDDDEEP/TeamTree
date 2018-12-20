@@ -50,5 +50,11 @@ class MyUsersTableSeeder extends Seeder
         $user->email = 'lgf@qq.com';
         $user->password = bcrypt('123456');
         $user->save();
+
+        $user = User::find(7);
+        $user->name = '测试人员';
+        $user->email = 'test@qq.com';
+        $user->password = bcrypt('123456');
+        $user->save();
     }
 }

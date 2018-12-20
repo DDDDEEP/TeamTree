@@ -26,6 +26,7 @@ class MyNodesTableSeeder extends Seeder
         $node->project_id = 1;
         $node->parent_id = 1;
         $node->name = '前端模块';
+        $node->description = '完成前端页面';
         $node->height = 2;
         $node->save();
 
@@ -33,6 +34,7 @@ class MyNodesTableSeeder extends Seeder
         $node->project_id = 1;
         $node->parent_id = 1;
         $node->name = '后端模块';
+        $node->description = '完成数据库设计、后台接口';
         $node->height = 2;
         $node->save();
 
@@ -40,6 +42,7 @@ class MyNodesTableSeeder extends Seeder
         $node->project_id = 1;
         $node->parent_id = 1;
         $node->name = '文档编写';
+        $node->description = '完成用户文档，答辩ppt';
         $node->height = 2;
         $node->save();
 
@@ -47,6 +50,7 @@ class MyNodesTableSeeder extends Seeder
         $node->project_id = 1;
         $node->parent_id = 2;
         $node->name = '主页面';
+        $node->description = '完成登录后进入的页面';
         $node->height = 3;
         $node->save();
 
@@ -54,6 +58,7 @@ class MyNodesTableSeeder extends Seeder
         $node->project_id = 1;
         $node->parent_id = 2;
         $node->name = '树页面';
+        $node->description = '任务树展示的页面';
         $node->height = 3;
         $node->save();
 
@@ -61,6 +66,7 @@ class MyNodesTableSeeder extends Seeder
         $node->project_id = 1;
         $node->parent_id = 2;
         $node->name = '管理页面';
+        $node->description = '项目管理页面';
         $node->height = 3;
         $node->save();
 
@@ -68,6 +74,7 @@ class MyNodesTableSeeder extends Seeder
         $node->project_id = 1;
         $node->parent_id = 3;
         $node->name = '数据库设计';
+        $node->description = '包括用户、项目、节点、权限、角色等模型';
         $node->height = 3;
         $node->save();
 
@@ -75,6 +82,7 @@ class MyNodesTableSeeder extends Seeder
         $node->project_id = 1;
         $node->parent_id = 3;
         $node->name = '用户接口';
+        $node->description = '用户的注册、登录、相关信息查询接口';
         $node->height = 3;
         $node->save();
 
@@ -82,6 +90,7 @@ class MyNodesTableSeeder extends Seeder
         $node->project_id = 1;
         $node->parent_id = 3;
         $node->name = '项目接口';
+        $node->description = '项目的新建、邀请、删除捷库';
         $node->height = 3;
         $node->save();
 
@@ -89,6 +98,7 @@ class MyNodesTableSeeder extends Seeder
         $node->project_id = 1;
         $node->parent_id = 3;
         $node->name = '权限接口';
+        $node->description = '角色与权限的对应关系，后台操作接口的逻辑权限检验';
         $node->height = 3;
         $node->save();
 
@@ -96,6 +106,7 @@ class MyNodesTableSeeder extends Seeder
         $node->project_id = 1;
         $node->parent_id = 3;
         $node->name = '节点接口';
+        $node->description = '节点的增加、删除、修改接口';
         $node->height = 3;
         $node->save();
 
@@ -103,6 +114,7 @@ class MyNodesTableSeeder extends Seeder
         $node->project_id = 1;
         $node->parent_id = 4;
         $node->name = '用户手册';
+        $node->description = '用户使用说明手册';
         $node->height = 3;
         $node->save();
 
@@ -110,6 +122,7 @@ class MyNodesTableSeeder extends Seeder
         $node->project_id = 1;
         $node->parent_id = 4;
         $node->name = '答辩ppt';
+        $node->description = '课程设计答辩ppt的编写';
         $node->height = 3;
         $node->save();
     }

@@ -174,8 +174,7 @@
 		var _this = this
 		layui.use('layer', function(){
 			var layer = layui.layer
-			layer.load(1)
-
+			var loadLayer = layer.load(1)
 
 			$.ajax({
 			    type: 'DELETE',
@@ -187,8 +186,7 @@
 			    success: function (result) {
 			        if (result.errcode == 1) {
 			            layui.use('layer', function(){
-			                var layer = layui.layer
-			                layer.msg(result.errmsg)
+			                var msgLayer = layer.msg(result.errmsg, { time:1000 })
 			            })
 			        } else if (result.errcode == 0) {
 			            $(_this).parents("tr").remove()
@@ -197,8 +195,8 @@
 			            		project_users.splice(index, 1)
 			            	}
 			            })
-			            layer.closeAll()
 			        }
+		            layer.close(loadLayer);
 			    },
 			    error: function (result) {
 			        console.log(result)

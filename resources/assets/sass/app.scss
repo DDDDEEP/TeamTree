@@ -58,7 +58,7 @@ $form-label-width: 130px;
 // 项目详情
 $form-label-width: 130px;
 
-.edit-project-form {
+.project-form, .edit-project-form {
     .form-header {
         margin: 15px 100px;
         font-size: 24px;
@@ -147,4 +147,8 @@ body .menu-skin .layui-layer-content {
         }
     }
 
+}
+
+.project-form {
+    padding: 10px 0 0;
 }

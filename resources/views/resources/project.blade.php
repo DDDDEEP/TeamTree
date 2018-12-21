@@ -5,11 +5,16 @@
 
   <div class="layui-body">
     <div id="project_body">
+    <?php $icon = ['🙎‍', '👨‍🚀', '👩‍🚒', '👨‍🌾', '👨‍💼', '🧙‍']; ?>
     @foreach ($projects as $project)
+        <?php $role = Auth::user()->getProjectRole($project->id); ?>
         <div class="layui-card " 
         onclick="jumpToTree(<?php echo $project->id ?>)">
             <div class="layui-card-body">
                 {{ $project->name }}
+                <div class="card-role-text">
+                  {{ $icon[$role->level - 1] . $role->display_name }}
+                </div>
             </div>
         </div>
     @endforeach

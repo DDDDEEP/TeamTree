@@ -12,7 +12,7 @@ class MyNodesTableSeeder extends Seeder
      */
     public function run()
     {
-        $nodes = factory(Node::class)->times(14)->make();
+        $nodes = factory(Node::class)->times(15)->make();
         Node::insert($nodes->toArray());
 
         $node = Node::find(1);
@@ -123,6 +123,14 @@ class MyNodesTableSeeder extends Seeder
         $node->parent_id = 4;
         $node->name = '答辩ppt';
         $node->description = '课程设计答辩ppt的编写';
+        $node->height = 3;
+        $node->save();
+
+        $node = Node::find(15);
+        $node->project_id = 1;
+        $node->parent_id = 4;
+        $node->name = '课程设计报告';
+        $node->description = '课程设计报告的编写';
         $node->height = 3;
         $node->save();
     }

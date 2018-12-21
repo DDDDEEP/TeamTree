@@ -15,6 +15,7 @@
             destroy: '{{ RouteUri('projects.destroy') }}'
         },
         show_tree: '{{ RouteUri('show_tree') }}',
+        show_help: '{{ RouteUri('show_help') }}',
         permission_role: {
             index: '{{ RouteUri('permission_role.index') }}'
         },

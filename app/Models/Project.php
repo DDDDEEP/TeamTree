@@ -48,7 +48,7 @@ class Project extends Model
      */
     public function getAllRoles()
     {
-        $global_roles = Role::where('project_id', null)->get();
+        $global_roles = Role::where('project_id', null)->orderBy('level')->get();
         return $global_roles->merge($this->roles);
     }
 

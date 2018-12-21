@@ -9,13 +9,13 @@
 	    <div class="layui-col-md7 layui-col-md-offset1">
 	      <form class="layui-form edit-project-form" style="margin-top:50px">
 	        <div class="layui-form-item" style="margin-left:-50px">
-	          <label class="layui-form-label">项目名称</label>
+	          <label class="layui-form-label"><strong>项目名称：</strong></label>
 	          <div class="layui-input-block">
 	            <input type="text" name="project_name" placeholder="请输入项目名称" class="layui-input" value="{{$project->name}}" disabled>
 	          </div>
 	        </div>
 	        <div class="layui-form-item" style="margin-left:-50px">
-	          <label class="layui-form-label">项目描述</label>
+	          <label class="layui-form-label"><strong>项目描述：</strong></label>
 	          <div class="layui-input-block">
 	            <textarea type="text" name="project_description" placeholder="请输入项目描述" class="layui-textarea" disabled>{{$project->description}}</textarea>
 	          </div>
@@ -34,7 +34,7 @@
 	        </div>
 	        <div class="layui-form-item" style="margin-top:20px">
 	        	<div class="layui-row">
-	        		<label class="layui-form-label" style="padding-left:0;text-align: left;">用户列表</label>
+	        		<label class="layui-form-label" style="padding-left:0;text-align: left;"><strong>用户列表：</strong></label>
 	        		<button class="layui-btn layui-btn-disabled" disabled id="add-user-btn"
 	        		style="margin-left:74%">新增用户</button>
 	        	</div>

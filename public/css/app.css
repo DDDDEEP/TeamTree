@@ -8523,3 +8523,15 @@ body .menu-skin .layui-layer-content {
   padding: 10px 0 0;
 }
 
+.text-row {
+  margin-top: 5px;
+  font-size: 18px;
+}
+
+.card-role-text {
+  position: absolute;
+  bottom: 0;
+  right: 10px;
+  font-size: 12px;
+}
+

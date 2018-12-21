@@ -9,6 +9,9 @@
       <li class="layui-nav-item {{ $side_index == 2 ? 'layui-this' : '' }}">
         <a href="{{route('show_info', $id)}}">项目详情</a>
       </li>
+      <li class="layui-nav-item {{ $side_index == 3 ? 'layui-this' : '' }}">
+        <a href="{{route('show_help', $id)}}">使用帮助</a>
+      </li>
     </ul>
   </div>
 </div>

@@ -8,26 +8,26 @@
         <div class="layui-col-md6 layui-col-md-offset1">
           <form class="layui-form edit-user-form">
             <div class="layui-form-item">
-              <label class="layui-form-label">用户名</label>
+              <label class="layui-form-label"><strong>用户名：</strong></label>
               <div class="layui-input-block">
                 <input type="text" lay-verify="required" name="name" placeholder="请输入用户名" class="layui-input" value="{{$user->name}}" {{Auth::user()->id == $user->id ? '':'disabled'}}>
               </div>
             </div>
             <div class="layui-form-item">
-              <label class="layui-form-label">性别</label>
+              <label class="layui-form-label"><strong>性别：</strong></label>
               <div class="layui-input-block">
                 <input type="radio" name="sex" value="1" title="男" {{$user->sex == 1?'checked':(Auth::user()->id != $user->id ?'disabled':'')}}>
                 <input type="radio" name="sex" value="2" title="女" {{$user->sex == 2?'checked':(Auth::user()->id != $user->id ?'disabled':'')}}>
               </div>
             </div>
             <div class="layui-form-item">
-              <label class="layui-form-label">个人介绍</label>
+              <label class="layui-form-label"><strong>个人介绍：</strong></label>
               <div class="layui-input-block">
                 <textarea type="text" name="description" placeholder="请输入个人介绍" class="layui-textarea" {{Auth::user()->id == $user->id ? '':'disabled'}}>{{$user->description}}</textarea>
               </div>
             </div>
             <div class="layui-form-item">
-              <label class="layui-form-label">邮箱</label>
+              <label class="layui-form-label"><strong>邮箱：</strong></label>
               <div class="layui-input-block">
                 <input type="text" lay-verify="required|email" name="email" placeholder="请输入邮箱" class="layui-input" value="{{$user->email}}" {{Auth::user()->id == $user->id ? '':'disabled'}}>
               </div>

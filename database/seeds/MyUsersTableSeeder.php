@@ -24,7 +24,7 @@ class MyUsersTableSeeder extends Seeder
 
         $user = User::find(2);
         $user->name = '黄振邦';
-        $user->email = 'free@qq.com';
+        $user->email = 'hzb@qq.com';
         $user->description = '计科2班 黄振邦';
         $user->password = bcrypt('123456');
         $user->save();

@@ -8,19 +8,19 @@
         <div class="layui-col-md6 layui-col-md-offset1">
           <form class="layui-form edit-user-form">
             <div class="layui-form-item">
-              <label class="layui-form-label">原密码</label>
+              <label class="layui-form-label"><strong>原密码：</strong></label>
               <div class="layui-input-block">
                 <input class="layui-input" type="password" name="old_password" lay-verify="password" placeholder="请输入原密码">
               </div>
             </div>
             <div class="layui-form-item">
-              <label class="layui-form-label">新密码</label>
+              <label class="layui-form-label"><strong>新密码：</strong></label>
               <div class="layui-input-block">
                 <input class="layui-input" type="password" name="new_password" lay-verify="password" placeholder="请输入新密码">
               </div>
             </div>
             <div class="layui-form-item">
-              <label class="layui-form-label">确认新密码</label>
+              <label class="layui-form-label"><strong>确认新密码：</strong></label>
               <div class="layui-input-block">
                 <input class="layui-input" type="password" name="repeat_new_password" lay-verify="password" placeholder="请再次输入新密码">
               </div>

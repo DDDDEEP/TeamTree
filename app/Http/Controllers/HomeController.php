@@ -61,4 +61,10 @@ class HomeController extends Controller
         $user_role = Auth::user()->getProjectRole($project->id);
         return view('resources/project_info', compact('project', 'project_users', 'roles', 'user_role'));
     }
+
+    public function showHelp(Project $project)
+    {
+        $roles = $project->getAllRoles();
+        return view('resources/project_help', compact('project', 'roles'));
+    }
 }

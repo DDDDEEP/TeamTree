@@ -7,7 +7,8 @@
           {{ Auth::user()->name }}</span>
       </a>
       <dl class="layui-nav-child">
-        <dd><a href="{{ route('show_user', 1) }}">基本资料</a></dd>
+        <dd><a href="{{ route('users.show', Auth::user()->id) }}">基本资料</a></dd>
+        <dd><a href="{{ route('users.show_password', Auth::user()->id) }}">修改密码</a></dd>
       </dl>
     </li>
     <li class="layui-nav-item">

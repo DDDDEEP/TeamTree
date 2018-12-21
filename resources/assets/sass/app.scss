@@ -58,7 +58,7 @@ $form-label-width: 130px;
 // 项目详情
 $form-label-width: 130px;
 
-.project-form, .edit-project-form {
+.project-form, .edit-project-form, .edit-user-form {
     .form-header {
         margin: 15px 100px;
         font-size: 24px;
@@ -78,6 +78,12 @@ $form-label-width: 130px;
     .select-time-separate {
         font-size: 28px;
         text-align: center;
+    }
+}
+
+.edit-user-form {
+    .layui-form-item {
+        margin-left: -100px;
     }
 }
 

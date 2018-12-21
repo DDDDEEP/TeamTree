@@ -25,7 +25,9 @@
             index: '{{ RouteUri('project_user.index') }}'
         },
         users: {
-            index: '{{ RouteUri('users.index') }}'
+            index: '{{ RouteUri('users.index') }}',
+            update: '{{ RouteUri('users.update') }}',
+            update_password: '{{ RouteUri('users.update.update_password') }}'
         },
         node_user: {
             store: '{{ RouteUri('node_user.store') }}',

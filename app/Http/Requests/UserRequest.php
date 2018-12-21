@@ -24,10 +24,20 @@ class UserRequest extends Request
             // UPDATE
             case 'PUT':
             case 'PATCH':
-                $rules = [
-                    'name'  => 'bail|filled',
-                    'email'  => 'bail|email|unique:users,email,'.$this->user->id.',id',
-                ];
+                switch ($route_name) {
+                    case 'users.update.update_password':
+                        $rules = [
+                            'old_password' => 'required|between:6,18',
+                            'new_password' => 'required|between:6,18',
+                        ];
+                        break;
+                    default:
+                    $rules = [
+                        'name'  => 'bail|filled|unique:users,name,'.$this->user->id.',id',
+                        'email'  => 'bail|email|filled|unique:users,email,'.$this->user->id.',id',
+                        'sex'  => 'bail|integer',
+                    ];
+                }
                 break;
             case 'DELETE':
             default:

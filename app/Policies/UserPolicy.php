@@ -10,4 +10,14 @@ class UserPolicy extends Policy
     {
         return $user->id == $operate_user->id;
     }
+
+    public function showPassword(User $user, User $operate_user)
+    {
+        return $user->id == $operate_user->id;
+    }
+
+    public function updatePassword(User $user, User $operate_user)
+    {
+        return $user->id == $operate_user->id;
+    }
 }

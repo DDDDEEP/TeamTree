@@ -23,7 +23,6 @@ Route::get('/test', 'TestController@index')->name('test');
 Route::get('/{project}/tree', 'HomeController@showTree')->name('show_tree');
 Route::get('/home', 'HomeController@showProject')->name('show_project');
 Route::get('/{project}/info', 'HomeController@showInfo')->name('show_info');
-Route::get('/{user}/user', 'HomeController@showUser')->name('show_user');
 
 /*
 |--------------------------------------------------------------------------
@@ -46,4 +45,6 @@ Route::apiResource('projects', 'ProjectsController');
 Route::apiResource('project_user', 'ProjectUserController');
 Route::apiResource('roles', 'RolesController');
 Route::apiResource('users', 'UsersController');
+Route::get('users/{user}/password', 'UsersController@showPassword')->name('users.show_password');
+Route::match(['put', 'patch'], 'users/{user}/password', 'UsersController@updatePassword')->name('users.update.update_password');
 // Route::get('/users/{user}/get_project', 'UsersController@getProject')->name('users.index.get_project');

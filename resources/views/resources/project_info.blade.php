@@ -45,12 +45,12 @@
 						      <th>用户</th>
 						      <th>角色</th>
 						      <th>操作</th>
-						    </tr> 
+						    </tr>
 						</thead>
 						<tbody>
 							@foreach($project_users as $user)
 							<tr>
-								<td>{{$user->user->name}}</td>
+								<td><a href="{{ route('users.show', $user->user_id) }}">{{$user->user->name}}</a></td>
 								<td>
 									<select name="project-role" lay-filter="project-role" disabled>
 										@foreach($roles as $role)

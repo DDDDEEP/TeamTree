@@ -24,6 +24,7 @@ class TestController extends Controller
         // dd(NodeUser::find(1)->node()->first());
         // dd(Node::find(1)->relationships());
         // dd((new Relationships(Node::with('project')->first()))->all());
-        dd(NodeUser::find(1)->deleteChildren(4));
+        // dd(NodeUser::find(1)->deleteChildren(4));
+        dd(password_verify('1234567', User::find(5)->password));
     }
 }

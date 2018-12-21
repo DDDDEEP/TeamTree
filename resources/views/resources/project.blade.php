@@ -8,7 +8,7 @@
     <?php $icon = ['🙎‍', '👨‍🚀', '👩‍🚒', '👨‍🌾', '👨‍💼', '🧙‍']; ?>
     @foreach ($projects as $project)
         <?php $role = Auth::user()->getProjectRole($project->id); ?>
-        <div class="layui-card " 
+        <div class="layui-card "
         onclick="jumpToTree(<?php echo $project->id ?>)">
             <div class="layui-card-body">
                 {{ $project->name }}

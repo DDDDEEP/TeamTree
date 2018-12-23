@@ -18,7 +18,8 @@ class MyNodesTableSeeder extends Seeder
         $node = Node::find(1);
         $node->project_id = 1;
         $node->parent_id = null;
-        $node->name = '根节点';
+        $node->name = '数据库课程设计';
+        $node->description = '完成数据库课程设计';
         $node->height = 1;
         $node->save();
 

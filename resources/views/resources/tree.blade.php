@@ -317,7 +317,7 @@
                         data.forEach(function(value, index){
                           switch(value.permission.name) {
                           case 'nodes.update.update_status':
-                              if (node.parent_id == null) {break}
+                              // if (node.parent_id == null) {break}
                               $("#node-status").removeAttr("disabled")
                               break
                           case 'nodes.store':
@@ -326,7 +326,7 @@
                               temp.remove()
                               break
                           case 'nodes.update':
-                              if (node.parent_id == null) {break}
+                              // if (node.parent_id == null) {break}
                               $("#node-name").removeAttr("disabled")
                               $("#node-description").removeAttr("disabled")
                               break
@@ -337,11 +337,11 @@
                               break
                           case 'node_user.store':
                           case 'node_user.update':
-                              if (node.parent_id == null) {break}
+                              // if (node.parent_id == null) {break}
                               $("select[lay-filter=node-user-role]").removeAttr("disabled")
                               break
                           case 'node_user.destroy':
-                              if (node.parent_id == null) {break}
+                              // if (node.parent_id == null) {break}
                               $('.delete-node-role-btn').each(function(i){
                                 $(this).after(`<td><a class="layui-btn layui-bg-red delete-node-role-btn">移除结点角色</a></td>`)
                                 $(this).remove()
